@@ -1,0 +1,58 @@
+@use 'includes/_reset';
+@use 'includes/_variables' as var;
+
+/* ------------------------------
+  PC only or SP only
+--------------------------------- */
+@include var.media('pc') {
+  .pc {
+    display: block !important;
+  }
+  .sp {
+    display: none !important;
+  }
+}
+
+@include var.media('sp') {
+  .pc {
+    display: none !important;
+  }
+  .sp {
+    display: block !important;
+  }
+}
+
+/* ------------------------------
+  display
+--------------------------------- */
+.d-none {
+  display: none !important;
+}
+
+/* ------------------------------
+  flex
+--------------------------------- */
+.d-flex {
+  display: flex;
+
+  .d-flex__item {
+    flex-shrink: 0;
+  }
+}
+
+/* ------------------------------
+  メインコンテンツ
+--------------------------------- */
+.container {
+  background-color: var.$container-bg;
+  margin: auto;
+  position: relative;
+  height: var.$container-h;
+  width: var.$container-w;
+  max-width: var.$container-maxW;
+
+  @include var.media('sp') {
+    padding: 0 20px;
+    max-width: 100%;
+  }
+}

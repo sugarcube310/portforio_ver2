@@ -1,0 +1,9 @@
+@use 'includes/_variables' as var;
+
+html {
+  color: var.$font-color;
+  font-family: var.$font-family;
+  font-size: var.$font-size;
+  line-height: var.$line-height;
+  -webkit-font-smoothing: antialiased;
+}
