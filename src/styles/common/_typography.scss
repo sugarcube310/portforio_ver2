@@ -1,9 +1,9 @@
-@use 'includes/_variables' as var;
+@use 'includes/variables' as *;
 
 html {
-  color: var.$font-color;
-  font-family: var.$font-family;
-  font-size: var.$font-size;
-  line-height: var.$line-height;
+  color: $font-color;
+  font-family: $font-family;
+  font-size: $font-size;
+  line-height: $line-height;
   -webkit-font-smoothing: antialiased;
 }

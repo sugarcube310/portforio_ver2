@@ -1,4 +1,6 @@
-/* メディアクエリ */
+/* ------------------------------
+  media query
+--------------------------------- */
 @use 'sass:map';
 
 $breakpoints: (
@@ -17,13 +19,23 @@ $breakpoints: (
   }
 }
 
-/* レイアウト (UI) */
+/* ------------------------------
+  contents
+--------------------------------- */
 $container-bg: #f5af7d;
 $container-h: 100vh;
 $container-w: 100vw;
+$container-maxH: 100%;
 $container-maxW: 100%;
 
-/* タイポグラフィ */
+/* ------------------------------
+  flex
+--------------------------------- */
+$flex-gap: 40px;
+
+/* ------------------------------
+  typography
+--------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 $font-color: #333;
@@ -31,7 +43,9 @@ $font-family: 'Inter', serif;
 $font-size: 1em;
 $line-height: 1.5;
 
-/* テーマカラー */
+/* ------------------------------
+  theme color
+--------------------------------- */
 $base-color: #fff;
 $primary-color: #f5af7d;
 $accent-color: #005ea7;

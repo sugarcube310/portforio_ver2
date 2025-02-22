@@ -1,10 +1,10 @@
-@use 'includes/_reset';
-@use 'includes/_variables' as var;
+@use 'includes/reset';
+@use 'includes/variables' as *;
 
 /* ------------------------------
   PC only or SP only
 --------------------------------- */
-@include var.media('pc') {
+@include media('pc') {
   .pc {
     display: block !important;
   }
@@ -13,7 +13,7 @@
   }
 }
 
-@include var.media('sp') {
+@include media('sp') {
   .pc {
     display: none !important;
   }
@@ -30,10 +30,28 @@
 }
 
 /* ------------------------------
+  contents
+--------------------------------- */
+.container {
+  background-color: $container-bg;
+  margin: auto;
+  position: relative;
+  height: $container-h;
+  width: $container-w;
+  max-width: $container-maxW;
+
+  @include media('sp') {
+    padding: 0 20px;
+    max-width: 100%;
+  }
+}
+
+/* ------------------------------
   flex
 --------------------------------- */
 .d-flex {
   display: flex;
+  gap: $flex-gap;
 
   .d-flex__item {
     flex-shrink: 0;
@@ -41,18 +59,10 @@
 }
 
 /* ------------------------------
-  メインコンテンツ
+  other
 --------------------------------- */
-.container {
-  background-color: var.$container-bg;
-  margin: auto;
-  position: relative;
-  height: var.$container-h;
-  width: var.$container-w;
-  max-width: var.$container-maxW;
-
-  @include var.media('sp') {
-    padding: 0 20px;
-    max-width: 100%;
-  }
+// ダブルクリックによる要素のズームを無効化
+.no-zoom {
+  touch-action: manipulation;
+  user-select: none;
 }
