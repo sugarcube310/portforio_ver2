@@ -35,13 +35,14 @@
       <div class="mv__scrollArrow">
         <div class="scrollArrow__icon">
           <span class="arrow"></span>
+          <span class="mini-arrow"></span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="section__wrapper">
-    <!-- About me -->
+    <!-- About -->
     <section id="about" class="section">
       <div class="section__head">
         <h2 class="section__title">About me</h2>
@@ -253,7 +254,7 @@
             }
 
             .normal:last-of-type {
-              line-height: 1;
+              line-height: 1.2;
             }
           }
 
@@ -262,17 +263,18 @@
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: .25rem;
-            padding-top: 30px;
+            padding-top: 36px;
             padding-left: 4px;
 
             @include media('md') {
-              padding-top: 20px;
+              padding-top: 28px;
             }
 
             @include media('sm') {
               font-size: 1.25rem;
               letter-spacing: 0.275rem;
-              padding-top: 16px;
+              padding-top: 20px;
+              padding-left: 2px;
             }
           }
         }
@@ -285,22 +287,17 @@
           right: 0;
 
           @include media('sm') {
-            margin: 12px 0 0 auto;
+            margin: 4px 0 0 auto;
             position: unset;
           }
 
           .img {
-            height: 160px;
-            width: 160px;
-
-            @include media('md') {
-              height: 140px;
-              width: 140px;
-            }
+            height: 120px;
+            width: 120px;
 
             @include media('sm') {
-              height: 120px;
-              width: 120px;
+              height: 100px;
+              width: 100px;
             }
           }
         }
@@ -309,25 +306,37 @@
 
     // scroll arrow
     .mv__scrollArrow {
+      cursor: pointer;
       margin: auto;
       position: absolute;
-      bottom: 40px;
+      bottom: 24px;
       left: 0;
       right: 0;
       height: fit-content;
       width: fit-content;
 
       .scrollArrow__icon {
-        animation: scroll_bg 4s infinite;
-        background-color: transparent;
+        animation: scrollIcon_bg 4s infinite;
+        background-color: rgb(255 255 255 / .1);
         border-radius: 50%;
         position: relative;
-        height: 60px;
-        width: 60px;
+        transition: animation .4s, background-color .3s;
+        height: 68px;
+        width: 68px;
+
+        @include media('md') {
+          height: 60px;
+          width: 60px;
+        }
+
+        @include media('sm') {
+          height: 60px;
+          width: 60px;
+        }
 
         &::before {
           content: '';
-          animation: scroll_ripple 4s infinite;
+          animation: scrollIcon_ripple 4s infinite;
           border-radius: 50%;
           box-shadow: 0 0 0 0 rgb(0 94 167 / .2);
           left: 0;
@@ -336,20 +345,58 @@
           position: absolute;
           right: 0;
           top: 0;
+          transition: animation .3s, box-shadow .3s, opacity .3s;
           height: 100%;
           width: 100%;
         }
 
         .arrow {
-          border-bottom: 1px solid #fff;
-          border-left: 1px solid #fff;
+          border-bottom: 2px solid rgb(255 255 255 / .8);
+          border-left: 2px solid rgb(255 255 255 / .8);
           margin: auto;
           position: absolute;
           inset: 0;
           top: -8px;
           transform: rotate(-45deg);
+          transition: top .3s, border-color .15s;
           height: 20px;
           width: 20px;
+        }
+
+        .mini-arrow {
+          border-bottom: 2px solid rgb(255 255 255 / .8);
+          border-left: 2px solid rgb(255 255 255 / .8);
+          margin: auto;
+          opacity: 0;
+          position: absolute;
+          inset: 0;
+          top: -12px;
+          transform: rotate(-45deg);
+          transition: opacity .35s, transform .35s;
+          height: 12px;
+          width: 12px;
+        }
+
+        @include media ('lg') {
+          &:hover {
+            animation: none;
+            background-color: rgb(0 94 167 / .8);
+
+            &::before {
+              animation: none;
+              box-shadow: 0;
+              opacity: 1;
+            }
+
+            .arrow {
+              border-color: #fff;
+              top: 4px;
+            }
+
+            .mini-arrow {
+              opacity: 1;
+            }
+          }
         }
       }
     }
@@ -468,7 +515,7 @@
     }
   }
 
-  /* About me */
+  /* About */
   #about {
     .about__icon {
       @include media('lg') {
@@ -517,7 +564,7 @@
       }
     }
 
-    .section__list {
+    .section__textWrap {
       @include media('lg') {
         width: 60%;
       }
