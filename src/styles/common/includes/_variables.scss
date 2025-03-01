@@ -1,11 +1,12 @@
 /* ------------------------------
-  media query
+  Media query
 --------------------------------- */
 @use 'sass:map';
 
 $breakpoints: (
-  'pc': '(min-width: 768px)',
-  'sp': '(max-width: 767px)',
+  'lg': '(min-width: 1080px)',
+  'md': '(min-width: 768px) and (max-width: 1079px)',
+  'sm': '(max-width: 767.9px)',
 ) !default;
 
 // 名前空間付きでmixinを定義
@@ -20,32 +21,25 @@ $breakpoints: (
 }
 
 /* ------------------------------
-  contents
+  Text
 --------------------------------- */
-$container-bg: #f5af7d;
-$container-h: 100vh;
-$container-w: 100vw;
-$container-maxH: 100%;
-$container-maxW: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Deca:wght@100..900&display=swap');
+$base-font-family: 'Inter', serif;
+$accent-font-family: 'Lexend Deca', serif;
+$font-size: 1.05rem;
+$font-size-sm: 1rem;
+$line-height: 2rem;
 
 /* ------------------------------
-  flex
+  color
 --------------------------------- */
-$flex-gap: 40px;
+$color-base: #fff;
+$color-primary: #005ea7;
+$color-secondary: #d4ebec;
 
-/* ------------------------------
-  typography
---------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+$color-white: #fff;
+$color-gray: #d7dde1;
 
-$font-color: #333;
-$font-family: 'Inter', serif;
-$font-size: 1em;
-$line-height: 1.5;
-
-/* ------------------------------
-  theme color
---------------------------------- */
-$base-color: #fff;
-$primary-color: #f5af7d;
-$accent-color: #005ea7;
+// Text color
+$text-color-base: #333;
+$text-color-gray: #707070;

@@ -1,7 +1,10 @@
-/* CSS Reset */
+/* ------------------------------
+  CSS Reset
+--------------------------------- */
 *,
 *::before,
 *::after {
+  background-repeat: no-repeat;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -20,8 +23,15 @@ button,
 select,
 input,
 textarea {
-  font: inherit;
   background-color: transparent;
+  border-radius: 0;
+  font: inherit;
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
 }
 
 textarea {
@@ -31,5 +41,5 @@ textarea {
 
 img, picture, video, canvas, svg {
   display: block;
-  max-width: 100%;
+  width: 100%;
 }
