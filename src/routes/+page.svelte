@@ -46,7 +46,7 @@
       <div class="section__head">
         <h2 class="section__title">About me</h2>
       </div>
-      <div class="section__body d-flex align-center justify-between md-flex-column sm-flex-column gap-60 md-gap-40">
+      <div class="section__body d-flex align-center justify-between md-flex-column sm-flex-column md-gap-40 sm-gap-40">
         <div class="about__icon">
           <div class="img">
             <img src="{ icon }" alt="アイコン">
@@ -58,27 +58,17 @@
             </a>
           </div>
         </div>
-        <ul class="section__list">
-          <li class="list__item">
-            <h3 class="section__subTitle -icon">
-              はじめまして！
-            </h3>
-            <p class="section__text">
-              フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。<br>
-              ピクミンは名前にちなんで呼ばれているあだ名です。
-            </p>
-          </li>
-          <li class="list__item">
-            <h3 class="section__subTitle -icon">
-              「デザインもコーディングもできる人」が理想です
-            </h3>
-            <p class="section__text">
-              Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務をメインに携わってきました。<br>
-              しかし私は、デザインと実装は「フロントをより良いものにしていくための相乗効果を与え合うもの」だと考えています。<br>
-              そのためにも、UI設計から実装まで一貫して自分で手がけられる人間になることを目標としています。
-            </p>
-          </li>
-        </ul>
+        <div class="section__textWrap">
+          <p class="section__text">
+            フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。<br>
+            ピクミンは名前にちなんで呼ばれているあだ名です。
+          </p>
+          <p class="section__text m-0">
+            Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務をメインに携わってきました。<br>
+            しかし私は、デザインと実装は「フロントをより良いものにしていくための相乗効果を与え合うもの」だと考えています。<br>
+            そのためにも、UI設計から実装まで一貫して自分で手がけられる人間になることを目標としています。
+          </p>
+        </div>
       </div>
     </section>
 
@@ -223,9 +213,9 @@
 
       .mv__content {
         margin: auto;
-        padding: 20px;
+        padding: 24px;
         position: absolute;
-        top: -15%;
+        top: -10%;
         bottom: 0;
         left: 0;
         right: 0;
@@ -436,6 +426,15 @@
         }
       }
 
+      // text
+      .section__text {
+        margin-bottom: 2rem;
+
+        @include media('sm') {
+          margin-bottom: 1.25rem;
+        }
+      }
+
       .section__text-note {
         color: $text-color-gray;
         font-size: .9rem;
@@ -444,22 +443,15 @@
       // list
       .section__list {
         .list__item:not(:last-child) {
-          margin-bottom: 32px;
+          margin-bottom: 2rem;
 
           @include media('sm') {
-            margin-bottom: 28px;
+            margin-bottom: 1.25rem;
           }
         }
 
         &.-border-bottom .list__item:not(:last-child) {
           border-bottom: 1px solid $color-gray;
-          margin-bottom: 28px;
-          padding-bottom: 28px;
-
-          @include media('sm') {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-          }
         }
 
         .item__thumb {
@@ -480,7 +472,7 @@
   #about {
     .about__icon {
       @include media('lg') {
-        width: 180px;
+        width: 40%;
       }
 
       .img {
@@ -527,7 +519,7 @@
 
     .section__list {
       @include media('lg') {
-        width: calc(100% - 180px);
+        width: 60%;
       }
     }
   }
@@ -580,20 +572,18 @@
       }
 
       .contact__mail {
-        background: linear-gradient(to left, rgb(255 255 255 / .5) 50%, rgb(0 94 167 / .8) 50%);
-        background-size: calc(200% + 2px) 100%;
-        background-position: right;
+        background-color: rgb(255 255 255 / .6);
         border: 2px solid rgb(0 94 167 / .8);
         border-radius: 40px;
         cursor: pointer;
         margin: 24px auto 40px;
         position: relative;
-        transition: background-position .45s ease-in-out;
+        transition: background-color .3s ease-in-out;
         width: fit-content;
 
         @include media('lg') {
           &:hover  {
-            background-position: left;
+            background-color: rgb(0 94 167 / .8);
 
             .mailaddress {
               color: $color-white;
