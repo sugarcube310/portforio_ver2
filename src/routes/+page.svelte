@@ -3,16 +3,85 @@
   import icon from '$lib/assets/icons/icon.png'
   import rabbit from '$lib/assets/icons/rabbit.png'
   import githubIcon from '$lib/assets/icons/github-mark.png'
+  import githubIconW from '$lib/assets/icons/github-mark-white.png'
   import thumb from '$lib/assets/icons/thumb.jpg'
 
   // 星表示用コンポーネントの読み込み
   import StarCanvas from '$lib/components/StarCanvas.svelte'
 
-  import { onMount } from "svelte";
+  import { onMount } from 'svelte'
 
+  let nav,
+      navButton,
+      navButtonText
+
+  let openNav = false // ナビゲーションが開いている場合はtrueに
+
+  onMount(() => {
+    setTimeout(() => {
+      navButton.style.cssText = `
+        opacity: 1;
+        visibility: visible;
+      `
+    }, 3000)
+  })
+
+  function switchOpenNav() {
+    if (!nav) return
+    openNav = !openNav
+
+    setTimeout(() => { // ナビゲーション表示アニメーションの時間だけ待つ
+      if (openNav) {
+      navButtonText.textContent = 'close'
+      } else {
+        navButtonText.textContent = 'menu'
+      }
+    }, 300)
+  }
 </script>
 
 <div id="top" class="container" data-scroll-container>
+  <!-- Navigation -->
+  <button class="nav__button" bind:this={ navButton } on:click={ switchOpenNav } class:noHover={ openNav }>
+    <div class="button__inner d-flex align-center justify-center">
+      <p class="button__text font-family-accent weight-500 color-primary" bind:this={ navButtonText }>menu</p>
+    </div>
+  </button>
+
+  <nav class="nav" bind:this={ nav } class:isOpen={ openNav }>
+    <div class="nav__inner">
+      <div class="nav__menu">
+        <ul class="menu__list">
+          <li class="list__item">
+            <a href="#about" class="font-family-accent weight-400 color-white">About me</a>
+          </li>
+          <li class="list__item">
+            <a href="#skills" class="font-family-accent weight-400 color-white">Skills</a>
+          </li>
+          <li class="list__item">
+            <a href="#products" class="font-family-accent weight-400 color-white">Products</a>
+          </li>
+          <li class="list__item">
+            <a href="#contact" class="font-family-accent weight-400 color-white">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav__link">
+        <p class="link__title font-family-accent weight-300 color-white">Links：</p>
+        <ul class="link__list">
+          <li class="list__item">
+            <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
+              <img src="{ githubIconW }" alt="Github">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav__bg" class:isOpen={ openNav } on:click={ switchOpenNav }></div>
+
   <!-- MV -->
   <div id="mv">
     <div class="mv__inner">
@@ -54,8 +123,8 @@
           </div>
           <div class="icon__name d-flex align-center justify-center gap-8 sm-gap-4">
             <p class="name weight-600">@piiiikmin</p>
-            <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="githubIcon">
-              <img src="{ githubIcon }" alt="Githubアイコン">
+            <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="githubIcon hover-opacity">
+              <img src="{ githubIcon }" alt="Github">
             </a>
           </div>
         </div>
@@ -66,8 +135,8 @@
           </p>
           <p class="section__text m-0">
             Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務をメインに携わってきました。<br>
-            しかし私は、デザインと実装は「フロントをより良いものにしていくための相乗効果を与え合うもの」だと考えています。<br>
-            そのためにも、UI設計から実装まで一貫して自分で手がけられる人間になることを目標としています。
+            しかし私は、デザインと実装は「フロントエンドをより良いものにしていくための相乗効果を与え合うもの」だと考えています。<br>
+            UI設計から実装まで一貫して自分で手がけられる人間になることを理想として、日々励んでいます。
           </p>
         </div>
       </div>
@@ -116,10 +185,11 @@
           </li>
           <li class="list__item">
             <h3 class="section__subTitle -icon">
-              Webデザイン (学習中)
+              Webデザイン
             </h3>
             <p class="section__text">
-              UI設計から実装までを自分で実現できる人間になるべく、基礎から勉強中です。
+              これまでは主に実装面からUIやUXに触れてきましたが、デザイン設計から自分で手がけられるよう、学習中です。<br>
+              目的やターゲットをしっかりと考え、より質の高いユーザー体験を目指しつつ、機能性やコーディングの拡張性も両立できるよう心がけています。
             </p>
           </li>
         </ul>
@@ -202,6 +272,176 @@
     z-index: 1;
   }
 
+  /* Navigation */
+  .nav__button {
+    background-color: $color-white;
+    border-radius: 32px 0 0 8px;
+    cursor: pointer;
+    display: flex;
+    opacity: 0;
+    position: fixed;
+    bottom: 5%;
+    right: 0;
+    transition: opacity .6s, visibility .6s, background-color .15s, width .15s;
+    visibility: hidden;
+    height: 120px;
+    width: 40px;
+    z-index: 999;
+
+    @include media('lg') {
+      &:hover {
+        background-color: $color-primary;
+        width: 60px;
+
+        .button__text {
+          color: $color-white;
+          padding-right: 20px;
+        }
+      }
+
+      &.noHover:hover {
+        background-color: $color-white;
+        width: 60px;
+
+        .button__text {
+          color: $color-primary;
+          padding-right: 20px;
+        }
+      }
+    }
+
+    @include media('sm') {
+      border-top: 2px solid $color-primary;
+      border-bottom: 2px solid $color-primary;
+      border-left: 2px solid $color-primary;
+      height: 100px;
+      width: 36px;
+    }
+
+    .button__inner {
+      height: 100%;
+      width: 100%;
+
+      .button__text {
+        font-size: 1.2rem;
+        letter-spacing: .09rem;
+        line-height: 1;
+        padding-top: .5rem;
+        transition: color .15s, padding-right .15s;
+        writing-mode: vertical-rl;
+
+        @include media('sm') {
+          font-size: 1.15rem;
+          padding-left: 1px;
+        }
+      }
+    }
+  }
+
+  .nav {
+    background-color: $color-primary;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform .3s;
+    height: 100vh;
+    width: 100vw;
+    z-index: 998;
+
+    @include media('lg') {
+      width: 40vw;
+    }
+
+    @include media('xl') {
+      width: 30vw;
+    }
+
+    &.isOpen {
+      transform: translateX(0);
+    }
+
+    &__inner {
+      padding: 100px;
+
+      @include media('sm') {
+        padding: 60px;
+      }
+
+      .menu__list {
+        margin-bottom: 60px;
+
+        .list__item {
+          cursor: pointer;
+          font-size: 2rem;
+          letter-spacing: .1rem;
+          padding-bottom: .5rem;
+          position: relative;
+          width: fit-content;
+
+          @include media('sm') {
+            font-size: 1.75rem;
+            padding-bottom: 0;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 2.5rem;
+          }
+
+          @include media('lg') {
+            &::after {
+              content: '';
+              background-color: $color-white;
+              display: block;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              height: 2px;
+              transition: width .3s;
+              width: 0;
+            }
+
+            &:hover::after {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      .nav__link {
+        .link__title {
+          font-size: 1.05rem;
+          letter-spacing: .075rem;
+          margin-bottom: .75rem;
+        }
+
+        .icon {
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  .nav__bg {
+    background-color: rgb(0 0 0 / .3);
+    backdrop-filter: blur(2px);
+    margin: auto;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    transition: opacity .3s, visibility .3s;
+    height: 100vh;
+    width: 100vw;
+    z-index: 997;
+
+    &.isOpen {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
   /* MV */
   #mv {
     height: 100vh;
@@ -259,7 +499,7 @@
           }
 
           .title__subText {
-            color: #fff;
+            color: $color-white;
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: .25rem;
@@ -295,6 +535,11 @@
             height: 120px;
             width: 120px;
 
+            @include media('xl') {
+              height: 140px;
+              width: 140px;
+            }
+
             @include media('sm') {
               height: 100px;
               width: 100px;
@@ -309,7 +554,7 @@
       cursor: pointer;
       margin: auto;
       position: absolute;
-      bottom: 24px;
+      bottom: 5%;
       left: 0;
       right: 0;
       height: fit-content;
@@ -389,7 +634,7 @@
             }
 
             .arrow {
-              border-color: #fff;
+              border-color: $color-white;
               top: 4px;
             }
 
@@ -404,7 +649,7 @@
 
   /* Section */
   .section__wrapper {
-    border: 12px solid rgb(255 255 255 / .8);
+    border: 8px solid $color-white;
     border-radius: 32px;
     margin: 100px auto;
     padding: 100px 0;
@@ -430,7 +675,7 @@
 
     &::before {
       content: '';
-      background-color: rgb(255 255 255 / .8);
+      background-color: $color-white;
       border-radius: 16px;
       position: absolute;
       top: 8px;
@@ -553,6 +798,7 @@
         }
 
         .githubIcon {
+          cursor: pointer;
           height: 20px;
           width: 20px;
 
@@ -619,18 +865,17 @@
       }
 
       .contact__mail {
-        background-color: rgb(255 255 255 / .6);
-        border: 2px solid rgb(0 94 167 / .8);
+        background-color: $color-white;
         border-radius: 40px;
         cursor: pointer;
         margin: 24px auto 40px;
         position: relative;
-        transition: background-color .3s ease-in-out;
+        transition: background-color .3s;
         width: fit-content;
 
         @include media('lg') {
           &:hover  {
-            background-color: rgb(0 94 167 / .8);
+            background-color: $color-primary;
 
             .mailaddress {
               color: $color-white;

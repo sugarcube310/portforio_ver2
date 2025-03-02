@@ -4,8 +4,9 @@
 @use 'sass:map';
 
 $breakpoints: (
-  'lg': '(min-width: 1080px)',
-  'md': '(min-width: 768px) and (max-width: 1079px)',
+  'xl': '(min-width: 1441px)',
+  'lg': '(min-width: 1025px)',
+  'md': '(min-width: 768px) and (max-width: 1024px)',
   'sm': '(max-width: 767.9px)',
 ) !default;
 

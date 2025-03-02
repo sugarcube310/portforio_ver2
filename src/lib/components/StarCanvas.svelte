@@ -77,9 +77,9 @@
       to bottom,
       #16466a,
       #256597,
-      #4e96c0,
-      #7eb6ce,
-      #a7d6ea
+      #4a90b9,
+      #7cb7d0,
+      #9fcfe3
     );
     position: fixed;
     top: 0;
