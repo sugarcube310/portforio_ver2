@@ -29,6 +29,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@studio-freight/lenis": "^1.0.42",
 		"@sveltejs/adapter-static": "^3.0.8"
 	}
 }

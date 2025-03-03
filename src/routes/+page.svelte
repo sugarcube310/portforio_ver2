@@ -1,68 +1,124 @@
 <script>
-  // 画像インポート
+  import { onMount } from 'svelte'
+
+  /* Lenis (イージングスクロール) */
+  import { get } from 'svelte/store'
+  import { lenisStore } from '$lib/stores/lenis'
+
+  /* 要素のフェードイン表示 */
+  import { fadeIn } from '$lib/actions/fadeIn'
+
+  /* 星表示用コンポーネントの読み込み */
+  import StarCanvas from '$lib/components/StarCanvas.svelte'
+
+  /* 画像インポート */
   import icon from '$lib/assets/icons/icon.png'
   import rabbit from '$lib/assets/icons/rabbit.png'
   import githubIcon from '$lib/assets/icons/github-mark.png'
   import githubIconW from '$lib/assets/icons/github-mark-white.png'
   import thumb from '$lib/assets/icons/thumb.jpg'
 
-  // 星表示用コンポーネントの読み込み
-  import StarCanvas from '$lib/components/StarCanvas.svelte'
-
-  import { onMount } from 'svelte'
-
+  /* 変数定義 */
   let nav,
       navButton,
       navButtonText
-
   let openNav = false // ナビゲーションが開いている場合はtrueに
 
   onMount(() => {
-    setTimeout(() => {
+    /* ナビゲーションボタン表示 */
+    setTimeout(() => { // マウント完了から1秒後に表示
       navButton.style.cssText = `
         opacity: 1;
         visibility: visible;
       `
-    }, 3000)
+    }, 1000)
+
+    return () => {
+      document.removeEventListener('click', handleAnchorClick)
+    }
   })
 
+  /* ナビゲーション表示切り替え */
   function switchOpenNav() {
     if (!nav) return
     openNav = !openNav
 
-    setTimeout(() => { // ナビゲーション表示アニメーションの時間だけ待つ
-      if (openNav) {
+    // ナビゲーションボタンのテキスト変更
+    if (openNav) {
       navButtonText.textContent = 'close'
-      } else {
-        navButtonText.textContent = 'menu'
+    } else {
+      navButtonText.textContent = 'menu'
+    }
+  }
+
+  /* アンカーリンク */
+  function handleAnchorClick(event) {
+    const lenis = get(lenisStore)
+    if (!lenis) return
+
+    console.log(event.target)
+
+    const href = event.target.getAttribute('href')
+    const navLink = event.target.classList.contains('navLink')
+
+    if (href && href.startsWith('#')) {
+      event.preventDefault()
+      const target = document.querySelector(href)
+      if (target) {
+        if (navLink) { // ナビゲーション内リンクの場合
+          switchOpenNav()
+          setTimeout(() => {
+            lenis.scrollTo(target)
+          }, 300)
+        } else {
+          lenis.scrollTo(target)
+        }
       }
-    }, 300)
+    }
+  }
+  document.addEventListener('click', handleAnchorClick)
+
+  /* スクロールボタン押下時の処理 */
+  function scrollToSectionTop() {
+    const lenis = get(lenisStore)
+    if (!lenis) return
+
+    lenis.scrollTo('#sectionTop')
   }
 </script>
 
-<div id="top" class="container" data-scroll-container>
+<div id="top" class="container">
   <!-- Navigation -->
-  <button class="nav__button" bind:this={ navButton } on:click={ switchOpenNav } class:noHover={ openNav }>
+  <button
+    class="nav__button"
+    class:noHover={ openNav }
+    bind:this={ navButton }
+    on:click={ switchOpenNav }
+  >
     <div class="button__inner d-flex align-center justify-center">
       <p class="button__text font-family-accent weight-500 color-primary" bind:this={ navButtonText }>menu</p>
     </div>
   </button>
 
-  <nav class="nav" bind:this={ nav } class:isOpen={ openNav }>
+  <nav
+    class="nav"
+    class:isOpen={ openNav }
+    bind:this={ nav }
+  >
     <div class="nav__inner">
       <div class="nav__menu">
         <ul class="menu__list">
           <li class="list__item">
-            <a href="#about" class="font-family-accent weight-400 color-white">About me</a>
+            <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">About me</a>
           </li>
           <li class="list__item">
-            <a href="#skills" class="font-family-accent weight-400 color-white">Skills</a>
+            <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">Skills</a>
           </li>
           <li class="list__item">
-            <a href="#products" class="font-family-accent weight-400 color-white">Products</a>
+            <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">Products</a>
           </li>
           <li class="list__item">
-            <a href="#contact" class="font-family-accent weight-400 color-white">Contact</a>
+            <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">Contact</a>
           </li>
         </ul>
       </div>
@@ -80,7 +136,7 @@
     </div>
   </nav>
 
-  <div class="nav__bg" class:isOpen={ openNav } on:click={ switchOpenNav }></div>
+  <div class="nav__bg" class:isOpen={ openNav } on:click={ switchOpenNav } aria-hidden="true"></div>
 
   <!-- MV -->
   <div id="mv">
@@ -101,23 +157,27 @@
           </div>
         </div>
       </div>
-      <div class="mv__scrollArrow">
+      <button
+        class="mv__scrollArrow"
+        on:click={ scrollToSectionTop }
+        aria-label="scrollDown"
+      >
         <div class="scrollArrow__icon">
           <span class="arrow"></span>
           <span class="mini-arrow"></span>
         </div>
-      </div>
+      </button>
     </div>
   </div>
 
-  <div class="section__wrapper">
+  <div id="sectionTop" class="section__wrapper">
     <!-- About -->
     <section id="about" class="section">
-      <div class="section__head">
+      <div class="section__head" use:fadeIn>
         <h2 class="section__title">About me</h2>
       </div>
       <div class="section__body d-flex align-center justify-between md-flex-column sm-flex-column md-gap-40 sm-gap-40">
-        <div class="about__icon">
+        <div class="about__icon" use:fadeIn={{ delay: 300 }}>
           <div class="img">
             <img src="{ icon }" alt="アイコン">
           </div>
@@ -128,7 +188,7 @@
             </a>
           </div>
         </div>
-        <div class="section__textWrap">
+        <div class="section__textWrap" use:fadeIn={{ delay: 400 }}>
           <p class="section__text">
             フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。<br>
             ピクミンは名前にちなんで呼ばれているあだ名です。
@@ -144,12 +204,12 @@
 
     <!-- Skills -->
     <section id="skills" class="section">
-      <div class="section__head">
+      <div class="section__head" use:fadeIn>
         <h2 class="section__title">Skills</h2>
       </div>
       <div class="section__body">
         <ul class="section__list -border-bottom">
-          <li class="list__item">
+          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 300 }}>
             <h3 class="section__subTitle -icon">
               HTML / CSS / JavaScript
             </h3>
@@ -158,7 +218,7 @@
               インタラクション部分を考えたり実装するのが特に好きです。
             </p>
           </li>
-          <li class="list__item">
+          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 400 }}>
             <h3 class="section__subTitle -icon">
               JavaScriptフレームワーク
             </h3>
@@ -167,7 +227,7 @@
               Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発にて学習中です。
             </p>
           </li>
-          <li class="list__item">
+          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 500 }}>
             <h3 class="section__subTitle -icon">
               CMS
             </h3>
@@ -175,7 +235,7 @@
               WordPress / Shopify
             </p>
           </li>
-          <li class="list__item">
+          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 600 }}>
             <h3 class="section__subTitle -icon">
               DB
             </h3>
@@ -183,7 +243,7 @@
               Firebase (Realtime Database, Cloud Firestore)
             </p>
           </li>
-          <li class="list__item">
+          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 700 }}>
             <h3 class="section__subTitle -icon">
               Webデザイン
             </h3>
@@ -198,33 +258,33 @@
 
     <!-- Products -->
     <section id="products" class="section">
-      <div class="section__head">
+      <div class="section__head" use:fadeIn>
         <h2 class="section__title">Products</h2>
       </div>
       <div class="section__body">
         <ul class="section__list d-flex flex-wrap gap-60 md-gap-40">
-          <li class="list__item mb-0">
+          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 300 }}>
             <div class="item__thumb">
               <img src="{ thumb }" alt="">
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
-          <li class="list__item mb-0">
+          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 400 }}>
             <div class="item__thumb">
               <img src="{ thumb }" alt="">
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
-          <li class="list__item mb-0">
+          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 500 }}>
             <div class="item__thumb">
               <img src="{ thumb }" alt="">
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
-          <li class="list__item mb-0">
+          <li class="list__item mb-0" use:fadeIn={{ delay: 600 }}>
             <div class="item__thumb">
               <img src="{ thumb }" alt="">
             </div>
@@ -241,14 +301,14 @@
     <div class="footer__inner">
       <!-- Contact -->
       <section id="contact" class="section t-align-center">
-        <div class="section__head">
+        <div class="section__head" use:fadeIn>
           <h2 class="section__title">Contact</h2>
         </div>
         <div class="section__body">
-          <p class="section__text color-primary weight-500">
+          <p class="section__text color-primary weight-500" use:fadeIn={{ delay: 300 }}>
             お問い合わせはメールにてご連絡ください。
           </p>
-          <div class="contact__mail">
+          <div class="contact__mail" use:fadeIn={{ delay: 400 }}>
             <a href="mailto:satoikumi.14@gmail.com" class="mailaddress color-primary weight-600">
               satoikumi.14@gmail.com
             </a>
@@ -372,37 +432,40 @@
         margin-bottom: 60px;
 
         .list__item {
-          cursor: pointer;
-          font-size: 2rem;
-          letter-spacing: .1rem;
-          padding-bottom: .5rem;
-          position: relative;
           width: fit-content;
-
-          @include media('sm') {
-            font-size: 1.75rem;
-            padding-bottom: 0;
-          }
 
           &:not(:last-child) {
             margin-bottom: 2.5rem;
           }
 
-          @include media('lg') {
-            &::after {
-              content: '';
-              background-color: $color-white;
-              display: block;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              height: 2px;
-              transition: width .3s;
-              width: 0;
+          .item__link {
+            display: block;
+            font-size: 2rem;
+            letter-spacing: .1rem;
+            padding-bottom: .5rem;
+            position: relative;
+
+            @include media('sm') {
+              font-size: 1.75rem;
+              padding-bottom: 0;
             }
 
-            &:hover::after {
-              width: 100%;
+            @include media('lg') {
+              &::after {
+                content: '';
+                background-color: $color-white;
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 2px;
+                transition: width .3s;
+                width: 0;
+              }
+
+              &:hover::after {
+                width: 100%;
+              }
             }
           }
         }
