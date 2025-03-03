@@ -85,7 +85,7 @@
   /* 要素監視 */
   function observeContents() {
     const options = {
-      threshold: 0.5
+      threshold: 0.5 // 要素が50%以上画面内に入ったら発火
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -93,7 +93,7 @@
         if (entry.isIntersecting) {
           const id = entry.target.id
 
-          if (id === 'mv') { // MVが画面内に入った場合
+          if (id === 'mv') {
             showMV = true
           } else {
             showMV = false
@@ -231,7 +231,7 @@
           <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまで実装業務を主に担当してきました。<br>
             しかし、私はデザインとコーディングの両方が「フロントエンドをより良いものにするための相乗効果を生むもの」だと考えています。<br>
-            これまで培ってきたコーディング経験を活かしつつ、UI設計から実装まで一貫して自分で手がけられる人間を目指しています。
+            これまで培ってきたコーディング経験を活かしながら、UI設計から実装まで一貫して自分で手がけられる人間を目指しています。
           </p>
         </div>
       </div>
@@ -329,38 +329,26 @@
         </ul>
       </div>
     </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="section__head" use:fadeIn>
+        <h2 class="section__title">Contact</h2>
+      </div>
+      <div class="section__body">
+        <p class="section__text mb-4" use:fadeIn={{ delay: 300 }}>
+          ご覧いただきありがとうございました。
+        </p>
+        <p class="section__text" use:fadeIn={{ delay: 400 }}>
+          ご質問等ございましたら、<a href="mailto:satoikumi.14@gmail.com" class="mainLink d-inBlock hover-opacity">メール</a>にてご連絡ください。
+        </p>
+      </div>
+    </section>
   </div>
 
   <!-- Footer -->
   <footer>
     <div class="footer__inner">
-      <!-- Contact -->
-      <section id="contact" class="section t-align-center">
-        <div class="section__head" use:fadeIn>
-          <h2 class="section__title">Contact</h2>
-        </div>
-        <div class="section__body">
-          <p class="section__text color-primary weight-500" use:fadeIn={{ delay: 300 }}>
-            ご覧いただきありがとうございました。<br>
-            お問い合わせはメールにてご連絡ください。
-          </p>
-          <div class="contact__mail" use:fadeIn={{ delay: 400 }}>
-            <a href="mailto:satoikumi.14@gmail.com" class="mailaddress color-primary weight-600">
-              satoikumi.14@gmail.com
-            </a>
-          </div>
-        </div>
-      </section>
-      <button
-        class="button backToTop"
-        on:click={ scrollToTarget }
-        data-target="top"
-        aria-label="backToTop"
-      >
-        <div class="button__icon">
-          <span class="arrow"></span>
-        </div>
-      </button>
       <p class="copyright color-gray t-align-center">&copy; 2025 piiikmin</p>
     </div>
   </footer>
@@ -372,6 +360,7 @@
 <style lang="scss">
   @use '../styles/common/utils' as *;
   @use '../styles/common/includes/keyframe' as *;
+  @use 'sass:color';
 
   /* Container */
   .container {
@@ -389,7 +378,7 @@
     right: 0;
     transition: transform .6s, background-color .15s, width .15s;
     height: 120px;
-    width: 40px;
+    width: 50px;
     z-index: 999;
 
     &.hide {
@@ -418,12 +407,18 @@
       }
     }
 
+    @include media('md') {
+      border-top: 2px solid $color-primary;
+      border-bottom: 2px solid $color-primary;
+      border-left: 2px solid $color-primary;
+    }
+
     @include media('sm') {
       border-top: 2px solid $color-primary;
       border-bottom: 2px solid $color-primary;
       border-left: 2px solid $color-primary;
       height: 100px;
-      width: 36px;
+      width: 40px;
     }
 
     .button__inner {
@@ -431,7 +426,7 @@
       width: 100%;
 
       .button__text {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         letter-spacing: .09rem;
         line-height: 1;
         padding-top: .5rem;
@@ -631,7 +626,7 @@
           }
         }
 
-        // rabbit
+        // rabbit icon
         .mv__rabbit {
           animation: float 3s ease-in-out infinite;
           position: absolute;
@@ -661,7 +656,7 @@
       }
     }
 
-    // scrollDown button
+    // scrollDown
     .button.scrollDown {
       cursor: pointer;
       margin: auto;
@@ -669,7 +664,7 @@
       bottom: 5%;
       left: 0;
       right: 0;
-      transition: opacity .3s, visibility .3s;
+      transition: opacity .6s, visibility .6s;
       height: fit-content;
       width: fit-content;
 
@@ -686,16 +681,16 @@
         height: 60px;
         width: 60px;
 
-        @include media('sm') {
-          height: 54px;
-          width: 54px;
+        @include media('xl') {
+          height: 70px;
+          width: 70px;
         }
 
         &::before {
           content: '';
           animation: scrollIcon_ripple 3s infinite;
           border-radius: 50%;
-          box-shadow: 0 0 0 0 rgb(0 94 167 / .8);
+          box-shadow: 0 0 0 0 rgb(0 94 167 / .6);
           left: 0;
           margin: auto;
           opacity: 0;
@@ -766,16 +761,18 @@
 
   /* Section */
   .section__wrapper {
-    border: 8px solid $color-white;
+    border: 6px solid $color-white;
     border-radius: 32px;
-    margin: 100px auto;
+    margin: 100px auto 120px;
     padding: 100px 0;
     position: relative;
     max-width: 1200px;
     width: 80%;
 
     @include media('md') {
-      margin: 60px auto;
+      border-width: 4px;
+      border-radius: 20px;
+      margin-top: 60px;
       padding: 60px 0;
       max-width: 900px;
       width: 90%;
@@ -784,7 +781,7 @@
     @include media('sm') {
       border-width: 4px;
       border-radius: 20px;
-      margin: 40px auto;
+      margin: 40px auto 100px;
       padding: 40px 0;
       max-width: 100%;
       width: calc(100% - 40px);
@@ -793,12 +790,20 @@
     &::before {
       content: '';
       background-color: $color-white;
-      border-radius: 16px;
+      border-radius: 22px;
       position: absolute;
       top: 8px;
       left: 8px;
       height: calc(100% - 16px);
       width: calc(100% - 16px);
+
+      @include media('md') {
+        border-radius: 12px;
+        top: 6px;
+        left: 6px;
+        height: calc(100% - 12px);
+        width: calc(100% - 12px);
+      }
 
       @include media('sm') {
         border-radius: 12px;
@@ -938,9 +943,21 @@
     }
   }
 
+  /* Contact */
+  #contact {
+    // mail
+    .mainLink {
+      border-bottom: 1px solid color.adjust($text-color-base, $lightness: 20%);
+      margin: 0 2px;
+      line-height: 1.25;
+    }
+  }
+
   /* Footer */
   .footer__inner {
     margin: auto;
+    padding-bottom: 4px;
+    position: relative;
     max-width: 1200px;
     width: 80%;
 
@@ -949,110 +966,10 @@
       width: calc(100% - 40px);
     }
 
-    /* Contact */
-    #contact {
-      padding: 60px 0 80px;
-
-      @include media('sm') {
-        padding: 40px 0 80px;
-      }
-
-      .section__text {
-        font-size: 1rem;
-
-        @include media('sm') {
-          font-size: .95rem;
-        }
-      }
-
-      // mail
-      .contact__mail {
-        background-color: $color-white;
-        border-radius: 40px;
-        cursor: pointer;
-        margin: 24px auto 40px;
-        position: relative;
-        transition: background-color .3s;
-        width: fit-content;
-
-        @include media('lg') {
-          &:hover  {
-            background-color: $color-primary;
-
-            .mailaddress {
-              color: $color-white;
-            }
-          }
-        }
-
-        @include media('sm') {
-          margin: 16px auto 20px;
-        }
-
-        .mailaddress {
-          display: block;
-          font-size: 1.25rem;
-          letter-spacing: .05rem;
-          padding: 12px 60px;
-          transition: color .3s;
-
-          @include media('sm') {
-            font-size: 1.15rem;
-            padding: 8px 40px;
-          }
-        }
-      }
-    }
-
-    /* backToTop button */
-    .button.backToTop {
-      cursor: pointer;
-      height: fit-content;
-      width: fit-content;
-
-      .button__icon {
-        background-color: $color-white;
-        border-radius: 50%;
-        position: relative;
-        transition: background-color .15s;
-        height: 60px;
-        width: 60px;
-
-        .arrow {
-          background-image: url('$lib/assets/icons/arrow-blue.svg');
-          background-position: center;
-          background-size: 36px;
-          display: block;
-          margin: auto;
-          position: absolute;
-          inset: 0;
-          transition: background-image .3s, top .3s;
-          height: 100%;
-          width: 100%;
-        }
-
-        @include media ('lg') {
-          &:hover {
-            background-color: $color-primary;
-
-            .arrow {
-              background-image: url('$lib/assets/icons/arrow-white.svg');
-              top: -8px;
-            }
-          }
-        }
-      }
-    }
-
-    /* Copyright */
+    // copyright
     .copyright {
       font-size: .75rem;
-      margin-bottom: 20px;
       letter-spacing: .01rem;
-
-      @include media('sm') {
-        margin-bottom: 12px;
-      }
     }
   }
 
