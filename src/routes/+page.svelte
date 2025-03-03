@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount,onDestroy } from 'svelte'
 
   /* Lenis (イージングスクロール) */
   import { get } from 'svelte/store'
@@ -8,35 +8,27 @@
   /* 要素のフェードイン表示 */
   import { fadeIn } from '$lib/actions/fadeIn'
 
-  /* 星表示用コンポーネントの読み込み */
+  /* 星表示用コンポーネント */
   import StarCanvas from '$lib/components/StarCanvas.svelte'
 
   /* 画像インポート */
   import icon from '$lib/assets/icons/icon.png'
   import rabbit from '$lib/assets/icons/rabbit.png'
-  import githubIcon from '$lib/assets/icons/github-mark.png'
-  import githubIconW from '$lib/assets/icons/github-mark-white.png'
-  import thumb from '$lib/assets/icons/thumb.jpg'
+  import githubIcon_white from '$lib/assets/icons/github-mark-white.png'
+  import arrow_blue from '$lib/assets/icons/arrow-blue.svg'
+  import arrow_white from '$lib/assets/icons/arrow-white.svg'
+  // import thumb from '$lib/assets/icons/thumb.jpg'
 
   /* 変数定義 */
   let nav,
       navButton,
-      navButtonText
+      navButtonText,
+      container
+
+  let sections = []
+
   let openNav = false // ナビゲーションが開いている場合はtrueに
-
-  onMount(() => {
-    /* ナビゲーションボタン表示 */
-    setTimeout(() => { // マウント完了から1秒後に表示
-      navButton.style.cssText = `
-        opacity: 1;
-        visibility: visible;
-      `
-    }, 1000)
-
-    return () => {
-      document.removeEventListener('click', handleAnchorClick)
-    }
-  })
+  let showMV = true // MVが画面内に入っている場合はtrueに
 
   /* ナビゲーション表示切り替え */
   function switchOpenNav() {
@@ -51,47 +43,86 @@
     }
   }
 
-  /* アンカーリンク */
+  /* アンカーリンク(aタグ) */
   function handleAnchorClick(event) {
     const lenis = get(lenisStore)
     if (!lenis) return
 
-    console.log(event.target)
-
-    const href = event.target.getAttribute('href')
-    const navLink = event.target.classList.contains('navLink')
+    const target = event.target
+    const href = target.getAttribute('href')
+    const navLink = target.classList.contains('navLink')
 
     if (href && href.startsWith('#')) {
       event.preventDefault()
-      const target = document.querySelector(href)
-      if (target) {
+      const targetId = document.querySelector(href)
+
+      if (targetId) {
         if (navLink) { // ナビゲーション内リンクの場合
           switchOpenNav()
           setTimeout(() => {
-            lenis.scrollTo(target)
+            lenis.scrollTo(targetId)
           }, 300)
         } else {
-          lenis.scrollTo(target)
+          lenis.scrollTo(targetId)
         }
       }
     }
   }
   document.addEventListener('click', handleAnchorClick)
 
-  /* スクロールボタン押下時の処理 */
-  function scrollToSectionTop() {
+  /* アンカーリンク(data-target) */
+  function scrollToTarget(event) {
     const lenis = get(lenisStore)
-    if (!lenis) return
+    const targetValue = event.currentTarget.dataset.target
 
-    lenis.scrollTo('#sectionTop')
+    if (!lenis || !targetValue) return
+
+    const target = `#${ targetValue }`
+
+    lenis.scrollTo(target)
   }
+
+  /* 要素監視 */
+  function observeContents() {
+    const options = {
+      threshold: 0.5
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+
+          if (id === 'mv') { // MVが画面内に入った場合
+            showMV = true
+          } else {
+            showMV = false
+          }
+        }
+      })
+    }, options)
+
+    sections.forEach((section) => observer.observe(section))
+  }
+
+  onMount(() => {
+    // section要素の監視
+    sections = Array.from(container.querySelectorAll('section'))
+    observeContents()
+
+    return () => {
+      // アンカーリンク
+      document.removeEventListener('click', handleAnchorClick)
+    }
+  })
 </script>
 
-<div id="top" class="container">
+<div id="top" class="container" bind:this={ container }>
   <!-- Navigation -->
   <button
     class="nav__button"
-    class:noHover={ openNav }
+    class:open={ openNav }
+    class:hide={ showMV }
     bind:this={ navButton }
     on:click={ switchOpenNav }
   >
@@ -102,7 +133,7 @@
 
   <nav
     class="nav"
-    class:isOpen={ openNav }
+    class:open={ openNav }
     bind:this={ nav }
   >
     <div class="nav__inner">
@@ -128,7 +159,7 @@
         <ul class="link__list">
           <li class="list__item">
             <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
-              <img src="{ githubIconW }" alt="Github">
+              <img src="{ githubIcon_white }" alt="Github">
             </a>
           </li>
         </ul>
@@ -136,10 +167,15 @@
     </div>
   </nav>
 
-  <div class="nav__bg" class:isOpen={ openNav } on:click={ switchOpenNav } aria-hidden="true"></div>
+  <div
+    class="nav__bg"
+    class:open={ openNav }
+    on:click={ switchOpenNav }
+    aria-hidden="true"
+  ></div>
 
   <!-- MV -->
-  <div id="mv">
+  <section id="mv" bind:this={ mv }>
     <div class="mv__inner">
       <div class="mv__content">
         <div class="mv__title">
@@ -158,17 +194,19 @@
         </div>
       </div>
       <button
-        class="mv__scrollArrow"
-        on:click={ scrollToSectionTop }
+        class="button scrollDown"
+        class:hide={ !showMV }
+        on:click={ scrollToTarget }
+        data-target="sectionTop"
         aria-label="scrollDown"
       >
-        <div class="scrollArrow__icon">
+        <div class="button__icon">
           <span class="arrow"></span>
           <span class="mini-arrow"></span>
         </div>
       </button>
     </div>
-  </div>
+  </section>
 
   <div id="sectionTop" class="section__wrapper">
     <!-- About -->
@@ -181,22 +219,19 @@
           <div class="img">
             <img src="{ icon }" alt="アイコン">
           </div>
-          <div class="icon__name d-flex align-center justify-center gap-8 sm-gap-4">
+          <div class="about__nickName d-flex align-center justify-center gap-8 sm-gap-4">
             <p class="name weight-600">@piiiikmin</p>
-            <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="githubIcon hover-opacity">
-              <img src="{ githubIcon }" alt="Github">
-            </a>
           </div>
         </div>
-        <div class="section__textWrap" use:fadeIn={{ delay: 400 }}>
-          <p class="section__text">
-            フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。<br>
-            ピクミンは名前にちなんで呼ばれているあだ名です。
+        <div class="section__textWrap">
+          <p class="section__text" use:fadeIn={{ delay: 400 }}>
+            はじめまして。<br>
+            フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。
           </p>
-          <p class="section__text m-0">
-            Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務をメインに携わってきました。<br>
-            しかし私は、デザインと実装は「フロントエンドをより良いものにしていくための相乗効果を与え合うもの」だと考えています。<br>
-            UI設計から実装まで一貫して自分で手がけられる人間になることを理想として、日々励んでいます。
+          <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
+            Web業界ではデザインとコーディングが分業されていることも多く、これまで実装業務を主に担当してきました。<br>
+            しかし、私はデザインとコーディングの両方が「フロントエンドをより良いものにするための相乗効果を生むもの」だと考えています。<br>
+            これまで培ってきたコーディング経験を活かしつつ、UI設計から実装まで一貫して自分で手がけられる人間を目指しています。
           </p>
         </div>
       </div>
@@ -209,25 +244,25 @@
       </div>
       <div class="section__body">
         <ul class="section__list -border-bottom">
-          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 300 }}>
+          <li class="list__item" use:fadeIn={{ delay: 300 }}>
             <h3 class="section__subTitle -icon">
               HTML / CSS / JavaScript
             </h3>
             <p class="section__text">
-              デザインや仕様に正確に、かつ素早くコーディングすることを心がけています。<br>
+              デザインや仕様に正確に、かつ迅速にコーディングすることを心がけています。<br>
               インタラクション部分を考えたり実装するのが特に好きです。
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 400 }}>
+          <li class="list__item" use:fadeIn={{ delay: 400 }}>
             <h3 class="section__subTitle -icon">
               JavaScriptフレームワーク
             </h3>
             <p class="section__text">
-              Nuxt.jsを使用した、WebアプリとSaaSのフロントエンド開発経験があります。<br>
-              Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発にて学習中です。
+              Nuxt.jsを使用したWebアプリおよびSaaSのフロントエンド開発経験があります。<br>
+              Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発を通じて学習しています。
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 500 }}>
+          <li class="list__item" use:fadeIn={{ delay: 500 }}>
             <h3 class="section__subTitle -icon">
               CMS
             </h3>
@@ -235,7 +270,7 @@
               WordPress / Shopify
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 600 }}>
+          <li class="list__item" use:fadeIn={{ delay: 600 }}>
             <h3 class="section__subTitle -icon">
               DB
             </h3>
@@ -243,13 +278,13 @@
               Firebase (Realtime Database, Cloud Firestore)
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ threshold: 0.1, delay: 700 }}>
+          <li class="list__item" use:fadeIn={{ delay: 700 }}>
             <h3 class="section__subTitle -icon">
               Webデザイン
             </h3>
             <p class="section__text">
-              これまでは主に実装面からUIやUXに触れてきましたが、デザイン設計から自分で手がけられるよう、学習中です。<br>
-              目的やターゲットをしっかりと考え、より質の高いユーザー体験を目指しつつ、機能性やコーディングの拡張性も両立できるよう心がけています。
+              デザイン設計から実装までを一貫して手がけられるよう、UI/UXについて学んでいます。<br>
+              目的やターゲットを明確にし、より質の高いユーザー体験の提供を目指しつつ、機能性やコーディングの拡張性も兼ね備えることを心がけています。
             </p>
           </li>
         </ul>
@@ -263,30 +298,30 @@
       </div>
       <div class="section__body">
         <ul class="section__list d-flex flex-wrap gap-60 md-gap-40">
-          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 300 }}>
+          <li class="list__item mb-0" use:fadeIn={{ delay: 300 }}>
             <div class="item__thumb">
-              <img src="{ thumb }" alt="">
+              <!-- <img src="{ thumb }" alt=""> -->
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
-          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 400 }}>
+          <li class="list__item mb-0" use:fadeIn={{ delay: 400 }}>
             <div class="item__thumb">
-              <img src="{ thumb }" alt="">
+              <!-- <img src="{ thumb }" alt=""> -->
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
-          <li class="list__item mb-0" use:fadeIn={{ threshold: 0.1, delay: 500 }}>
+          <li class="list__item mb-0" use:fadeIn={{ delay: 500 }}>
             <div class="item__thumb">
-              <img src="{ thumb }" alt="">
+              <!-- <img src="{ thumb }" alt=""> -->
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
           </li>
           <li class="list__item mb-0" use:fadeIn={{ delay: 600 }}>
             <div class="item__thumb">
-              <img src="{ thumb }" alt="">
+              <!-- <img src="{ thumb }" alt=""> -->
             </div>
             <h3 class="section__subTitle mb-4">タイトル</h3>
             <p class="section__text-note">Webサイト</p>
@@ -306,6 +341,7 @@
         </div>
         <div class="section__body">
           <p class="section__text color-primary weight-500" use:fadeIn={{ delay: 300 }}>
+            ご覧いただきありがとうございました。<br>
             お問い合わせはメールにてご連絡ください。
           </p>
           <div class="contact__mail" use:fadeIn={{ delay: 400 }}>
@@ -315,6 +351,16 @@
           </div>
         </div>
       </section>
+      <button
+        class="button backToTop"
+        on:click={ scrollToTarget }
+        data-target="top"
+        aria-label="backToTop"
+      >
+        <div class="button__icon">
+          <span class="arrow"></span>
+        </div>
+      </button>
       <p class="copyright color-gray t-align-center">&copy; 2025 piiikmin</p>
     </div>
   </footer>
@@ -338,15 +384,17 @@
     border-radius: 32px 0 0 8px;
     cursor: pointer;
     display: flex;
-    opacity: 0;
     position: fixed;
     bottom: 5%;
     right: 0;
-    transition: opacity .6s, visibility .6s, background-color .15s, width .15s;
-    visibility: hidden;
+    transition: transform .6s, background-color .15s, width .15s;
     height: 120px;
     width: 40px;
     z-index: 999;
+
+    &.hide {
+      transform: translateX(100%);
+    }
 
     @include media('lg') {
       &:hover {
@@ -359,7 +407,7 @@
         }
       }
 
-      &.noHover:hover {
+      &.open:hover {
         background-color: $color-white;
         width: 60px;
 
@@ -417,7 +465,7 @@
       width: 30vw;
     }
 
-    &.isOpen {
+    &.open {
       transform: translateX(0);
     }
 
@@ -499,7 +547,7 @@
     width: 100vw;
     z-index: 997;
 
-    &.isOpen {
+    &.open {
       opacity: 1;
       visibility: visible;
     }
@@ -565,18 +613,19 @@
             color: $color-white;
             font-size: 1.5rem;
             font-weight: 300;
-            letter-spacing: .25rem;
-            padding-top: 36px;
+            letter-spacing: .33rem;
+            padding-top: 32px;
             padding-left: 4px;
 
             @include media('md') {
-              padding-top: 28px;
+              letter-spacing: .25rem;
+              padding-top: 24px;
             }
 
             @include media('sm') {
               font-size: 1.25rem;
-              letter-spacing: 0.275rem;
-              padding-top: 20px;
+              letter-spacing: 0.25rem;
+              padding-top: 16px;
               padding-left: 2px;
             }
           }
@@ -612,41 +661,41 @@
       }
     }
 
-    // scroll arrow
-    .mv__scrollArrow {
+    // scrollDown button
+    .button.scrollDown {
       cursor: pointer;
       margin: auto;
       position: absolute;
       bottom: 5%;
       left: 0;
       right: 0;
+      transition: opacity .3s, visibility .3s;
       height: fit-content;
       width: fit-content;
 
-      .scrollArrow__icon {
-        animation: scrollIcon_bg 4s infinite;
+      &.hide {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .button__icon {
         background-color: rgb(255 255 255 / .1);
         border-radius: 50%;
         position: relative;
-        transition: animation .4s, background-color .3s;
-        height: 68px;
-        width: 68px;
-
-        @include media('md') {
-          height: 60px;
-          width: 60px;
-        }
+        transition: background-color .3s;
+        height: 60px;
+        width: 60px;
 
         @include media('sm') {
-          height: 60px;
-          width: 60px;
+          height: 54px;
+          width: 54px;
         }
 
         &::before {
           content: '';
-          animation: scrollIcon_ripple 4s infinite;
+          animation: scrollIcon_ripple 3s infinite;
           border-radius: 50%;
-          box-shadow: 0 0 0 0 rgb(0 94 167 / .2);
+          box-shadow: 0 0 0 0 rgb(0 94 167 / .8);
           left: 0;
           margin: auto;
           opacity: 0;
@@ -659,8 +708,8 @@
         }
 
         .arrow {
-          border-bottom: 2px solid rgb(255 255 255 / .8);
-          border-left: 2px solid rgb(255 255 255 / .8);
+          border-bottom: 2px solid $color-white;
+          border-left: 2px solid $color-white;
           margin: auto;
           position: absolute;
           inset: 0;
@@ -669,11 +718,16 @@
           transition: top .3s, border-color .15s;
           height: 20px;
           width: 20px;
+
+          @include media('sm') {
+            height: 18px;
+            width: 18px;
+          }
         }
 
         .mini-arrow {
-          border-bottom: 2px solid rgb(255 255 255 / .8);
-          border-left: 2px solid rgb(255 255 255 / .8);
+          border-bottom: 2px solid $color-white;
+          border-left: 2px solid $color-white;
           margin: auto;
           opacity: 0;
           position: absolute;
@@ -688,7 +742,7 @@
         @include media ('lg') {
           &:hover {
             animation: none;
-            background-color: rgb(0 94 167 / .8);
+            background-color: $color-primary;
 
             &::before {
               animation: none;
@@ -841,7 +895,7 @@
         }
       }
 
-      .icon__name {
+      .about__nickName {
         margin-top: 12px;
         text-align: center;
 
@@ -857,17 +911,6 @@
           @include media('sm') {
             font-size: 1.05rem;
             letter-spacing: .03rem;
-          }
-        }
-
-        .githubIcon {
-          cursor: pointer;
-          height: 20px;
-          width: 20px;
-
-          @include media('sm') {
-            height: 16px;
-            width: 16px;
           }
         }
       }
@@ -908,15 +951,10 @@
 
     /* Contact */
     #contact {
-      padding: 60px 0;
+      padding: 60px 0 80px;
 
       @include media('sm') {
-        padding: 40px 0;
-      }
-
-      .section__title,
-      .section__text {
-        mix-blend-mode: darken;
+        padding: 40px 0 80px;
       }
 
       .section__text {
@@ -927,6 +965,7 @@
         }
       }
 
+      // mail
       .contact__mail {
         background-color: $color-white;
         border-radius: 40px;
@@ -942,7 +981,6 @@
 
             .mailaddress {
               color: $color-white;
-              mix-blend-mode: unset;
             }
           }
         }
@@ -955,13 +993,52 @@
           display: block;
           font-size: 1.25rem;
           letter-spacing: .05rem;
-          mix-blend-mode: darken;
           padding: 12px 60px;
           transition: color .3s;
 
           @include media('sm') {
             font-size: 1.15rem;
             padding: 8px 40px;
+          }
+        }
+      }
+    }
+
+    /* backToTop button */
+    .button.backToTop {
+      cursor: pointer;
+      height: fit-content;
+      width: fit-content;
+
+      .button__icon {
+        background-color: $color-white;
+        border-radius: 50%;
+        position: relative;
+        transition: background-color .15s;
+        height: 60px;
+        width: 60px;
+
+        .arrow {
+          background-image: url('$lib/assets/icons/arrow-blue.svg');
+          background-position: center;
+          background-size: 36px;
+          display: block;
+          margin: auto;
+          position: absolute;
+          inset: 0;
+          transition: background-image .3s, top .3s;
+          height: 100%;
+          width: 100%;
+        }
+
+        @include media ('lg') {
+          &:hover {
+            background-color: $color-primary;
+
+            .arrow {
+              background-image: url('$lib/assets/icons/arrow-white.svg');
+              top: -8px;
+            }
           }
         }
       }

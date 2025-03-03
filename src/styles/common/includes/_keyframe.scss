@@ -5,20 +5,13 @@
 @keyframes scrollIcon_ripple {
   0% { opacity: 0; }
   30% { opacity: 1; }
-  60% { opacity: 0; box-shadow: 0 0 0 24px rgb(146 196 220 / .6); }
+  50% { opacity: 0; box-shadow: 0 0 0 24px rgb(146 196 220 / .8); }
   100% { opacity: 0; }
-}
-
-@keyframes scrollIcon_bg {
-  0% { background-color: transparent; }
-  30% { background-color: rgb(255 255 255 / .2); }
-  60% { background-color: transparent; }
-  100% { background-color: transparent; }
 }
 
 // Rabbit
 @keyframes float {
   0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(3deg); }
+  50% { transform: translateY(-12px) rotate(4deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
