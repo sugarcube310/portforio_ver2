@@ -235,6 +235,7 @@
           </p>
         </div>
       </div>
+      <div class="section__line" use:fadeIn></div>
     </section>
 
     <!-- Skills -->
@@ -243,7 +244,7 @@
         <h2 class="section__title">Skills</h2>
       </div>
       <div class="section__body">
-        <ul class="section__list -border-bottom">
+        <ul class="section__list">
           <li class="list__item" use:fadeIn={{ delay: 300 }}>
             <h3 class="section__subTitle -icon">
               HTML / CSS / JavaScript
@@ -289,6 +290,7 @@
           </li>
         </ul>
       </div>
+      <div class="section__line" use:fadeIn></div>
     </section>
 
     <!-- Products -->
@@ -328,6 +330,7 @@
           </li>
         </ul>
       </div>
+      <div class="section__line" use:fadeIn></div>
     </section>
 
     <!-- Contact -->
@@ -597,6 +600,10 @@
                 font-size: 3rem;
                 margin-left: -1rem;
               }
+
+              @include media ('xs') {
+                font-size: 2.5rem;
+              }
             }
 
             .normal:last-of-type {
@@ -622,6 +629,12 @@
               letter-spacing: 0.25rem;
               padding-top: 16px;
               padding-left: 2px;
+            }
+
+            @include media('xs') {
+              font-size: 1.175rem;
+              letter-spacing: 0.2rem;
+              padding-top: 12px;
             }
           }
         }
@@ -828,18 +841,6 @@
         width: 85%;
       }
 
-      &:not(:last-of-type) {
-        margin-bottom: 160px;
-
-        @include media('md') {
-          margin-bottom: 100px;
-        }
-
-        @include media('sm') {
-          margin-bottom: 80px;
-        }
-      }
-
       // text
       .section__text {
         margin-bottom: 2rem;
@@ -857,15 +858,11 @@
       // list
       .section__list {
         .list__item:not(:last-child) {
-          margin-bottom: 2rem;
+          margin-bottom: 2.5rem;
 
           @include media('sm') {
-            margin-bottom: 1.25rem;
+            margin-bottom: 2rem;
           }
-        }
-
-        &.-border-bottom .list__item:not(:last-child) {
-          border-bottom: 1px solid $color-gray;
         }
 
         .item__thumb {
@@ -877,6 +874,22 @@
               border-radius: 8px;
             }
           }
+        }
+      }
+
+      // 区切り線
+      .section__line {
+        background-color: $color-gray;
+        margin: 120px 0 100px;
+        height: 1px;
+        width: 100%;
+
+        @include media('md') {
+          margin: 100px 0 80px;
+        }
+
+        @include media('sm') {
+          margin: 60px 0 40px;
         }
       }
     }

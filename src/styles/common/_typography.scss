@@ -57,6 +57,11 @@ h1 {
     font-size: 3.5rem;
     letter-spacing: .275rem;
   }
+
+  @include media('xs') {
+    font-size: 3rem;
+    letter-spacing: .25rem;
+  }
 }
 
 .section__title {
