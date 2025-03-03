@@ -3,10 +3,11 @@
 
   let canvas
   let stars = []
-  const starAmount = 600 // 星の表示数を設定
+  let shootingStars = []
+  const starAmount = 400 // 星の表示数を設定
 
-  // 星要素を作成
-  function createStars() {
+  // 通常星の作成
+  function createStar() {
     stars = Array.from({ length: starAmount }, () => ({
       posX: Math.random() * window.innerWidth,
       posY: Math.random() * window.innerHeight,
@@ -16,7 +17,27 @@
     }))
   }
 
-  // アニメーション描画
+  // 流れ星の作成
+  function createShootingStar() {
+    const startX = Math.random() * window.innerWidth
+    const startY = Math.random() * (window.innerHeight / 2) // 上半分から開始
+    const speed = Math.random() * 3 + 1 // 速度をランダムに
+    shootingStars.push({
+      x: startX,
+      y: startY,
+      length: Math.random() * 80 + 40, // 星の長さ
+      speedX: speed,
+      speedY: speed / 2,
+      opacity: 1
+    })
+
+    // 一定時間後に流れ星を削除
+    setTimeout(() => {
+      shootingStars.shift()
+    }, 2000)
+  }
+
+  // 通常星の描画
   function drawStars(ctx, time) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
@@ -40,8 +61,39 @@
       ctx.fill()
     })
 
+    // 流れ星の描画処理を実行
+    drawShootingStars(ctx)
+
     // アニメーション実行
     requestAnimationFrame((newTime) => drawStars(ctx, newTime))
+  }
+
+  // 流れ星の描画
+  function drawShootingStars(ctx) {
+    shootingStars.forEach((star, index) => {
+      ctx.beginPath()
+
+      // 流れ星の尾のグラデーション
+      const gradient = ctx.createLinearGradient(star.x, star.y, star.x - star.length, star.y - star.length / 2)
+      gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`)
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+
+      ctx.strokeStyle = gradient
+      ctx.lineWidth = 2
+      ctx.moveTo(star.x, star.y)
+      ctx.lineTo(star.x - star.length, star.y - star.length / 2)
+      ctx.stroke()
+
+      // 星の位置を更新
+      star.x += star.speedX
+      star.y += star.speedY
+      star.opacity -= 0.01 // 徐々に消える
+
+      // 画面外に出たら削除
+      if (star.opacity <= 0) {
+        shootingStars.splice(index, 1)
+      }
+    })
   }
 
   // Canvasのセットアップ
@@ -53,19 +105,30 @@
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    createStars()
+    createStar()
     drawStars(ctx, 0)
+
+    // 一定間隔で流れ星を追加
+    const shootingStarInterval = setInterval(() => {
+      if (shootingStars.length < 3) {
+        createShootingStar()
+      }
+    }, 3000)
 
     // 画面サイズが変わったらcanvasをリサイズ
     const handleResize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
 
-      createStars() // リサイズ時に星も再生成
+      createStar() // リサイズ時に星を再生成
     }
 
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      clearInterval(shootingStarInterval)
+    }
   })
 </script>
 
@@ -77,9 +140,9 @@
       to bottom,
       #16466a,
       #256597,
-      #4a90b9,
-      #7cb7d0,
-      #9fcfe3
+      #3d81a9,
+      #6caac4,
+      #9dcce0
     );
     position: fixed;
     top: 0;
