@@ -180,14 +180,13 @@
       <div class="mv__content">
         <div class="mv__title">
           <h1 class="title__text">
-            <span class="normal">piiiikmin</span>
-            <span class="mdi-small d-inBlock">’</span>
-            <span class="small d-inBlock">s</span>
-            <span class="normal d-block">room</span>
+            <span class="d-block">write,</span>
+            <span class="d-block">more</span>
+            <span class="d-block">code!</span>
           </h1>
-          <p class="title__subText">portforio website</p>
+          <p class="title__subText">sato's portforio website</p>
         </div>
-        <div class="mv__rabbit">
+        <div class="mv__rabbit d-none">
           <div class="img">
             <img src="{ rabbit }" alt="">
           </div>
@@ -219,14 +218,11 @@
           <div class="img">
             <img src="{ icon }" alt="アイコン">
           </div>
-          <div class="about__nickName d-flex align-center justify-center gap-8 sm-gap-4">
-            <p class="name weight-600">@piiiikmin</p>
-          </div>
         </div>
         <div class="section__textWrap">
           <p class="section__text" use:fadeIn={{ delay: 400 }}>
             はじめまして。<br>
-            フロントエンドが大好きな、ピクミン(@piiiikmin)と申します。
+            フロントエンド好きの、さとうと申します。
           </p>
           <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまで実装業務を主に担当してきました。<br>
@@ -352,7 +348,7 @@
   <!-- Footer -->
   <footer>
     <div class="footer__inner">
-      <p class="copyright color-gray t-align-center">&copy; 2025 piiikmin</p>
+      <p class="copyright color-gray t-align-center">&copy; 2025 sato</p>
     </div>
   </footer>
 </div>
@@ -563,7 +559,6 @@
 
       .mv__content {
         margin: auto;
-        padding: 24px;
         position: absolute;
         top: -10%;
         bottom: 0;
@@ -581,60 +576,42 @@
 
         // title
         .mv__title {
-          h1 {
-            .mdi-small {
-              font-weight: 300;
-              margin-left: -2rem;
-              letter-spacing: 0;
+          .title__text {
+            margin: auto;
+            width: fit-content;
 
-              @include media ('sm') {
-                margin-left: -1rem;
-              }
-            }
+            span:nth-child(2) {
+              letter-spacing: 0.4rem;
+              font-size: 5.75rem;
 
-            .small {
-              font-size: 5rem;
-              margin-left: -2rem;
-
-              @include media ('sm') {
-                font-size: 3rem;
-                margin-left: -1rem;
+              @include media('md') {
+                font-size: 5.3rem;
               }
 
-              @include media ('xs') {
-                font-size: 2.5rem;
+              @include media('sm') {
+                font-size: 4.295rem;
+                letter-spacing: 0.425rem;
               }
-            }
-
-            .normal:last-of-type {
-              line-height: 1.2;
             }
           }
 
           .title__subText {
             color: $color-white;
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: .33rem;
-            padding-top: 32px;
-            padding-left: 4px;
+            font-size: 1.35rem;
+            font-weight: 200;
+            letter-spacing: .35rem;
+            margin-top: 32px;
 
             @include media('md') {
+              font-size: 1.25rem;
               letter-spacing: .25rem;
-              padding-top: 24px;
+              margin-top: 24px;
             }
 
             @include media('sm') {
-              font-size: 1.25rem;
-              letter-spacing: 0.25rem;
-              padding-top: 16px;
-              padding-left: 2px;
-            }
-
-            @include media('xs') {
-              font-size: 1.175rem;
+              font-size: 1rem;
               letter-spacing: 0.2rem;
-              padding-top: 12px;
+              margin-top: 16px;
             }
           }
         }
@@ -910,26 +887,6 @@
         @include media('sm') {
           height: 140px;
           width: 140px;
-        }
-      }
-
-      .about__nickName {
-        margin-top: 12px;
-        text-align: center;
-
-        @include media('sm') {
-          margin-top: 8px;
-        }
-
-        .name {
-          font-family: $accent-font-family;
-          font-size: 1.15rem;
-          letter-spacing: .05rem;
-
-          @include media('sm') {
-            font-size: 1.05rem;
-            letter-spacing: .03rem;
-          }
         }
       }
     }

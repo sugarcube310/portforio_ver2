@@ -4,7 +4,7 @@
   let canvas
   let stars = []
   let shootingStars = []
-  const starAmount = 400 // 星の表示数を設定
+  const starAmount = 500 // 星の表示数を設定
 
   // 通常星の作成
   function createStar() {
