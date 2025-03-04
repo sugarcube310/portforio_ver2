@@ -180,7 +180,7 @@
       <div class="mv__content">
         <div class="mv__title">
           <h1 class="title__text">
-            <span class="d-block">write,</span>
+            <span class="d-block">write</span>
             <span class="d-block">more</span>
             <span class="d-block">code!</span>
           </h1>
@@ -213,7 +213,7 @@
       <div class="section__head" use:fadeIn>
         <h2 class="section__title">About me</h2>
       </div>
-      <div class="section__body d-flex align-center justify-between md-flex-column sm-flex-column md-gap-40 sm-gap-40">
+      <div class="section__body">
         <div class="about__icon" use:fadeIn={{ delay: 300 }}>
           <div class="img">
             <img src="{ icon }" alt="アイコン">
@@ -222,12 +222,12 @@
         <div class="section__textWrap">
           <p class="section__text" use:fadeIn={{ delay: 400 }}>
             はじめまして。<br>
-            フロントエンド好きの、さとうと申します。
+            フロントエンドが大好きな、さとうと申します。
           </p>
           <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまで実装業務を主に担当してきました。<br>
-            しかし、私はデザインとコーディングの両方が「フロントエンドをより良いものにするための相乗効果を生むもの」だと考えています。<br>
-            これまで培ってきたコーディング経験を活かしながら、UI設計から実装まで一貫して自分で手がけられる人間を目指しています。
+            しかし、私はデザインとコーディングの両方を「フロントエンドをより良いものにするための相乗効果を生むもの」と考えています。<br>
+            これまでに培ってきたコーディング経験を活かしつつ、UI設計から実装まで一貫して自分で手がけられる人間を目指しています。
           </p>
         </div>
       </div>
@@ -580,7 +580,7 @@
             margin: auto;
             width: fit-content;
 
-            span:nth-child(2) {
+            span:not(:last-of-type) {
               letter-spacing: 0.4rem;
               font-size: 5.75rem;
 
@@ -875,10 +875,6 @@
   /* About */
   #about {
     .about__icon {
-      @include media('lg') {
-        width: 40%;
-      }
-
       .img {
         margin: auto;
         height: 180px;
@@ -892,8 +888,16 @@
     }
 
     .section__textWrap {
-      @include media('lg') {
-        width: 60%;
+      margin: 40px auto 0;
+      width: 70%;
+
+      @include media('md') {
+        width: 80%;
+      }
+
+      @include media('sm') {
+        margin-top: 20px;
+        width: 100%;
       }
     }
   }
