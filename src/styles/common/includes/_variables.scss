@@ -8,7 +8,7 @@ $breakpoints: (
   'lg': '(min-width: 1025px)',
   'md': '(min-width: 768px) and (max-width: 1024px)',
   'sm': '(max-width: 767.9px)',
-  'xs': '(max-width: 349px)'
+  'xs': '(max-width: 374px)'
 ) !default;
 
 // 名前空間付きでmixinを定義
@@ -28,9 +28,6 @@ $breakpoints: (
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend+Deca:wght@100..900&display=swap');
 $base-font-family: 'Inter', serif;
 $accent-font-family: 'Lexend Deca', serif;
-$font-size: 1.05rem;
-$font-size-sm: 1rem;
-$line-height: 2rem;
 
 /* ------------------------------
   color

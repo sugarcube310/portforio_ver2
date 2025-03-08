@@ -6,12 +6,12 @@
 html {
   color: $text-color-base;
   font-family: $base-font-family;
-  font-size: $font-size;
-  line-height: $line-height;
+  font-size: 1.05rem;
+  line-height: 2rem;
   -webkit-font-smoothing: antialiased;
 
   @include media('sm') {
-    font-size: $font-size-sm;
+    font-size: 1rem;
   }
 }
 
@@ -45,41 +45,46 @@ html {
   Title
 --------------------------------- */
 h1 {
-  color: $color-white;
+  color: $color-primary;
   font-family: $accent-font-family;
-  font-size: 6rem;
-  font-weight: 500;
+  font-size: 6.5rem;
+  font-weight: 600;
   letter-spacing: .5rem;
   line-height: 1.35;
 
+  @include media('xl') {
+    font-size: 7rem;
+  }
+
   @include media('md') {
-    font-size: 5.5rem;
+    font-size: 6rem;
   }
 
   @include media('sm') {
-    font-size: 4.5rem;
-    line-height: 1.35;
+    font-size: 4.75rem;
+    letter-spacing: .35rem;
   }
 }
 
 .section__title {
   font-family: $accent-font-family;
   color: $color-primary;
-  font-size: 4rem;
+  font-size: 4.25rem;
   font-weight: 600;
-  letter-spacing: .1rem;
+  letter-spacing: .15rem;
   line-height: 1.5;
-  margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 60px;
 
   @include media('md') {
-    font-size: 3rem;
-    margin-bottom: 28px;
+    font-size: 4rem;
+    margin-bottom: 40px;
   }
 
   @include media('sm') {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    letter-spacing: .145rem;
     line-height: 1.75;
-    text-align: center;
     margin-bottom: 20px;
   }
 }
@@ -87,42 +92,47 @@ h1 {
 .section__subTitle {
   font-family: $accent-font-family;
   color: $text-color-base;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 600;
-  margin-bottom: 12px;
+  line-height: 1.25;
+  margin-bottom: 20px;
 
   @include media('md') {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
   }
 
   @include media('sm') {
-    font-size: 1.125rem;
-    letter-spacing: .04rem;
-    line-height: 1.75;
-    margin-bottom: 8px;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
   }
 
   &.-icon {
-    padding-left: 1.2rem;
+    padding-left: 1.25rem;
     position: relative;
 
     @include media('sm') {
-      padding-left: 1.05rem;
+      padding-left: 1.2rem;
     }
 
     &::before {
       content: '';
       background-color: $color-primary;
-      border-radius: 2px;
+      border-radius: 50%;
       display: block;
       margin: auto 0;
       position: absolute;
       top: 0;
       bottom: 0;
       left: 0;
-      transform: rotate(45deg);
-      height: .65rem;
-      width: .65rem;
+      height: .85rem;
+      width: .85rem;
+
+      @include media('sm') {
+        height: .8rem;
+        width: .8rem;
+      }
     }
   }
 }

@@ -10,14 +10,6 @@ html {
 }
 
 /* ------------------------------
-  Container
---------------------------------- */
-.container {
-  margin: auto;
-  position: relative;
-}
-
-/* ------------------------------
   PC only / SP only
 --------------------------------- */
 @include media('lg') {
@@ -27,7 +19,7 @@ html {
 
 @include media('md') {
   .lg { display: none !important; }
-  .sm { display: block !important; }
+  .sm { display: none !important; }
 }
 
 @include media('sm') {
@@ -163,6 +155,99 @@ html {
 
 // flex-shrink
 .flex-shrink-0 { flex-shrink: 0; }
+
+/* ------------------------------
+  Contents
+--------------------------------- */
+.container {
+  margin: auto;
+  position: relative;
+}
+
+.sectionWrapper {
+  margin: 120px auto;
+  position: relative;
+  max-width: 960px;
+  width: 50%;
+
+  @include media('md') {
+    margin: 80px auto;
+    width: 80%;
+  }
+
+  @include media('sm') {
+    margin: 40px auto;
+    max-width: 80%;
+    width: calc(100% - 40px);
+  }
+}
+
+.section {
+  position: relative;
+
+  &:not(:last-of-type) {
+    margin-bottom: 100px;
+    padding-bottom: 120px;
+
+    @include media('md') {
+      margin-bottom: 80px;
+      padding-bottom: 60px;
+    }
+
+    @include media('sm') {
+      margin-bottom: 40px;
+      padding-bottom: 60px;
+    }
+
+    &::after {
+      content: '';
+      background-color: $color-gray;
+      margin: auto;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+    }
+  }
+
+  // text
+  .section__text {
+    margin-bottom: 2rem;
+
+    @include media('sm') {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  // note
+  .section__text-note {
+    color: $text-color-gray;
+    font-size: .9rem;
+  }
+
+  // list
+  .section__list {
+    .list__item:not(:last-child) {
+      margin-bottom: 2.5rem;
+
+      @include media('sm') {
+        margin-bottom: 2rem;
+      }
+    }
+
+    .item__thumb {
+      margin-bottom: 20px;
+      img {
+        border-radius: 20px;
+
+        @include media('sm') {
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+}
 
 /* ------------------------------
   Hover

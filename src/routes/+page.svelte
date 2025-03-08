@@ -1,5 +1,5 @@
 <script>
-  import { onMount,onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
 
   /* Lenis (イージングスクロール) */
   import { get } from 'svelte/store'
@@ -8,16 +8,9 @@
   /* 要素のフェードイン表示 */
   import { fadeIn } from '$lib/actions/fadeIn'
 
-  /* 星表示用コンポーネント */
-  import StarCanvas from '$lib/components/StarCanvas.svelte'
-
   /* 画像インポート */
-  import icon from '$lib/assets/icons/icon.png'
-  import rabbit from '$lib/assets/icons/rabbit.png'
+  import myIcon from '$lib/assets/icons/my-icon.png'
   import githubIcon_white from '$lib/assets/icons/github-mark-white.png'
-  import arrow_blue from '$lib/assets/icons/arrow-blue.svg'
-  import arrow_white from '$lib/assets/icons/arrow-white.svg'
-  // import thumb from '$lib/assets/icons/thumb.jpg'
 
   /* 変数定義 */
   let nav,
@@ -27,19 +20,41 @@
 
   let sections = []
 
-  let openNav = false // ナビゲーションが開いている場合はtrueに
-  let showMV = true // MVが画面内に入っている場合はtrueに
+  let showNav = false
+  let hideNavButton = true
 
-  /* ナビゲーション表示切り替え */
-  function switchOpenNav() {
+  let scrollY
+
+  /* ナビ表示切り替え */
+  function switchShowMenu() {
     if (!nav) return
-    openNav = !openNav
+    showNav = !showNav
 
-    // ナビゲーションボタンのテキスト変更
-    if (openNav) {
-      navButtonText.textContent = 'close'
-    } else {
-      navButtonText.textContent = 'menu'
+    const body = document.body
+
+    if (showNav) { // ナビを開く場合の処理
+      // ナビボタンのテキスト変更
+      navButtonText.textContent = 'CLOSE'
+
+      // スクロール位置を保存
+      scrollY = window.scrollY
+
+      // ページのスクロールを固定
+      body.style.position = 'fixed'
+      body.style.top = `-${ scrollY }px`
+      body.style.width = '100%'
+
+    } else { // ナビを閉じる場合の処理
+      // ナビボタンのテキスト変更
+      navButtonText.textContent = 'MENU'
+
+      // ページのスクロールを元に戻す
+      const scrollY = Math.abs(parseInt(body.style.top || '0'))
+
+      body.style.position = ''
+      body.style.top = ''
+
+      window.scrollTo(0, scrollY)
     }
   }
 
@@ -58,7 +73,7 @@
 
       if (targetId) {
         if (navLink) { // ナビゲーション内リンクの場合
-          switchOpenNav()
+          switchShowMenu()
           setTimeout(() => {
             lenis.scrollTo(targetId)
           }, 300)
@@ -85,7 +100,7 @@
   /* 要素監視 */
   function observeContents() {
     const options = {
-      threshold: 0.5 // 要素が50%以上画面内に入ったら発火
+      threshold: 0.7 // 要素が70%以上画面内に入ったら発火
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -93,10 +108,10 @@
         if (entry.isIntersecting) {
           const id = entry.target.id
 
-          if (id === 'mv') {
-            showMV = true
+          if (id === 'mv' || id === 'contact') {
+            hideNavButton = true
           } else {
-            showMV = false
+            hideNavButton = false
           }
         }
       })
@@ -105,14 +120,22 @@
     sections.forEach((section) => observer.observe(section))
   }
 
+  /* スクロール量を取得 */
+  function setScrollY() {
+    scrollY = window.scrollY
+  }
+
   onMount(() => {
     // section要素の監視
     sections = Array.from(container.querySelectorAll('section'))
     observeContents()
 
+    window.addEventListener('scroll', setScrollY)
+
     return () => {
       // アンカーリンク
       document.removeEventListener('click', handleAnchorClick)
+      window.removeEventListener('scroll', setScrollY)
     }
   })
 </script>
@@ -120,42 +143,42 @@
 <div id="top" class="container" bind:this={ container }>
   <!-- Navigation -->
   <button
-    class="nav__button"
-    class:open={ openNav }
-    class:hide={ showMV }
+    class="navButton"
+    class:open={ showNav }
+    class:hide={ hideNavButton }
     bind:this={ navButton }
-    on:click={ switchOpenNav }
+    on:click={ switchShowMenu }
   >
     <div class="button__inner d-flex align-center justify-center">
-      <p class="button__text font-family-accent weight-500 color-primary" bind:this={ navButtonText }>menu</p>
+      <p class="button__text font-family-accent weight-500" bind:this={ navButtonText }>MENU</p>
     </div>
   </button>
 
   <nav
     class="nav"
-    class:open={ openNav }
+    class:open={ showNav }
     bind:this={ nav }
   >
     <div class="nav__inner">
       <div class="nav__menu">
         <ul class="menu__list">
           <li class="list__item">
-            <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">About me</a>
+            <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">ABOUT ME</a>
           </li>
           <li class="list__item">
-            <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">Skills</a>
+            <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">SKILLS</a>
           </li>
           <li class="list__item">
-            <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">Products</a>
+            <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">PRODUCTS</a>
           </li>
           <li class="list__item">
-            <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">Contact</a>
+            <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
           </li>
         </ul>
       </div>
 
       <div class="nav__link">
-        <p class="link__title font-family-accent weight-300 color-white">Links：</p>
+        <p class="link__title font-family-accent weight-400 color-white">LINKS：</p>
         <ul class="link__list">
           <li class="list__item">
             <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
@@ -169,8 +192,8 @@
 
   <div
     class="nav__bg"
-    class:open={ openNav }
-    on:click={ switchOpenNav }
+    class:open={ showNav }
+    on:click={ switchShowMenu }
     aria-hidden="true"
   ></div>
 
@@ -180,44 +203,25 @@
       <div class="mv__content">
         <div class="mv__title">
           <h1 class="title__text">
-            <span class="d-block">write</span>
-            <span class="d-block">more</span>
-            <span class="d-block">code!</span>
+            <span class="d-block first">WRITE</span>
+            <span class="d-block second">MORE</span>
+            <span class="d-block third">CODE<span class="mark">!</span></span>
           </h1>
-          <p class="title__subText">sato's portforio website</p>
-        </div>
-        <div class="mv__rabbit d-none">
-          <div class="img">
-            <img src="{ rabbit }" alt="">
-          </div>
+          <p class="title__subText weight-500">sato's portforio website</p>
         </div>
       </div>
-      <button
-        class="button scrollDown"
-        class:hide={ !showMV }
-        on:click={ scrollToTarget }
-        data-target="sectionTop"
-        aria-label="scrollDown"
-      >
-        <div class="button__icon">
-          <span class="arrow"></span>
-          <span class="mini-arrow"></span>
-        </div>
-      </button>
     </div>
   </section>
 
-  <div id="sectionTop" class="section__wrapper">
-    <!-- About -->
+  <div id="sectionTop" class="sectionWrapper">
+    <!-- ABOUT -->
     <section id="about" class="section">
       <div class="section__head" use:fadeIn>
-        <h2 class="section__title">About me</h2>
+        <h2 class="section__title">ABOUT ME</h2>
       </div>
       <div class="section__body">
         <div class="about__icon" use:fadeIn={{ delay: 300 }}>
-          <div class="img">
-            <img src="{ icon }" alt="アイコン">
-          </div>
+          <img src="{ myIcon }" alt="アイコン">
         </div>
         <div class="section__textWrap">
           <p class="section__text" use:fadeIn={{ delay: 400 }}>
@@ -227,119 +231,124 @@
           <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務を主に担当してきました。<br>
             しかし、私はデザインとコーディングの両方を「フロントエンドをより良いものにするための相乗効果を生むもの」と考えています。<br>
-            より質の高いものづくりを目指して、UI設計から実装まで一貫して手がけられる人間になることを目標としています。
+            より質の高いものづくりを目指し、UI設計から実装まで一貫して手がけられる人間になることを目標としています。
           </p>
         </div>
       </div>
-      <div class="section__line" use:fadeIn></div>
     </section>
 
-    <!-- Skills -->
+    <!-- SKILLS -->
     <section id="skills" class="section">
       <div class="section__head" use:fadeIn>
-        <h2 class="section__title">Skills</h2>
+        <h2 class="section__title">SKILLS</h2>
       </div>
       <div class="section__body">
         <ul class="section__list">
-          <li class="list__item" use:fadeIn={{ delay: 300 }}>
-            <h3 class="section__subTitle -icon">
+          <li class="list__item">
+            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 300 }}>
               HTML / CSS / JavaScript
             </h3>
-            <p class="section__text">
+            <p class="section__text" use:fadeIn={{ delay: 350 }}>
               デザインや仕様に正確に、かつ迅速にコーディングすることを心がけています。<br>
-              インタラクション部分を考えたり実装するのが特に好きです。
+              特に、インタラクション部分を考えたり実装するのが好きです。
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ delay: 400 }}>
-            <h3 class="section__subTitle -icon">
+          <li class="list__item">
+            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 400 }}>
               JavaScriptフレームワーク
             </h3>
-            <p class="section__text">
+            <p class="section__text" use:fadeIn={{ delay: 450 }}>
               Nuxt.jsを使用したWebアプリおよびSaaSのフロントエンド開発経験があります。<br>
               Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発を通じて学習しています。
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ delay: 500 }}>
-            <h3 class="section__subTitle -icon">
+          <li class="list__item">
+            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 500 }}>
               CMS
             </h3>
-            <p class="section__text">
+            <p class="section__text" use:fadeIn={{ delay: 550 }}>
               WordPress / Shopify
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ delay: 600 }}>
-            <h3 class="section__subTitle -icon">
+          <li class="list__item">
+            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 600 }}>
               DB
             </h3>
-            <p class="section__text">
+            <p class="section__text" use:fadeIn={{ delay: 650 }}>
               Firebase (Realtime Database, Cloud Firestore)
             </p>
           </li>
-          <li class="list__item" use:fadeIn={{ delay: 700 }}>
-            <h3 class="section__subTitle -icon">
+          <li class="list__item">
+            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 700 }}>
               Webデザイン
             </h3>
-            <p class="section__text">
-              デザイン設計から実装までを自ら一貫して手がけられるよう、UI/UXについて学んでいます。<br>
+            <p class="section__text mb-0" use:fadeIn={{ delay: 750 }}>
+              デザイン設計から実装までを自ら一貫して手がけられるよう、デザイン基礎やUI/UXについて学んでいます。<br>
               目的やターゲットを明確にし、より質の高いユーザー体験の提供を目指しつつ、機能性やコーディングの拡張性も兼ね備えることを心がけています。
             </p>
           </li>
         </ul>
       </div>
-      <div class="section__line" use:fadeIn></div>
     </section>
 
-    <!-- Products -->
+    <!-- PRODUCTS -->
     <section id="products" class="section">
       <div class="section__head" use:fadeIn>
-        <h2 class="section__title">Products</h2>
+        <h2 class="section__title">PRODUCTS</h2>
       </div>
       <div class="section__body">
         <ul class="section__list d-flex flex-wrap gap-60 md-gap-40">
-          <li class="list__item mb-0" use:fadeIn={{ delay: 300 }}>
-            <div class="item__thumb">
+          <li class="list__item mb-0">
+            <div class="item__thumb" use:fadeIn={{ delay: 300 }}>
               <!-- <img src="{ thumb }" alt=""> -->
             </div>
-            <h3 class="section__subTitle mb-4">タイトル</h3>
-            <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap" use:fadeIn={{ delay: 350 }}>
+              <h3 class="section__subTitle mb-4">タイトル</h3>
+              <p class="section__text-note">Webサイト</p>
+            </div>
           </li>
-          <li class="list__item mb-0" use:fadeIn={{ delay: 400 }}>
-            <div class="item__thumb">
+          <li class="list__item mb-0">
+            <div class="item__thumb" use:fadeIn={{ delay: 400 }}>
               <!-- <img src="{ thumb }" alt=""> -->
             </div>
-            <h3 class="section__subTitle mb-4">タイトル</h3>
-            <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap" use:fadeIn={{ delay: 450 }}>
+              <h3 class="section__subTitle mb-4">タイトル</h3>
+              <p class="section__text-note">Webサイト</p>
+            </div>
           </li>
           <li class="list__item mb-0" use:fadeIn={{ delay: 500 }}>
             <div class="item__thumb">
               <!-- <img src="{ thumb }" alt=""> -->
             </div>
-            <h3 class="section__subTitle mb-4">タイトル</h3>
-            <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap" use:fadeIn={{ delay: 550 }}>
+              <h3 class="section__subTitle mb-4">タイトル</h3>
+              <p class="section__text-note">Webサイト</p>
+            </div>
           </li>
           <li class="list__item mb-0" use:fadeIn={{ delay: 600 }}>
             <div class="item__thumb">
               <!-- <img src="{ thumb }" alt=""> -->
             </div>
-            <h3 class="section__subTitle mb-4">タイトル</h3>
-            <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap" use:fadeIn={{ delay: 650 }}>
+              <h3 class="section__subTitle mb-4">タイトル</h3>
+              <p class="section__text-note">Webサイト</p>
+            </div>
           </li>
         </ul>
       </div>
-      <div class="section__line" use:fadeIn></div>
     </section>
 
-    <!-- Contact -->
+    <!-- CONTACT -->
     <section id="contact" class="section">
       <div class="section__head" use:fadeIn>
-        <h2 class="section__title">Contact</h2>
+        <h2 class="section__title">CONTACT</h2>
       </div>
       <div class="section__body">
-        <p class="section__text mb-4" use:fadeIn={{ delay: 300 }}>
+        <p class="section__text t-align-center mb-0" use:fadeIn={{ delay: 300 }}>
           ご覧いただきありがとうございました。
         </p>
-        <p class="section__text" use:fadeIn={{ delay: 400 }}>
-          ご質問等ございましたら、<a href="mailto:satoikumi.14@gmail.com" class="mainLink d-inBlock hover-opacity">メール</a>にてご連絡ください。
+        <p class="section__text t-align-center mb-0" use:fadeIn={{ delay: 400 }}>
+          ご質問等ございましたら、<br class="sm"><a href="mailto:satoikumi.14@gmail.com" class="mainLink d-inBlock hover-opacity">メール</a>にてご連絡ください。
         </p>
       </div>
     </section>
@@ -348,13 +357,15 @@
   <!-- Footer -->
   <footer>
     <div class="footer__inner">
+      <button aria-label="forTop" class="forTopButton d-block" data-target="top" on:click={ scrollToTarget }>
+        <div class="forTopButton__inner">
+          <div class="arrow"></div>
+        </div>
+      </button>
       <p class="copyright color-gray t-align-center">&copy; 2025 sato</p>
     </div>
   </footer>
 </div>
-
-<!-- 星空 -->
-<StarCanvas />
 
 <style lang="scss">
   @use '../styles/common/utils' as *;
@@ -367,76 +378,69 @@
   }
 
   /* Navigation */
-  .nav__button {
-    background-color: $color-white;
-    border-radius: 32px 0 0 8px;
+  .navButton {
+    background-color: $color-primary;
+    border-radius: 20px 0 0 4px;
     cursor: pointer;
     display: flex;
     position: fixed;
     bottom: 5%;
     right: 0;
-    transition: transform .6s, background-color .15s, width .15s;
+    transition: transform .3s, background-color .15s, width .15s;
     height: 120px;
-    width: 50px;
+    width: 60px;
     z-index: 999;
+
+    .button__inner {
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      .button__text {
+        color: $color-white;
+        font-size: 1.25rem;
+        letter-spacing: 0.175rem;
+        line-height: 1;
+        margin: auto;
+        position: absolute;
+        inset: 0;
+        transform: rotate(180deg);
+        transition: color .15s, right .15s;
+        writing-mode: vertical-rl;
+        height: fit-content;
+        width: fit-content;
+
+        @include media('sm') {
+          font-size: 1.15rem;
+        }
+      }
+    }
 
     &.hide {
       transform: translateX(100%);
     }
 
-    @include media('lg') {
-      &:hover {
-        background-color: $color-primary;
-        width: 60px;
+    &.open {
+      background-color: $color-white;
 
-        .button__text {
-          color: $color-white;
-          padding-right: 20px;
-        }
-      }
-
-      &.open:hover {
-        background-color: $color-white;
-        width: 60px;
-
-        .button__text {
-          color: $color-primary;
-          padding-right: 20px;
-        }
+      .button__text {
+        color: $color-primary;
       }
     }
 
-    @include media('md') {
-      border-top: 2px solid $color-primary;
-      border-bottom: 2px solid $color-primary;
-      border-left: 2px solid $color-primary;
+    @include media('lg') {
+      &:hover {
+        width: 80px;
+
+        .button__text {
+          right: 20px;
+        }
+      }
     }
 
     @include media('sm') {
-      border-top: 2px solid $color-primary;
-      border-bottom: 2px solid $color-primary;
-      border-left: 2px solid $color-primary;
       height: 100px;
       width: 40px;
-    }
-
-    .button__inner {
-      height: 100%;
-      width: 100%;
-
-      .button__text {
-        font-size: 1.25rem;
-        letter-spacing: .09rem;
-        line-height: 1;
-        padding-top: .5rem;
-        transition: color .15s, padding-right .15s;
-        writing-mode: vertical-rl;
-
-        @include media('sm') {
-          font-size: 1.15rem;
-          padding-left: 1px;
-        }
-      }
     }
   }
 
@@ -452,7 +456,7 @@
     z-index: 998;
 
     @include media('lg') {
-      width: 40vw;
+      width: 35vw;
     }
 
     @include media('xl') {
@@ -464,10 +468,10 @@
     }
 
     &__inner {
-      padding: 100px;
+      padding: 80px;
 
       @include media('sm') {
-        padding: 60px;
+        padding: 40px;
       }
 
       .menu__list {
@@ -477,18 +481,21 @@
           width: fit-content;
 
           &:not(:last-child) {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.75rem;
+
+            @include media('sm') {
+              margin-bottom: 3rem;
+            }
           }
 
           .item__link {
             display: block;
             font-size: 2rem;
-            letter-spacing: .1rem;
-            padding-bottom: .5rem;
+            letter-spacing: .15rem;
+            padding-bottom: .75rem;
             position: relative;
 
             @include media('sm') {
-              font-size: 1.75rem;
               padding-bottom: 0;
             }
 
@@ -500,7 +507,7 @@
                 position: absolute;
                 bottom: 0;
                 left: 0;
-                height: 2px;
+                height: 3px;
                 transition: width .3s;
                 width: 0;
               }
@@ -515,14 +522,23 @@
 
       .nav__link {
         .link__title {
-          font-size: 1.05rem;
-          letter-spacing: .075rem;
-          margin-bottom: .75rem;
+          font-size: 1.25rem;
+          letter-spacing: .125rem;
+          margin-bottom: 1rem;
+
+          @include media('sm') {
+            font-size: 1.3rem;
+          }
         }
 
         .icon {
           height: 20px;
           width: 20px;
+
+          @include media('sm') {
+            height: 24px;
+            width: 24px;
+          }
         }
       }
     }
@@ -553,17 +569,25 @@
     width: 100%;
 
     .mv__inner {
+      background-color: #ffffff;
+      background-image: linear-gradient(90deg, #d4ebec80 80px, transparent 80px), linear-gradient(#d4ebec80 80px, transparent 80px);
+      background-position: 10px 10px;
+      background-repeat: repeat;
+      background-size: 160px 160px;
       position: relative;
       height: 100%;
       width: 100%;
 
+      @include media('sm') {
+        background-image: linear-gradient(90deg, #d4ebec80 40px, transparent 40px), linear-gradient(#d4ebec80 40px, transparent 40px);
+        background-size: 80px 80px;
+      }
+
       .mv__content {
         margin: auto;
+        pointer-events: none;
         position: absolute;
-        top: -10%;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
         height: fit-content;
         width: fit-content;
 
@@ -580,293 +604,64 @@
             margin: auto;
             width: fit-content;
 
-            span:not(:last-of-type) {
-              letter-spacing: 0.4rem;
-              font-size: 5.75rem;
+            .first {
+              margin-left: -8px;
+
+              @include media('sm') {
+                margin-left: -6px;
+              }
+            }
+
+            .second {
+              font-size: 6.2rem;
+
+              @include media('xl') {
+                font-size: 6.7rem;
+              }
 
               @include media('md') {
-                font-size: 5.3rem;
+                font-size: 5.75rem;
               }
 
               @include media('sm') {
-                font-size: 4.295rem;
-                letter-spacing: 0.425rem;
+                font-size: 4.55rem;
+              }
+            }
+
+            .third .mark {
+              margin-left: 8px;
+
+              @include media('sm') {
+                margin-left: 4px;
               }
             }
           }
 
           .title__subText {
-            color: $color-white;
-            font-size: 1.35rem;
-            font-weight: 200;
-            letter-spacing: .35rem;
-            margin-top: 32px;
-
-            @include media('md') {
-              font-size: 1.25rem;
-              letter-spacing: .25rem;
-              margin-top: 24px;
-            }
-
-            @include media('sm') {
-              font-size: 1rem;
-              letter-spacing: 0.2rem;
-              margin-top: 16px;
-            }
-          }
-        }
-
-        // rabbit icon
-        .mv__rabbit {
-          animation: float 3s ease-in-out infinite;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-
-          @include media('sm') {
-            margin: 4px 0 0 auto;
-            position: unset;
-          }
-
-          .img {
-            height: 120px;
-            width: 120px;
+            color: $color-primary;
+            font-size: 1.85rem;
+            letter-spacing: .155rem;
+            margin-top: 24px;
+            margin-left: -8px;
+            text-align: center;
 
             @include media('xl') {
-              height: 140px;
-              width: 140px;
+              font-size: 2rem;
+              letter-spacing: .175rem;
+            }
+
+            @include media('md') {
+              font-size: 1.75rem;
+              letter-spacing: .135rem;
+              margin-top: 20px;
             }
 
             @include media('sm') {
-              height: 100px;
-              width: 100px;
+              font-size: 1.35rem;
+              letter-spacing: 0.075rem;
+              margin-top: 12px;
             }
           }
-        }
-      }
-    }
-
-    // scrollDown
-    .button.scrollDown {
-      cursor: pointer;
-      margin: auto;
-      position: absolute;
-      bottom: 5%;
-      left: 0;
-      right: 0;
-      transition: opacity .6s, visibility .6s;
-      height: fit-content;
-      width: fit-content;
-
-      &.hide {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      .button__icon {
-        background-color: rgb(255 255 255 / .1);
-        border-radius: 50%;
-        position: relative;
-        transition: background-color .3s;
-        height: 60px;
-        width: 60px;
-
-        @include media('xl') {
-          height: 70px;
-          width: 70px;
-        }
-
-        &::before {
-          content: '';
-          animation: scrollIcon_ripple 3s infinite;
-          border-radius: 50%;
-          box-shadow: 0 0 0 0 rgb(0 94 167 / .6);
-          left: 0;
-          margin: auto;
-          opacity: 0;
-          position: absolute;
-          right: 0;
-          top: 0;
-          transition: animation .3s, box-shadow .3s, opacity .3s;
-          height: 100%;
-          width: 100%;
-        }
-
-        .arrow {
-          border-bottom: 2px solid $color-white;
-          border-left: 2px solid $color-white;
-          margin: auto;
-          position: absolute;
-          inset: 0;
-          top: -8px;
-          transform: rotate(-45deg);
-          transition: top .3s, border-color .15s;
-          height: 20px;
-          width: 20px;
-
-          @include media('sm') {
-            height: 18px;
-            width: 18px;
-          }
-        }
-
-        .mini-arrow {
-          border-bottom: 2px solid $color-white;
-          border-left: 2px solid $color-white;
-          margin: auto;
-          opacity: 0;
-          position: absolute;
-          inset: 0;
-          top: -12px;
-          transform: rotate(-45deg);
-          transition: opacity .35s, transform .35s;
-          height: 12px;
-          width: 12px;
-        }
-
-        @include media ('lg') {
-          &:hover {
-            animation: none;
-            background-color: $color-primary;
-
-            &::before {
-              animation: none;
-              box-shadow: 0;
-              opacity: 1;
-            }
-
-            .arrow {
-              border-color: $color-white;
-              top: 4px;
-            }
-
-            .mini-arrow {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  /* Section */
-  .section__wrapper {
-    border: 6px solid $color-white;
-    border-radius: 32px;
-    margin: 100px auto 120px;
-    padding: 100px 0;
-    position: relative;
-    max-width: 1200px;
-    width: 80%;
-
-    @include media('md') {
-      border-width: 4px;
-      border-radius: 20px;
-      margin-top: 60px;
-      padding: 60px 0;
-      max-width: 900px;
-      width: 90%;
-    }
-
-    @include media('sm') {
-      border-width: 4px;
-      border-radius: 20px;
-      margin: 40px auto 100px;
-      padding: 40px 0;
-      max-width: 100%;
-      width: calc(100% - 40px);
-    }
-
-    &::before {
-      content: '';
-      background-color: $color-white;
-      border-radius: 22px;
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      height: calc(100% - 16px);
-      width: calc(100% - 16px);
-
-      @include media('md') {
-        border-radius: 12px;
-        top: 6px;
-        left: 6px;
-        height: calc(100% - 12px);
-        width: calc(100% - 12px);
-      }
-
-      @include media('sm') {
-        border-radius: 12px;
-        top: 4px;
-        left: 4px;
-        height: calc(100% - 8px);
-        width: calc(100% - 8px);
-      }
-    }
-
-    .section {
-      margin: auto;
-      position: relative;
-      width: 75%;
-      z-index: 1;
-
-      @include media('md') {
-        width: 85%;
-      }
-
-      @include media('sm') {
-        width: 85%;
-      }
-
-      // text
-      .section__text {
-        margin-bottom: 2rem;
-
-        @include media('sm') {
-          margin-bottom: 1.25rem;
-        }
-      }
-
-      .section__text-note {
-        color: $text-color-gray;
-        font-size: .9rem;
-      }
-
-      // list
-      .section__list {
-        .list__item:not(:last-child) {
-          margin-bottom: 2.5rem;
-
-          @include media('sm') {
-            margin-bottom: 2rem;
-          }
-        }
-
-        .item__thumb {
-          margin-bottom: 20px;
-          img {
-            border-radius: 20px;
-
-            @include media('sm') {
-              border-radius: 8px;
-            }
-          }
-        }
-      }
-
-      // 区切り線
-      .section__line {
-        background-color: $color-gray;
-        margin: 120px 0 100px;
-        height: 1px;
-        width: 100%;
-
-        @include media('md') {
-          margin: 100px 0 80px;
-        }
-
-        @include media('sm') {
-          margin: 60px 0 40px;
         }
       }
     }
@@ -875,21 +670,28 @@
   /* About */
   #about {
     .about__icon {
-      .img {
-        margin: auto;
-        height: 180px;
-        width: 180px;
+      margin: auto;
+      height: 200px;
+      width: 200px;
 
-        @include media('sm') {
-          height: 140px;
-          width: 140px;
-        }
+      @include media('md') {
+        height: 160px;
+        width: 160px;
+      }
+
+      @include media('sm') {
+        height: 120px;
+        width: 120px;
       }
     }
 
     .section__textWrap {
       margin: 40px auto 0;
-      width: 70%;
+      width: 75%;
+
+      @include media('xl') {
+        width: 70%;
+      }
 
       @include media('md') {
         width: 80%;
@@ -919,7 +721,6 @@
 
   /* Contact */
   #contact {
-    // mail
     .mainLink {
       border-bottom: 1px solid color.adjust($text-color-base, $lightness: 20%);
       margin: 0 2px;
@@ -930,20 +731,82 @@
   /* Footer */
   .footer__inner {
     margin: auto;
-    padding-bottom: 4px;
+    padding: 40px 0 20px;
     position: relative;
-    max-width: 1200px;
-    width: 80%;
+    max-width: 960px;
+    width: 50%;
+
+    @include media('md') {
+      width: 80%;
+    }
 
     @include media('sm') {
-      max-width: 100%;
+      padding: 20px 0 12px;
+      max-width: 80%;
       width: calc(100% - 40px);
     }
 
-    // copyright
     .copyright {
       font-size: .75rem;
       letter-spacing: .01rem;
+    }
+
+    .forTopButton {
+      background-color: #ffffff;
+      background-image: linear-gradient(90deg, #d4ebec80 12px, transparent 12px), linear-gradient(#d4ebec80 12px, transparent 12px);
+      background-position: 10px 10px;
+      background-repeat: repeat;
+      background-size: 24px 24px;
+      border: 2px solid $color-primary;
+      border-radius: 50%;
+      margin-left: auto;
+      transition: opacity .15s;
+      height: 80px;
+      width: 80px;
+
+      @include media('md') {
+        height: 70px;
+        width: 70px;
+      }
+
+      @include media('sm') {
+        height: 60px;
+        width: 60px;
+      }
+
+      &__inner {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        .arrow {
+          background-image: url('$lib/assets/icons/arrow.png');
+          background-size: 48px;
+          background-position: center;
+          margin: auto;
+          position: absolute;
+          inset: 0;
+          transition: top .15s;
+
+          @include media('md') {
+            background-size: 44px;
+          }
+
+          @include media('sm') {
+            background-size: 40px;
+          }
+        }
+      }
+
+      @include media ('lg') {
+        &:hover {
+          opacity: .9;
+
+          .arrow {
+            top: -8px;
+          }
+        }
+      }
     }
   }
 
