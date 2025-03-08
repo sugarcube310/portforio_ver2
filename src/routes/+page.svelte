@@ -534,11 +534,6 @@
         .icon {
           height: 20px;
           width: 20px;
-
-          @include media('sm') {
-            height: 24px;
-            width: 24px;
-          }
         }
       }
     }
