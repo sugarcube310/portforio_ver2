@@ -233,7 +233,7 @@
             はじめまして。<br>
             フロントエンドが大好きな、さとうと申します。
           </p>
-          <p class="section__text m-0" use:fadeIn={{ delay: 500 }}>
+          <p class="section__text" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務を主に担当してきました。<br>
             しかし、私はデザインとコーディングの両方を「フロントエンドをより良いものにするための相乗効果を生むもの」と考えています。<br>
             より質の高いものづくりを目指し、UI設計から実装まで一貫して手がけられる人間になることを目標としています。
@@ -287,7 +287,7 @@
             <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 700 }}>
               Webデザイン
             </h3>
-            <p class="section__text mb-0" use:fadeIn={{ delay: 750 }}>
+            <p class="section__text" use:fadeIn={{ delay: 750 }}>
               デザイン設計から実装までを自ら一貫して手がけられるよう、デザイン基礎やUI/UXについて学んでいます。<br>
               目的やターゲットを明確にし、より質の高いユーザー体験の提供を目指しつつ、機能性やコーディングの拡張性も兼ね備えることを心がけています。
             </p>
@@ -732,7 +732,7 @@
   /* Footer */
   .footer__inner {
     margin: auto;
-    padding: 20px 0;
+    padding: 40px 0 20px;
     position: relative;
     max-width: 960px;
     width: 50%;
