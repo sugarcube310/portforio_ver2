@@ -8,6 +8,9 @@
   /* 要素のフェードイン表示 */
   import { fadeIn } from '$lib/actions/fadeIn'
 
+  /* カスタムカーソル */
+  import CustomCursor from '$lib/components/CustomCursor.svelte'
+
   /* 画像インポート */
   import myIcon from '$lib/assets/icons/my-icon.png'
   import githubIcon_white from '$lib/assets/icons/github-mark-white.png'
@@ -93,7 +96,6 @@
     if (!lenis || !targetValue) return
 
     const target = `#${ targetValue }`
-
     lenis.scrollTo(target)
   }
 
@@ -141,6 +143,9 @@
 </script>
 
 <div id="top" class="container" bind:this={ container }>
+  <!-- Cursor -->
+  <CustomCursor />
+
   <!-- Navigation -->
   <button
     class="navButton"
@@ -213,7 +218,7 @@
     </div>
   </section>
 
-  <div id="sectionTop" class="sectionWrapper">
+  <div class="sectionWrapper">
     <!-- ABOUT -->
     <section id="about" class="section">
       <div class="section__head" use:fadeIn>
@@ -372,16 +377,10 @@
   @use '../styles/common/includes/keyframe' as *;
   @use 'sass:color';
 
-  /* Container */
-  .container {
-    z-index: 1;
-  }
-
   /* Navigation */
   .navButton {
     background-color: $color-primary;
     border-radius: 20px 0 0 4px;
-    cursor: pointer;
     display: flex;
     position: fixed;
     bottom: 5%;
@@ -389,7 +388,7 @@
     transition: transform .3s, background-color .15s, width .15s;
     height: 120px;
     width: 60px;
-    z-index: 999;
+    z-index: 102;
 
     .button__inner {
       position: relative;
@@ -399,7 +398,7 @@
       .button__text {
         color: $color-white;
         font-size: 1.25rem;
-        letter-spacing: 0.175rem;
+        letter-spacing: 0.15rem;
         line-height: 1;
         margin: auto;
         position: absolute;
@@ -438,6 +437,11 @@
       }
     }
 
+    @include media('md') {
+      height: 110px;
+      width: 50px;
+    }
+
     @include media('sm') {
       height: 100px;
       width: 40px;
@@ -453,7 +457,7 @@
     transition: transform .3s;
     height: 100vh;
     width: 100vw;
-    z-index: 998;
+    z-index: 101;
 
     @include media('lg') {
       width: 35vw;
@@ -550,7 +554,7 @@
     transition: opacity .3s, visibility .3s;
     height: 100vh;
     width: 100vw;
-    z-index: 997;
+    z-index: 100;
 
     &.open {
       opacity: 1;
@@ -580,7 +584,6 @@
 
       .mv__content {
         margin: auto;
-        pointer-events: none;
         position: absolute;
         inset: 0;
         height: fit-content;
@@ -608,46 +611,48 @@
             }
 
             .second {
-              font-size: 6.2rem;
+              font-size: 6.3rem;
 
               @include media('xl') {
-                font-size: 6.7rem;
+                font-size: 6.75rem;
               }
 
               @include media('md') {
-                font-size: 5.75rem;
+                font-size: 5.8rem;
               }
 
               @include media('sm') {
-                font-size: 4.55rem;
+                font-size: 4.6rem;
               }
             }
 
-            .third .mark {
-              margin-left: 8px;
+            .third {
+              margin-left: 4px;
 
-              @include media('sm') {
-                margin-left: 4px;
+              .mark {
+                margin-left: 8px;
+
+                @include media('sm') {
+                  margin-left: 4px;
+                }
               }
             }
           }
 
           .title__subText {
             color: $color-primary;
-            font-size: 1.85rem;
-            letter-spacing: .155rem;
+            font-size: 1.75rem;
+            letter-spacing: .175rem;
             margin-top: 24px;
-            margin-left: -8px;
+            margin-left: -12px;
             text-align: center;
 
             @include media('xl') {
-              font-size: 2rem;
-              letter-spacing: .175rem;
+              font-size: 1.9rem;
             }
 
             @include media('md') {
-              font-size: 1.75rem;
-              letter-spacing: .135rem;
+              font-size: 1.6rem;
               margin-top: 20px;
             }
 
@@ -655,6 +660,7 @@
               font-size: 1.35rem;
               letter-spacing: 0.075rem;
               margin-top: 12px;
+              margin-left: -8px;
             }
           }
         }
@@ -726,17 +732,18 @@
   /* Footer */
   .footer__inner {
     margin: auto;
-    padding: 40px 0 20px;
+    padding: 20px 0;
     position: relative;
     max-width: 960px;
     width: 50%;
 
     @include media('md') {
+      padding: 20px 0 8px;
       width: 80%;
     }
 
     @include media('sm') {
-      padding: 20px 0 12px;
+      padding: 20px 0 8px;
       max-width: 80%;
       width: calc(100% - 40px);
     }
