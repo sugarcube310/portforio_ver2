@@ -21,12 +21,12 @@
       navButtonText,
       container
 
+  let scrollY
+
   let sections = []
 
   let showNav = false
   let hideNavButton = true
-
-  let scrollY
 
   /* ナビ表示切り替え */
   function switchShowMenu() {
@@ -61,7 +61,7 @@
     }
   }
 
-  /* アンカーリンク(aタグ) */
+  /* アンカーリンク */
   function handleAnchorClick(event) {
     const lenis = get(lenisStore)
     if (!lenis) return
@@ -88,17 +88,6 @@
   }
   document.addEventListener('click', handleAnchorClick)
 
-  /* アンカーリンク(data-target) */
-  function scrollToTarget(event) {
-    const lenis = get(lenisStore)
-    const targetValue = event.currentTarget.dataset.target
-
-    if (!lenis || !targetValue) return
-
-    const target = `#${ targetValue }`
-    lenis.scrollTo(target)
-  }
-
   /* 要素監視 */
   function observeContents() {
     const options = {
@@ -110,7 +99,7 @@
         if (entry.isIntersecting) {
           const id = entry.target.id
 
-          if (id === 'mv' || id === 'contact') {
+          if (id === 'mv') {
             hideNavButton = true
           } else {
             hideNavButton = false
@@ -183,7 +172,7 @@
       </div>
 
       <div class="nav__link">
-        <p class="link__title font-family-accent weight-400 color-white">LINKS：</p>
+        <p class="link__title font-family-accent weight-300 color-white">LINKS：</p>
         <ul class="link__list">
           <li class="list__item">
             <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
@@ -208,9 +197,15 @@
       <div class="mv__content">
         <div class="mv__title">
           <h1 class="title__text">
-            <span class="d-block first">WRITE</span>
-            <span class="d-block second">MORE</span>
-            <span class="d-block third">CODE<span class="mark">!</span></span>
+            <span class="d-block firstRow">
+              <span class="d-inBlock bounce">W</span><span class="d-inBlock bounce" style="animation-delay: .1s">R</span><span class="d-inBlock bounce" style="animation-delay: .2s">I</span><span class="d-inBlock bounce" style="animation-delay: .3s">T</span><span class="d-inBlock bounce" style="animation-delay: .4s">E</span>
+            </span>
+            <span class="d-block secondRow">
+              <span class="d-inBlock bounce" style="animation-delay: .5s">M</span><span class="d-inBlock bounce" style="animation-delay: .6s">O</span><span class="d-inBlock bounce" style="animation-delay: .7s">R</span><span class="d-inBlock bounce" style="animation-delay: .8s">E</span>
+            </span>
+            <span class="d-block thirdRow">
+              <span class="d-inBlock bounce" style="animation-delay: .9s">C</span><span class="d-inBlock bounce" style="animation-delay: 1s">O</span><span class="d-inBlock bounce" style="animation-delay: 1.1s">D</span><span class="d-inBlock bounce" style="animation-delay: 1.2s">E</span><span class="d-inBlock bounce mark" style="animation-delay: 1.3s">!</span>
+            </span>
           </h1>
           <p class="title__subText weight-500">sato's portforio website</p>
         </div>
@@ -362,11 +357,6 @@
   <!-- Footer -->
   <footer>
     <div class="footer__inner">
-      <button aria-label="forTop" class="forTopButton d-block" data-target="top" on:click={ scrollToTarget }>
-        <div class="forTopButton__inner">
-          <div class="arrow"></div>
-        </div>
-      </button>
       <p class="copyright color-gray t-align-center">&copy; 2025 sato</p>
     </div>
   </footer>
@@ -387,7 +377,7 @@
     right: 0;
     transition: transform .3s, background-color .15s, width .15s;
     height: 120px;
-    width: 60px;
+    width: 48px;
     z-index: 102;
 
     .button__inner {
@@ -397,7 +387,7 @@
 
       .button__text {
         color: $color-white;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         letter-spacing: 0.15rem;
         line-height: 1;
         margin: auto;
@@ -410,7 +400,12 @@
         width: fit-content;
 
         @include media('sm') {
-          font-size: 1.15rem;
+          font-size: 1.05rem;
+          letter-spacing: 0.1rem;
+        }
+
+        @include media('xs') {
+          font-size: 1rem;
         }
       }
     }
@@ -437,14 +432,16 @@
       }
     }
 
-    @include media('md') {
-      height: 110px;
-      width: 50px;
+    @include media('sm') {
+      border-radius: 16px 0 0 4px;
+      height: 92px;
+      width: 40px;
     }
 
-    @include media('sm') {
-      height: 100px;
-      width: 40px;
+    @include media('xs') {
+      border-radius: 12px 0 0 4px;
+      height: 80px;
+      width: 28px;
     }
   }
 
@@ -544,7 +541,7 @@
   }
 
   .nav__bg {
-    background-color: rgb(0 0 0 / .3);
+    background-color: rgb(0 0 0 / .5);
     backdrop-filter: blur(2px);
     margin: auto;
     opacity: 0;
@@ -602,7 +599,7 @@
             margin: auto;
             width: fit-content;
 
-            .first {
+            .firstRow {
               margin-left: -8px;
 
               @include media('sm') {
@@ -610,7 +607,7 @@
               }
             }
 
-            .second {
+            .secondRow {
               font-size: 6.3rem;
 
               @include media('xl') {
@@ -626,7 +623,7 @@
               }
             }
 
-            .third {
+            .thirdRow {
               margin-left: 4px;
 
               .mark {
@@ -636,6 +633,10 @@
                   margin-left: 4px;
                 }
               }
+            }
+
+            .bounce {
+              animation: bounce .3s ease-in-out;
             }
           }
 
@@ -751,64 +752,6 @@
     .copyright {
       font-size: .75rem;
       letter-spacing: .01rem;
-    }
-
-    .forTopButton {
-      background-color: #ffffff;
-      background-image: linear-gradient(90deg, #d4ebec80 12px, transparent 12px), linear-gradient(#d4ebec80 12px, transparent 12px);
-      background-position: 10px 10px;
-      background-repeat: repeat;
-      background-size: 24px 24px;
-      border: 2px solid $color-primary;
-      border-radius: 50%;
-      margin-left: auto;
-      transition: opacity .15s;
-      height: 80px;
-      width: 80px;
-
-      @include media('md') {
-        height: 70px;
-        width: 70px;
-      }
-
-      @include media('sm') {
-        height: 60px;
-        width: 60px;
-      }
-
-      &__inner {
-        position: relative;
-        height: 100%;
-        width: 100%;
-
-        .arrow {
-          background-image: url('$lib/assets/icons/arrow.png');
-          background-size: 48px;
-          background-position: center;
-          margin: auto;
-          position: absolute;
-          inset: 0;
-          transition: top .15s;
-
-          @include media('md') {
-            background-size: 44px;
-          }
-
-          @include media('sm') {
-            background-size: 40px;
-          }
-        }
-      }
-
-      @include media ('lg') {
-        &:hover {
-          opacity: .9;
-
-          .arrow {
-            top: -8px;
-          }
-        }
-      }
     }
   }
 

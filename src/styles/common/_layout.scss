@@ -177,6 +177,10 @@ html {
   max-width: 960px;
   width: 50%;
 
+  @include media('xl') {
+    width: 45%;
+  }
+
   @include media('md') {
     margin: 80px auto;
     width: 80%;
@@ -186,6 +190,12 @@ html {
     margin: 40px auto;
     max-width: 80%;
     width: calc(100% - 40px);
+  }
+
+  @include media('xs') {
+    margin: 24px auto;
+    max-width: 85%;
+    width: calc(100% - 24px);
   }
 }
 

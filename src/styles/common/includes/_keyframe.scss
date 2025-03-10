@@ -1,10 +1,8 @@
 /* ------------------------------
-  MV
+  title
 --------------------------------- */
-// Scroll icon
-@keyframes scrollIcon_ripple {
-  0% { opacity: 0; }
-  30% { opacity: 1; }
-  50% { opacity: 0; box-shadow: 0 0 0 24px rgb(146 196 220 / .6); }
-  100% { opacity: 0; }
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
