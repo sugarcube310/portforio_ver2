@@ -25,17 +25,17 @@
 
   let sections = []
 
-  let showNav = false
+  let openNav = false
   let hideNavButton = true
 
   /* ナビ表示切り替え */
   function switchShowMenu() {
     if (!nav) return
-    showNav = !showNav
+    openNav = !openNav
 
     const body = document.body
 
-    if (showNav) { // ナビを開く場合の処理
+    if (openNav) { // ナビを開く場合の処理
       // ナビボタンのテキスト変更
       navButtonText.textContent = 'CLOSE'
 
@@ -132,13 +132,13 @@
 </script>
 
 <div id="top" class="container" bind:this={ container }>
-  <!-- Cursor -->
-  <CustomCursor />
+  <!-- カーソル -->
+  <CustomCursor openNav={ openNav } />
 
-  <!-- Navigation -->
+  <!-- ナビゲーション -->
   <button
     class="navButton"
-    class:open={ showNav }
+    class:open={ openNav }
     class:hide={ hideNavButton }
     bind:this={ navButton }
     on:click={ switchShowMenu }
@@ -150,7 +150,7 @@
 
   <nav
     class="nav"
-    class:open={ showNav }
+    class:open={ openNav }
     bind:this={ nav }
   >
     <div class="nav__inner">
@@ -186,7 +186,7 @@
 
   <div
     class="nav__bg"
-    class:open={ showNav }
+    class:open={ openNav }
     on:click={ switchShowMenu }
     aria-hidden="true"
   ></div>
