@@ -216,7 +216,7 @@ html {
       padding-bottom: 60px;
     }
 
-    &::after {
+    &.--partition::after {
       content: '';
       background-color: $color-gray;
       margin: auto;
@@ -230,10 +230,10 @@ html {
 
   // text
   .section__text {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 
     @include media('sm') {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
   }
 
@@ -242,24 +242,104 @@ html {
     color: $text-color-gray;
     font-size: .9rem;
   }
+}
 
-  // list
-  .section__list {
-    .list__item:not(:last-child) {
-      margin-bottom: 2.5rem;
+// card list
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
 
-      @include media('sm') {
-        margin-bottom: 2rem;
+  @include media('sm') {
+    gap: 2.5rem;
+  }
+
+  .item {
+    border: 1px solid $color-gray;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 1.5rem;
+    width: calc(50% - 1.5rem);
+
+    @include media('sm') {
+      margin: auto;
+      width: 90%;
+    }
+
+    .item__image {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        height: 64px;
+        width: 64px;
       }
     }
 
-    .item__thumb {
-      margin-bottom: 20px;
-      img {
-        border-radius: 20px;
+    .item__title {
+      font-size: 1.3rem;
+      line-height: 1.75;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
 
-        @include media('sm') {
-          border-radius: 8px;
+    .item__text {
+      font-size: 1rem;
+    }
+
+    .item__link {
+      width: fit-content;
+      margin: auto;
+      background-color: $color-primary;
+      border-radius: 20px;
+      margin-top: 1rem;
+      position: relative;
+
+      &-text {
+        color: $color-white;
+        display: inline-block;
+        padding: .1rem 1.5rem;
+      }
+
+      &.--disabled {
+        background-color: $color-gray;
+      }
+
+      &:not(.--disabled) {
+        padding-right: 1.5rem;
+
+        &::before,
+        &::after {
+          content: '';
+          background-color: $color-white;
+          margin: auto;
+          position: absolute;
+          top: -1px;
+          bottom: 0;
+          right: 1.2rem;
+          height: 2px;
+          width: 10px;
+          transform-origin: calc(100% - 1px) 50%;
+          transition: right .15s;
+        }
+
+        &::before {
+          transform: rotate(45deg);
+        }
+
+        &::after {
+          transform: rotate(-45deg);
+        }
+
+        @include media('lg') {
+          &:hover::before,
+          &:hover::after {
+            right: 1rem;
+          }
         }
       }
     }

@@ -8,12 +8,14 @@
   /* 要素のフェードイン表示 */
   import { fadeIn } from '$lib/actions/fadeIn'
 
-  /* カスタムカーソル */
+  /* カスタムカーソルコンポーネント */
   import CustomCursor from '$lib/components/CustomCursor.svelte'
 
   /* 画像インポート */
-  import myIcon from '$lib/assets/icons/my-icon.png'
-  import githubIcon_white from '$lib/assets/icons/github-mark-white.png'
+  import icon_me from '$lib/assets/icons/my-icon.png'
+  import icon_github from '$lib/assets/icons/github-mark-white.png'
+  import icon_heart from '$lib/assets/icons/icons8-手をつなぐ心-64.png'
+  import icon_board from '$lib/assets/icons/icons8-掲示板-64.png'
 
   /* 変数定義 */
   let nav,
@@ -156,16 +158,16 @@
     <div class="nav__inner">
       <div class="nav__menu">
         <ul class="menu__list">
-          <li class="list__item">
+          <li class="item">
             <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">ABOUT ME</a>
           </li>
-          <li class="list__item">
+          <li class="item">
             <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">SKILLS</a>
           </li>
-          <li class="list__item">
+          <li class="item">
             <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">PRODUCTS</a>
           </li>
-          <li class="list__item">
+          <li class="item">
             <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
           </li>
         </ul>
@@ -174,9 +176,9 @@
       <div class="nav__link">
         <p class="link__title font-family-accent weight-300 color-white">LINKS：</p>
         <ul class="link__list">
-          <li class="list__item">
+          <li class="item">
             <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
-              <img src="{ githubIcon_white }" alt="Github">
+              <img src="{ icon_github }" alt="Github">
             </a>
           </li>
         </ul>
@@ -215,13 +217,15 @@
 
   <div class="sectionWrapper">
     <!-- ABOUT -->
-    <section id="about" class="section">
+    <section id="about" class="section --partition">
       <div class="section__head" use:fadeIn>
         <h2 class="section__title">ABOUT ME</h2>
       </div>
       <div class="section__body">
-        <div class="about__icon" use:fadeIn={{ delay: 300 }}>
-          <img src="{ myIcon }" alt="アイコン">
+        <div class="about__image" use:fadeIn={{ delay: 300 }}>
+          <div class="icon">
+            <img src="{ icon_me }" alt="アイコン">
+          </div>
         </div>
         <div class="section__textWrap">
           <p class="section__text" use:fadeIn={{ delay: 400 }}>
@@ -238,56 +242,44 @@
     </section>
 
     <!-- SKILLS -->
-    <section id="skills" class="section">
+    <section id="skills" class="section --partition">
       <div class="section__head" use:fadeIn>
         <h2 class="section__title">SKILLS</h2>
       </div>
       <div class="section__body">
-        <ul class="section__list">
-          <li class="list__item">
-            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 300 }}>
-              HTML / CSS / JavaScript
-            </h3>
-            <p class="section__text" use:fadeIn={{ delay: 350 }}>
-              デザインや仕様に正確に、かつ迅速にコーディングすることを心がけています。<br>
-              特に、インタラクション部分を考えたり実装するのが好きです。
-            </p>
-          </li>
-          <li class="list__item">
-            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 400 }}>
-              JavaScriptフレームワーク
-            </h3>
-            <p class="section__text" use:fadeIn={{ delay: 450 }}>
-              Nuxt.jsを使用したWebアプリおよびSaaSのフロントエンド開発経験があります。<br>
-              Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発を通じて学習しています。
-            </p>
-          </li>
-          <li class="list__item">
-            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 500 }}>
-              CMS
-            </h3>
-            <p class="section__text" use:fadeIn={{ delay: 550 }}>
-              WordPress / Shopify
-            </p>
-          </li>
-          <li class="list__item">
-            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 600 }}>
-              DB
-            </h3>
-            <p class="section__text" use:fadeIn={{ delay: 650 }}>
-              Firebase (Realtime Database, Cloud Firestore)
-            </p>
-          </li>
-          <li class="list__item">
-            <h3 class="section__subTitle -icon" use:fadeIn={{ delay: 700 }}>
-              Webデザイン
-            </h3>
-            <p class="section__text" use:fadeIn={{ delay: 750 }}>
-              デザイン設計から実装までを自ら一貫して手がけられるよう、デザイン基礎やUI/UXについて学んでいます。<br>
-              目的やターゲットを明確にし、より質の高いユーザー体験の提供を目指しつつ、機能性やコーディングの拡張性も兼ね備えることを心がけています。
-            </p>
-          </li>
-        </ul>
+        <h3 class="section__subTitle" use:fadeIn={{ delay: 300 }}>
+          HTML / CSS / JavaScript
+        </h3>
+        <p class="section__text" use:fadeIn={{ delay: 350 }}>
+          デザインや仕様に正確に、かつ迅速にコーディングすることを心がけています。<br>
+          特に、インタラクション部分を考えたり実装するのが好きです。
+        </p>
+        <h3 class="section__subTitle" use:fadeIn={{ delay: 400 }}>
+          JavaScriptフレームワーク
+        </h3>
+        <p class="section__text" use:fadeIn={{ delay: 450 }}>
+          Nuxt.jsを使用したWebアプリおよびSaaSのフロントエンド開発経験があります。<br>
+          Svelte(SvelteKit)とNext.jsは、業務での使用経験はありませんが、個人開発を通じて学習しています。
+        </p>
+        <h3 class="section__subTitle" use:fadeIn={{ delay: 500 }}>
+          CMS
+        </h3>
+        <p class="section__text" use:fadeIn={{ delay: 550 }}>
+          WordPress / Shopify
+        </p>
+        <h3 class="section__subTitle" use:fadeIn={{ delay: 600 }}>
+          DB
+        </h3>
+        <p class="section__text" use:fadeIn={{ delay: 650 }}>
+          Firebase (Realtime Database, Cloud Firestore)
+        </p>
+        <h3 class="section__subTitle" use:fadeIn={{ delay: 700 }}>
+          Webデザイン
+        </h3>
+        <p class="section__text" use:fadeIn={{ delay: 750 }}>
+          デザイン設計から実装までを自ら一貫して手がけられるよう、デザイン基礎やUI/UXについて学んでいます。<br>
+          目的やターゲットを明確にし、より質の高いユーザー体験の提供を目指しつつ、機能性やコーディングの拡張性も兼ね備えることを心がけています。
+        </p>
       </div>
     </section>
 
@@ -297,41 +289,33 @@
         <h2 class="section__title">PRODUCTS</h2>
       </div>
       <div class="section__body">
-        <ul class="section__list d-flex flex-wrap gap-60 md-gap-40">
-          <li class="list__item mb-0">
-            <div class="item__thumb" use:fadeIn={{ delay: 300 }}>
-              <!-- <img src="{ thumb }" alt=""> -->
+        <ul class="cardList">
+          <li class="item" use:fadeIn={{ delay: 300 }}>
+            <div class="item__image">
+              <div class="icon">
+                <img src="{ icon_heart }" alt="">
+              </div>
             </div>
-            <div class="item__textWrap" use:fadeIn={{ delay: 350 }}>
-              <h3 class="section__subTitle mb-4">タイトル</h3>
-              <p class="section__text-note">Webサイト</p>
-            </div>
-          </li>
-          <li class="list__item mb-0">
-            <div class="item__thumb" use:fadeIn={{ delay: 400 }}>
-              <!-- <img src="{ thumb }" alt=""> -->
-            </div>
-            <div class="item__textWrap" use:fadeIn={{ delay: 450 }}>
-              <h3 class="section__subTitle mb-4">タイトル</h3>
-              <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap">
+              <h3 class="item__title">ありがとカード</h3>
+              <p class="item__text">サクッと感謝のメッセージを贈ることができる、サンキューカード作成サイトです。</p>
+              <div class="item__link">
+                <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="item__link-text">サイトへ</a>
+              </div>
             </div>
           </li>
-          <li class="list__item mb-0" use:fadeIn={{ delay: 500 }}>
-            <div class="item__thumb">
-              <!-- <img src="{ thumb }" alt=""> -->
+          <li class="item" use:fadeIn={{ delay: 400 }}>
+            <div class="item__image">
+              <div class="icon">
+                <img src="{ icon_board }" alt="">
+              </div>
             </div>
-            <div class="item__textWrap" use:fadeIn={{ delay: 550 }}>
-              <h3 class="section__subTitle mb-4">タイトル</h3>
-              <p class="section__text-note">Webサイト</p>
-            </div>
-          </li>
-          <li class="list__item mb-0" use:fadeIn={{ delay: 600 }}>
-            <div class="item__thumb">
-              <!-- <img src="{ thumb }" alt=""> -->
-            </div>
-            <div class="item__textWrap" use:fadeIn={{ delay: 650 }}>
-              <h3 class="section__subTitle mb-4">タイトル</h3>
-              <p class="section__text-note">Webサイト</p>
+            <div class="item__textWrap">
+              <h3 class="item__title">cork board</h3>
+              <p class="item__text">お気に入りの画像をアップして自分だけのスペースを作れる、Webギャラリーアプリです。</p>
+              <div class="item__link --disabled">
+                <p class="item__link-text">開発中...</p>
+              </div>
             </div>
           </li>
         </ul>
@@ -370,7 +354,7 @@
   /* Navigation */
   .navButton {
     background-color: $color-primary;
-    border-radius: 20px 0 0 4px;
+    border-radius: 20px 0 0 8px;
     display: flex;
     position: fixed;
     bottom: 5%;
@@ -401,7 +385,6 @@
 
         @include media('sm') {
           font-size: 1.05rem;
-          letter-spacing: 0.1rem;
         }
 
         @include media('xs') {
@@ -433,13 +416,11 @@
     }
 
     @include media('sm') {
-      border-radius: 16px 0 0 4px;
-      height: 92px;
+      height: 100px;
       width: 40px;
     }
 
     @include media('xs') {
-      border-radius: 12px 0 0 4px;
       height: 80px;
       width: 28px;
     }
@@ -478,7 +459,7 @@
       .menu__list {
         margin-bottom: 60px;
 
-        .list__item {
+        .item {
           width: fit-content;
 
           &:not(:last-child) {
@@ -608,18 +589,14 @@
             }
 
             .secondRow {
-              font-size: 6.3rem;
+              font-size: 5.8rem;
 
               @include media('xl') {
-                font-size: 6.75rem;
-              }
-
-              @include media('md') {
-                font-size: 5.8rem;
+                font-size: 6.275rem;
               }
 
               @include media('sm') {
-                font-size: 4.6rem;
+                font-size: 4.4rem;
               }
             }
 
@@ -642,26 +619,21 @@
 
           .title__subText {
             color: $color-primary;
-            font-size: 1.75rem;
+            font-size: 1.55rem;
             letter-spacing: .175rem;
-            margin-top: 24px;
+            margin-top: 20px;
             margin-left: -12px;
             text-align: center;
 
             @include media('xl') {
-              font-size: 1.9rem;
-            }
-
-            @include media('md') {
-              font-size: 1.6rem;
-              margin-top: 20px;
+              font-size: 1.75rem;
             }
 
             @include media('sm') {
-              font-size: 1.35rem;
-              letter-spacing: 0.075rem;
-              margin-top: 12px;
-              margin-left: -8px;
+              font-size: 1.175rem;
+              letter-spacing: 0.1rem;
+              margin-top: 8px;
+              margin-left: -4px;
             }
           }
         }
@@ -671,10 +643,24 @@
 
   /* About */
   #about {
-    .about__icon {
+    .about__image {
       margin: auto;
-      height: 200px;
-      width: 200px;
+      height: 180px;
+      width: 180px;
+
+      .icon {
+        border: 1px solid $color-gray;
+        border-radius: 50%;
+        padding: 1.5rem;
+
+        @include media('md') {
+          padding: 1.25rem;
+        }
+
+        @include media('sm') {
+          padding: 1.15rem;
+        }
+      }
 
       @include media('md') {
         height: 160px;
@@ -701,21 +687,6 @@
 
       @include media('sm') {
         margin-top: 20px;
-        width: 100%;
-      }
-    }
-  }
-
-  /* Products */
-  #products {
-    .section__list .list__item {
-      width: calc(50% - 30px);
-
-      @include media('md') {
-        width: calc(50% - 20px);
-      }
-
-      @include media('sm') {
         width: 100%;
       }
     }
