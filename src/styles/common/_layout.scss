@@ -175,7 +175,7 @@ html {
   margin: 120px auto;
   position: relative;
   max-width: 960px;
-  width: 50%;
+  width: 60%;
 
   @include media('xl') {
     width: 45%;
@@ -249,6 +249,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: 3rem;
+  margin: auto;
 
   @include media('sm') {
     gap: 2.5rem;
@@ -264,12 +265,11 @@ html {
     width: calc(50% - 1.5rem);
 
     @include media('sm') {
-      margin: auto;
-      width: 90%;
+      width: 100%;
     }
 
     .item__image {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
       justify-content: center;

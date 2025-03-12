@@ -12,10 +12,10 @@
   import CustomCursor from '$lib/components/CustomCursor.svelte'
 
   /* 画像インポート */
-  import icon_me from '$lib/assets/icons/my-icon.png'
   import icon_github from '$lib/assets/icons/github-mark-white.png'
-  import icon_heart from '$lib/assets/icons/icons8-手をつなぐ心-64.png'
-  import icon_board from '$lib/assets/icons/icons8-掲示板-64.png'
+  import icon_heart from '$lib/assets/icons/icon_heart.png'
+  import icon_pin from '$lib/assets/icons/icon_pin.png'
+  import sugarCube from '$lib/assets/icons/sugarcube.png'
 
   /* 変数定義 */
   let nav,
@@ -224,7 +224,7 @@
       <div class="section__body">
         <div class="about__image" use:fadeIn={{ delay: 300 }}>
           <div class="icon">
-            <img src="{ icon_me }" alt="アイコン">
+            <img src="{ sugarCube }" alt="アイコン">
           </div>
         </div>
         <div class="section__textWrap">
@@ -307,7 +307,7 @@
           <li class="item" use:fadeIn={{ delay: 400 }}>
             <div class="item__image">
               <div class="icon">
-                <img src="{ icon_board }" alt="">
+                <img src="{ icon_pin }" alt="">
               </div>
             </div>
             <div class="item__textWrap">
