@@ -51,21 +51,17 @@ html {
 h1 {
   color: $color-primary;
   font-family: $accent-font-family;
-  font-size: 6.5rem;
+  font-size: 6rem;
   font-weight: 600;
   letter-spacing: .5rem;
-  line-height: 1.35;
+  line-height: 1.25;
 
   @include media('xl') {
-    font-size: 7rem;
-  }
-
-  @include media('md') {
-    font-size: 6rem;
+    font-size: 6.5rem;
   }
 
   @include media('sm') {
-    font-size: 4.75rem;
+    font-size: 4.5rem;
     letter-spacing: .35rem;
   }
 }
@@ -73,7 +69,7 @@ h1 {
 .section__title {
   font-family: $accent-font-family;
   color: $color-primary;
-  font-size: 4.25rem;
+  font-size: 4rem;
   font-weight: 600;
   letter-spacing: .15rem;
   line-height: 1.5;
@@ -81,35 +77,27 @@ h1 {
   margin-bottom: 60px;
 
   @include media('md') {
-    font-size: 4rem;
     margin-bottom: 40px;
   }
 
   @include media('sm') {
     font-size: 3rem;
-    letter-spacing: .145rem;
     line-height: 1.75;
     margin-bottom: 20px;
   }
 
   @include media('xs') {
     font-size: 2.5rem;
-    letter-spacing: .115rem;
   }
 }
 
 .section__subTitle {
   font-family: $accent-font-family;
   color: $text-color-base;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.25;
   margin-bottom: 20px;
-
-  @include media('md') {
-    font-size: 1.25rem;
-    margin-bottom: 16px;
-  }
 
   @include media('sm') {
     font-size: 1.25rem;
