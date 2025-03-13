@@ -177,7 +177,7 @@
         <p class="link__title font-family-accent weight-300 color-white">LINKS：</p>
         <ul class="link__list">
           <li class="item">
-            <a href="https://github.com/piiiikmin" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
+            <a href="https://github.com/sugarcube310" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
               <img src="{ icon_github }" alt="Github">
             </a>
           </li>
@@ -234,8 +234,8 @@
           </p>
           <p class="section__text" use:fadeIn={{ delay: 500 }}>
             Web業界ではデザインとコーディングが分業されていることも多く、これまでは実装業務を主に担当してきました。<br>
-            しかし、私はデザインとコーディングの両方を「フロントエンドをより良いものにするための相乗効果を生むもの」と考えています。<br>
-            より質の高いものづくりを目指し、UI設計から実装まで一貫して手がけられる人間になることを目標としています。
+            しかし、私はデザインとコーディングはお互いに「フロントエンドをより良いものにするための相乗効果を生むもの」と考えています。<br>
+            そのためにも、UI設計から実装まで一貫して手がけられる人間になることを目標としています。
           </p>
         </div>
       </div>
@@ -311,8 +311,8 @@
               </div>
             </div>
             <div class="item__textWrap">
-              <h3 class="item__title">cork board</h3>
-              <p class="item__text">お気に入りの画像をアップして自分だけのスペースを作れる、Webギャラリーアプリです。</p>
+              <h3 class="item__title">Pinme</h3>
+              <p class="item__text">コルクボード感覚で画像をまとめられる、Webギャラリーアプリです。</p>
               <div class="item__link --disabled">
                 <p class="item__link-text">開発中...</p>
               </div>
@@ -546,8 +546,8 @@
     width: 100%;
 
     .mv__inner {
-      background-color: #ffffff;
-      background-image: linear-gradient(90deg, #d4ebec80 80px, transparent 80px), linear-gradient(#d4ebec80 80px, transparent 80px);
+      background-color: $color-white;
+      background-image: linear-gradient(90deg, $color-secondary 80px, transparent 80px), linear-gradient($color-secondary 80px, transparent 80px);
       background-position: 10px 10px;
       background-repeat: repeat;
       background-size: 160px 160px;
@@ -556,7 +556,7 @@
       width: 100%;
 
       @include media('sm') {
-        background-image: linear-gradient(90deg, #d4ebec80 40px, transparent 40px), linear-gradient(#d4ebec80 40px, transparent 40px);
+        background-image: linear-gradient(90deg, $color-secondary 40px, transparent 40px), linear-gradient($color-secondary 40px, transparent 40px);
         background-size: 80px 80px;
       }
 
@@ -643,33 +643,29 @@
 
   /* About */
   #about {
-    .about__image {
+    .about__image .icon {
       margin: auto;
       height: 180px;
       width: 180px;
-
-      .icon {
-        border: 1px solid $color-gray;
-        border-radius: 50%;
-        padding: 1.5rem;
-
-        @include media('md') {
-          padding: 1.25rem;
-        }
-
-        @include media('sm') {
-          padding: 1.15rem;
-        }
-      }
+      border: 1px solid $color-gray;
+      border-radius: 50%;
+      padding: 1.5rem 1.5rem 2rem;
 
       @include media('md') {
+        padding: 1.25rem 1.25rem 1.75rem;
         height: 160px;
         width: 160px;
       }
 
       @include media('sm') {
+        padding: 1.15rem 1.15rem 1.5rem;
         height: 120px;
         width: 120px;
+      }
+
+      img {
+        object-fit: contain;
+        height: 100%;
       }
     }
 

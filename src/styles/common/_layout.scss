@@ -277,6 +277,11 @@ html {
       .icon {
         height: 64px;
         width: 64px;
+
+        img {
+          object-fit: contain;
+          height: 100%;
+        }
       }
     }
 
