@@ -6,16 +6,17 @@
   import { lenisStore } from '$lib/stores/lenis'
 
   onMount(() => {
-    const lenis = new Lenis()
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis()
+      lenisStore.set(lenis)
 
-    lenisStore.set(lenis)
+      function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
 
-    function raf(time) {
-      lenis.raf(time)
       requestAnimationFrame(raf)
     }
-
-    requestAnimationFrame(raf)
 
     return () => {
       lenis.destroy()
@@ -24,7 +25,6 @@
   })
 
   onDestroy(() => {
-    lenis?.destroy()
     lenisStore.set(null)
   })
 </script>
