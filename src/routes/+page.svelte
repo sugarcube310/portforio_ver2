@@ -12,7 +12,6 @@
   import CustomCursor from '$lib/components/CustomCursor.svelte'
 
   /* 画像インポート */
-  import icon_github from '$lib/assets/icons/github-mark-white.png'
   import icon_heart from '$lib/assets/icons/icon_heart.png'
   import icon_pin from '$lib/assets/icons/icon_pin.png'
   import sugarCube from '$lib/assets/icons/sugarcube.png'
@@ -169,17 +168,6 @@
           </li>
           <li class="item">
             <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="nav__link">
-        <p class="link__title font-family-accent weight-300 color-white">LINKS：</p>
-        <ul class="link__list">
-          <li class="item">
-            <a href="https://github.com/sugarcube310" target="blank" rel="noopener noreferrer" class="icon d-block hover-opacity">
-              <img src="{ icon_github }" alt="Github">
-            </a>
           </li>
         </ul>
       </div>
@@ -456,66 +444,45 @@
         padding: 40px;
       }
 
-      .menu__list {
-        margin-bottom: 60px;
+      .menu__list .item {
+        width: fit-content;
 
-        .item {
-          width: fit-content;
-
-          &:not(:last-child) {
-            margin-bottom: 2.75rem;
-
-            @include media('sm') {
-              margin-bottom: 3rem;
-            }
-          }
-
-          .item__link {
-            display: block;
-            font-size: 2rem;
-            letter-spacing: .15rem;
-            padding-bottom: .75rem;
-            position: relative;
-
-            @include media('sm') {
-              padding-bottom: 0;
-            }
-
-            @include media('lg') {
-              &::after {
-                content: '';
-                background-color: $color-white;
-                display: block;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                height: 3px;
-                transition: width .3s;
-                width: 0;
-              }
-
-              &:hover::after {
-                width: 100%;
-              }
-            }
-          }
-        }
-      }
-
-      .nav__link {
-        .link__title {
-          font-size: 1.25rem;
-          letter-spacing: .125rem;
-          margin-bottom: 1rem;
+        &:not(:last-child) {
+          margin-bottom: 2.75rem;
 
           @include media('sm') {
-            font-size: 1.3rem;
+            margin-bottom: 3rem;
           }
         }
 
-        .icon {
-          height: 20px;
-          width: 20px;
+        .item__link {
+          display: block;
+          font-size: 2rem;
+          letter-spacing: .15rem;
+          padding-bottom: .75rem;
+          position: relative;
+
+          @include media('sm') {
+            padding-bottom: 0;
+          }
+
+          @include media('lg') {
+            &::after {
+              content: '';
+              background-color: $color-white;
+              display: block;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              height: 3px;
+              transition: width .3s;
+              width: 0;
+            }
+
+            &:hover::after {
+              width: 100%;
+            }
+          }
         }
       }
     }
