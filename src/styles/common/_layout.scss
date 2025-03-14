@@ -255,7 +255,7 @@ html {
     gap: 2.5rem;
   }
 
-  .item {
+  &__item {
     border: 1px solid $color-gray;
     border-radius: 20px;
     display: flex;
@@ -268,7 +268,7 @@ html {
       width: 100%;
     }
 
-    .item__image {
+    &-image {
       margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
@@ -285,18 +285,18 @@ html {
       }
     }
 
-    .item__title {
+    &-title {
       font-size: 1.3rem;
       line-height: 1.75;
       margin-bottom: 0.5rem;
       text-align: center;
     }
 
-    .item__text {
+    &-text {
       font-size: 1rem;
     }
 
-    .item__link {
+    &-link {
       width: fit-content;
       margin: auto;
       background-color: $color-primary;
@@ -304,7 +304,7 @@ html {
       margin-top: 1rem;
       position: relative;
 
-      &-text {
+      &Text {
         color: $color-white;
         display: inline-block;
         padding: .1rem 1.5rem;

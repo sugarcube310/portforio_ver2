@@ -155,22 +155,20 @@
     bind:this={ nav }
   >
     <div class="nav__inner">
-      <div class="nav__menu">
-        <ul class="menu__list">
-          <li class="item">
-            <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">ABOUT ME</a>
-          </li>
-          <li class="item">
-            <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">SKILLS</a>
-          </li>
-          <li class="item">
-            <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">PRODUCTS</a>
-          </li>
-          <li class="item">
-            <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="nav__menu">
+        <li class="item">
+          <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">ABOUT ME</a>
+        </li>
+        <li class="item">
+          <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">SKILLS</a>
+        </li>
+        <li class="item">
+          <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">PRODUCTS</a>
+        </li>
+        <li class="item">
+          <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
+        </li>
+      </ul>
     </div>
   </nav>
 
@@ -184,21 +182,19 @@
   <!-- MV -->
   <section id="mv" bind:this={ mv }>
     <div class="mv__inner">
-      <div class="mv__content">
-        <div class="mv__title">
-          <h1 class="title__text">
-            <span class="d-block firstRow">
-              <span class="d-inBlock bounce">W</span><span class="d-inBlock bounce" style="animation-delay: .1s">R</span><span class="d-inBlock bounce" style="animation-delay: .2s">I</span><span class="d-inBlock bounce" style="animation-delay: .3s">T</span><span class="d-inBlock bounce" style="animation-delay: .4s">E</span>
-            </span>
-            <span class="d-block secondRow">
-              <span class="d-inBlock bounce" style="animation-delay: .5s">M</span><span class="d-inBlock bounce" style="animation-delay: .6s">O</span><span class="d-inBlock bounce" style="animation-delay: .7s">R</span><span class="d-inBlock bounce" style="animation-delay: .8s">E</span>
-            </span>
-            <span class="d-block thirdRow">
-              <span class="d-inBlock bounce" style="animation-delay: .9s">C</span><span class="d-inBlock bounce" style="animation-delay: 1s">O</span><span class="d-inBlock bounce" style="animation-delay: 1.1s">D</span><span class="d-inBlock bounce" style="animation-delay: 1.2s">E</span><span class="d-inBlock bounce mark" style="animation-delay: 1.3s">!</span>
-            </span>
-          </h1>
-          <p class="title__subText weight-500">sato's portforio website</p>
-        </div>
+      <div class="mv__title">
+        <h1 class="mv__title-text">
+          <span class="d-block firstRow">
+            <span class="d-inBlock bounce">W</span><span class="d-inBlock bounce" style="animation-delay: .1s">R</span><span class="d-inBlock bounce" style="animation-delay: .2s">I</span><span class="d-inBlock bounce" style="animation-delay: .3s">T</span><span class="d-inBlock bounce" style="animation-delay: .4s">E</span>
+          </span>
+          <span class="d-block secondRow">
+            <span class="d-inBlock bounce" style="animation-delay: .5s">M</span><span class="d-inBlock bounce" style="animation-delay: .6s">O</span><span class="d-inBlock bounce" style="animation-delay: .7s">R</span><span class="d-inBlock bounce" style="animation-delay: .8s">E</span>
+          </span>
+          <span class="d-block thirdRow">
+            <span class="d-inBlock bounce" style="animation-delay: .9s">C</span><span class="d-inBlock bounce" style="animation-delay: 1s">O</span><span class="d-inBlock bounce" style="animation-delay: 1.1s">D</span><span class="d-inBlock bounce" style="animation-delay: 1.2s">E</span><span class="d-inBlock bounce mark" style="animation-delay: 1.3s">!</span>
+          </span>
+        </h1>
+        <p class="mv__title-subText weight-500">sato's portforio website</p>
       </div>
     </div>
   </section>
@@ -215,7 +211,7 @@
             <img src="{ sugarCube }" alt="アイコン">
           </div>
         </div>
-        <div class="section__textWrap">
+        <div class="about__textWrap">
           <p class="section__text" use:fadeIn={{ delay: 400 }}>
             はじめまして。<br>
             フロントエンドが大好きな、さとうと申します。
@@ -278,31 +274,43 @@
       </div>
       <div class="section__body">
         <ul class="cardList">
-          <li class="item" use:fadeIn={{ delay: 300 }}>
-            <div class="item__image">
+          <li class="cardList__item" use:fadeIn={{ delay: 300 }}>
+            <div class="cardList__item-image">
               <div class="icon">
                 <img src="{ icon_heart }" alt="">
               </div>
             </div>
-            <div class="item__textWrap">
-              <h3 class="item__title">ありがとカード</h3>
-              <p class="item__text">サクッと感謝のメッセージを贈ることができる、サンキューカード作成サイトです。</p>
-              <div class="item__link">
-                <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="item__link-text">サイトへ</a>
+            <div class="cardList__item-textWrap">
+              <h3 class="cardList__item-title">
+                ありがとカード
+              </h3>
+              <p class="cardList__item-text">
+                サクッと感謝のメッセージを贈ることができる、サンキューカード作成サイトです。
+              </p>
+              <div class="cardList__item-link">
+                <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="cardList__item-linkText">
+                  サイトへ
+                </a>
               </div>
             </div>
           </li>
-          <li class="item" use:fadeIn={{ delay: 400 }}>
-            <div class="item__image">
+          <li class="cardList__item" use:fadeIn={{ delay: 400 }}>
+            <div class="cardList__item-image">
               <div class="icon">
                 <img src="{ icon_pin }" alt="">
               </div>
             </div>
-            <div class="item__textWrap">
-              <h3 class="item__title">Pinme</h3>
-              <p class="item__text">コルクボード感覚で画像をまとめられる、Webギャラリーアプリです。</p>
-              <div class="item__link --disabled">
-                <p class="item__link-text">開発中...</p>
+            <div class="cardList__item-textWrap">
+              <h3 class="cardList__item-title">
+                Pinme
+              </h3>
+              <p class="cardList__item-text">
+                コルクボード感覚で画像をまとめられる、Webギャラリーアプリです。
+              </p>
+              <div class="cardList__item-link --disabled">
+                <p class="cardList__item-linkText">
+                  開発中...
+                </p>
               </div>
             </div>
           </li>
@@ -444,7 +452,7 @@
         padding: 40px;
       }
 
-      .menu__list .item {
+      .nav__menu .item {
         width: fit-content;
 
         &:not(:last-child) {
@@ -527,7 +535,8 @@
         background-size: 80px 80px;
       }
 
-      .mv__content {
+      // title
+      .mv__title {
         margin: auto;
         position: absolute;
         inset: 0;
@@ -541,67 +550,64 @@
           top: 0;
         }
 
-        // title
-        .mv__title {
-          .title__text {
-            margin: auto;
-            width: fit-content;
+        &-text {
+          margin: auto;
+          width: fit-content;
 
-            .firstRow {
-              margin-left: -8px;
+          .firstRow {
+            margin-left: -8px;
 
-              @include media('sm') {
-                margin-left: -6px;
-              }
-            }
-
-            .secondRow {
-              font-size: 5.8rem;
-
-              @include media('xl') {
-                font-size: 6.275rem;
-              }
-
-              @include media('sm') {
-                font-size: 4.4rem;
-              }
-            }
-
-            .thirdRow {
-              margin-left: 4px;
-
-              .mark {
-                margin-left: 8px;
-
-                @include media('sm') {
-                  margin-left: 4px;
-                }
-              }
-            }
-
-            .bounce {
-              animation: bounce .3s ease-in-out;
+            @include media('sm') {
+              margin-left: -6px;
             }
           }
 
-          .title__subText {
-            color: $color-primary;
-            font-size: 1.55rem;
-            letter-spacing: .175rem;
-            margin-top: 20px;
-            margin-left: -12px;
-            text-align: center;
+          .secondRow {
+            font-size: 5.8rem;
 
             @include media('xl') {
-              font-size: 1.75rem;
+              font-size: 6.275rem;
             }
 
             @include media('sm') {
-              font-size: 1.175rem;
-              letter-spacing: 0.1rem;
-              margin-top: 8px;
-              margin-left: -4px;
+              font-size: 4.4rem;
             }
+          }
+
+          .thirdRow {
+            margin-left: 4px;
+
+            .mark {
+              margin-left: 8px;
+
+              @include media('sm') {
+                margin-left: 4px;
+              }
+            }
+          }
+
+          .bounce {
+            animation: bounce .3s ease-in-out;
+          }
+        }
+
+        &-subText {
+          color: $color-primary;
+          font-size: 1.55rem;
+          letter-spacing: .175rem;
+          margin-top: 20px;
+          margin-left: -12px;
+          text-align: center;
+
+          @include media('xl') {
+            font-size: 1.75rem;
+          }
+
+          @include media('sm') {
+            font-size: 1.175rem;
+            letter-spacing: 0.1rem;
+            margin-top: 8px;
+            margin-left: -4px;
           }
         }
       }
@@ -636,7 +642,7 @@
       }
     }
 
-    .section__textWrap {
+    .about__textWrap {
       margin: 40px auto 0;
       width: 75%;
 
