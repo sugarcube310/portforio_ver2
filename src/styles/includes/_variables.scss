@@ -1,0 +1,41 @@
+/* ------------------------------
+  Theme color
+--------------------------------- */
+$color-primary: #005ea7;
+$color-secondary: #edf6fd;
+$color-accent: #fada5f;
+
+$color-white: #fff;
+$color-gray: #c2c6ca;
+
+/* ------------------------------
+  Text
+--------------------------------- */
+$base-font-family: 'Inter', serif;
+$accent-font-family: 'Lexend Deca', serif;
+$text-color-base: #333;
+$text-color-gray: #707070;
+
+/* ------------------------------
+  Media query
+--------------------------------- */
+@use 'sass:map';
+
+$breakpoints: (
+  'xl': '(min-width: 1441px)',
+  'lg': '(min-width: 1025px)',
+  'md': '(min-width: 768px) and (max-width: 1024px)',
+  'sm': '(max-width: 767.9px)',
+  'xs': '(max-width: 374px)'
+) !default;
+
+// 名前空間付きでmixinを定義
+@function breakpoint($name) {
+  @return map.get($breakpoints, $name);
+}
+
+@mixin media($breakpoint) {
+  @media #{breakpoint($breakpoint)} {
+    @content;
+  }
+}

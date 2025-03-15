@@ -46,7 +46,7 @@
 </div>
 
 <style lang="scss">
-  @use '../../styles/common/utils' as *;
+  @use '../../styles/includes/variables' as *;
 
   @include media ('lg') {
     .cursor {

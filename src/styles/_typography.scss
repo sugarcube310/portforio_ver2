@@ -1,24 +1,8 @@
+@use './includes/variables' as *;
+
 /* ------------------------------
   Text style
 --------------------------------- */
-@use 'includes/variables' as *;
-
-html {
-  color: $text-color-base;
-  font-family: $base-font-family;
-  font-size: 1.05rem;
-  line-height: 2rem;
-  -webkit-font-smoothing: antialiased;
-
-  @include media('sm') {
-    font-size: 1rem;
-  }
-
-  @include media('xs') {
-    font-size: .9rem;
-  }
-}
-
 // font-family
 .font-family-base { font-family: $base-font-family; }
 .font-family-accent { font-family: $accent-font-family; }
@@ -44,6 +28,25 @@ html {
 .t-align-start { text-align: start; }
 .t-align-end { text-align: end; }
 .t-align-center { text-align: center; }
+
+/* ------------------------------
+  Common
+--------------------------------- */
+html {
+  color: $text-color-base;
+  font-family: $base-font-family;
+  font-size: 1.05rem;
+  line-height: 2rem;
+  -webkit-font-smoothing: antialiased;
+
+  @include media('sm') {
+    font-size: 1rem;
+  }
+
+  @include media('xs') {
+    font-size: .9rem;
+  }
+}
 
 /* ------------------------------
   Title

@@ -343,8 +343,7 @@
 </div>
 
 <style lang="scss">
-  @use '../styles/common/utils' as *;
-  @use '../styles/common/includes/keyframe' as *;
+  @use '../styles/includes/variables' as *;
   @use 'sass:color';
 
   /* Navigation */

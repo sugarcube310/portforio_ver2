@@ -1,8 +1,7 @@
-@use 'includes/reset';
-@use 'includes/variables' as *;
+@use './includes/variables' as *;
 
 /* ------------------------------
-  All
+  Common
 --------------------------------- */
 // Lenis導入のため、デフォルトのスクロール挙動を無効化
 html {
@@ -16,9 +15,6 @@ html {
   }
 }
 
-/* ------------------------------
-  PC only / SP only
---------------------------------- */
 @include media('lg') {
   .lg { display: block !important; }
   .sm { display: none !important; }

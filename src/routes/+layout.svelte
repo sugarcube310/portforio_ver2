@@ -5,6 +5,9 @@
   import Lenis from '@studio-freight/lenis'
   import { lenisStore } from '$lib/stores/lenis'
 
+  /* グローバルCSS */
+  import '../styles/app.scss'
+
   onMount(() => {
     if (typeof Lenis !== 'undefined') {
       const lenis = new Lenis()
