@@ -145,7 +145,7 @@
     on:click={ switchShowMenu }
   >
     <div class="button__inner d-flex align-center justify-center">
-      <p class="button__text font-family-accent weight-500" bind:this={ navButtonText }>MENU</p>
+      <p class="button__text font-family-accent weight-b" bind:this={ navButtonText }>MENU</p>
     </div>
   </button>
 
@@ -157,16 +157,16 @@
     <div class="nav__inner">
       <ul class="nav__menu">
         <li class="item">
-          <a href="#about" class="font-family-accent weight-400 color-white item__link navLink">ABOUT ME</a>
+          <a href="#about" class="font-family-accent color-white item__link navLink">ABOUT ME</a>
         </li>
         <li class="item">
-          <a href="#skills" class="font-family-accent weight-400 color-white item__link navLink">SKILLS</a>
+          <a href="#skills" class="font-family-accent color-white item__link navLink">SKILLS</a>
         </li>
         <li class="item">
-          <a href="#products" class="font-family-accent weight-400 color-white item__link navLink">PRODUCTS</a>
+          <a href="#products" class="font-family-accent color-white item__link navLink">PRODUCTS</a>
         </li>
         <li class="item">
-          <a href="#contact" class="font-family-accent weight-400 color-white item__link navLink">CONTACT</a>
+          <a href="#contact" class="font-family-accent color-white item__link navLink">CONTACT</a>
         </li>
       </ul>
     </div>
@@ -194,7 +194,7 @@
             <span class="d-inBlock bounce" style="animation-delay: .9s">C</span><span class="d-inBlock bounce" style="animation-delay: 1s">O</span><span class="d-inBlock bounce" style="animation-delay: 1.1s">D</span><span class="d-inBlock bounce" style="animation-delay: 1.2s">E</span><span class="d-inBlock bounce mark" style="animation-delay: 1.3s">!</span>
           </span>
         </h1>
-        <p class="mv__title-subText weight-500">sato's portforio website</p>
+        <p class="mv__title-subText weight-b">sato's portforio website</p>
       </div>
     </div>
   </section>
@@ -663,7 +663,7 @@
   /* Contact */
   #contact {
     .mainLink {
-      border-bottom: 1px solid color.adjust($text-color-base, $lightness: 20%);
+      border-bottom: 1px solid color.adjust($text-color, $lightness: 20%);
       margin: 0 2px;
       line-height: 1.25;
     }

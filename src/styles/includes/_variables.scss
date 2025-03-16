@@ -1,22 +1,4 @@
 /* ------------------------------
-  Theme color
---------------------------------- */
-$color-primary: #005ea7;
-$color-secondary: #edf6fd;
-$color-accent: #fada5f;
-
-$color-white: #fff;
-$color-gray: #c2c6ca;
-
-/* ------------------------------
-  Text
---------------------------------- */
-$base-font-family: 'Inter', serif;
-$accent-font-family: 'Lexend Deca', serif;
-$text-color-base: #333;
-$text-color-gray: #707070;
-
-/* ------------------------------
   Media query
 --------------------------------- */
 @use 'sass:map';
@@ -39,3 +21,53 @@ $breakpoints: (
     @content;
   }
 }
+
+/* ------------------------------
+  Theme color
+--------------------------------- */
+$color-primary: #005ea7;
+$color-secondary: #edf6fd;
+$color-accent: #fada5f;
+
+$color-white: #fff;
+$color-gray: #c2c6ca;
+
+/* ------------------------------
+  Font
+--------------------------------- */
+@font-face {
+  font-family: 'noto';
+  src: url('/fonts/NotoSansJP-Regular.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'noto';
+  src: url('/fonts/NotoSansJP-Bold.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'lexend';
+  src: url('/fonts/LexendDeca-Regular.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'lexend';
+  src: url('/fonts/LexendDeca-SemiBold.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: bold;
+}
+
+$font-noto: 'noto', sans-serif;
+$font-lexend: 'lexend', serif;
+$text-color: #333;
+$text-color-gray: #707070;
