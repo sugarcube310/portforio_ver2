@@ -1,15 +1,12 @@
 <script>
   import { onMount } from 'svelte'
-
-  /* Lenis (イージングスクロール) */
   import { get } from 'svelte/store'
-  import { lenisStore } from '$lib/stores/lenis'
+  import { lenisStore } from '$lib/stores/lenis' // イージングスクロール
+  import { fadeIn } from '$lib/actions/fadeIn' // 要素のフェードイン表示
 
-  /* 要素のフェードイン表示 */
-  import { fadeIn } from '$lib/actions/fadeIn'
-
-  /* カスタムカーソルコンポーネント */
-  import CustomCursor from '$lib/components/CustomCursor.svelte'
+  /* コンポーネント */
+  import CustomCursor from '$lib/components/layout/CustomCursor.svelte'
+  import Opening from '$lib/components/layout/Opening.svelte'
 
   /* 画像インポート */
   import icon_heart from '$lib/assets/icons/icon_heart.png'
@@ -17,6 +14,8 @@
   import sugarCube from '$lib/assets/icons/sugarcube.png'
 
   /* 変数定義 */
+  let isShowPage = false
+
   let nav,
       navButton,
       navButtonText,
@@ -24,10 +23,10 @@
 
   let scrollY
 
-  let sections = []
-
   let openNav = false
   let hideNavButton = true
+
+  let sections = []
 
   /* ナビ表示切り替え */
   function switchShowMenu() {
@@ -132,7 +131,372 @@
   })
 </script>
 
-<div id="top" class="container" bind:this={ container }>
+<style lang="scss">
+  @use '../styles/includes/variables' as *;
+  @use 'sass:color';
+
+  /* Navigation */
+  .navButton {
+    background-color: $color-primary;
+    border-radius: 20px 0 0 8px;
+    display: flex;
+    position: fixed;
+    bottom: 5%;
+    right: 0;
+    transition: transform .3s, background-color .15s, width .15s;
+    height: 120px;
+    width: 48px;
+    z-index: 102;
+
+    .button__inner {
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      .button__text {
+        color: white;
+        font-size: 1.2rem;
+        letter-spacing: 0.15rem;
+        margin: auto;
+        position: absolute;
+        inset: 0;
+        transform: rotate(180deg);
+        transition: color .15s, right .15s;
+        writing-mode: vertical-rl;
+        height: fit-content;
+        width: fit-content;
+
+        @include media('sm') {
+          font-size: 1.05rem;
+        }
+
+        @include media('xs') {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &.hide {
+      transform: translateX(100%);
+    }
+
+    &.open {
+      background-color: white;
+
+      .button__text {
+        color: $color-primary;
+      }
+    }
+
+    @include media('lg') {
+      &:hover {
+        width: 80px;
+
+        .button__text {
+          right: 20px;
+        }
+      }
+    }
+
+    @include media('sm') {
+      height: 100px;
+      width: 40px;
+    }
+
+    @include media('xs') {
+      height: 80px;
+      width: 28px;
+    }
+  }
+
+  .nav {
+    background-color: $color-primary;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform .3s;
+    height: 100vh;
+    width: 100vw;
+    z-index: 101;
+
+    @include media('lg') {
+      width: 35vw;
+    }
+
+    @include media('xl') {
+      width: 30vw;
+    }
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    &__inner {
+      padding: 80px;
+
+      @include media('sm') {
+        padding: 40px;
+      }
+
+      .nav__menu .item {
+        width: fit-content;
+
+        &:not(:last-child) {
+          margin-bottom: 2.75rem;
+
+          @include media('sm') {
+            margin-bottom: 3rem;
+          }
+        }
+
+        .item__link {
+          display: block;
+          font-size: 2rem;
+          letter-spacing: .15rem;
+          padding-bottom: .75rem;
+          position: relative;
+
+          @include media('sm') {
+            padding-bottom: 0;
+          }
+
+          @include media('lg') {
+            &::after {
+              content: '';
+              background-color: white;
+              display: block;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              height: 3px;
+              transition: width .3s;
+              width: 0;
+            }
+
+            &:hover::after {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .nav__bg {
+    background-color: rgb(0 0 0 / .5);
+    backdrop-filter: blur(2px);
+    margin: auto;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    transition: opacity .3s, visibility .3s;
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .container {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  /* MV */
+  #mv {
+    height: 100vh;
+    width: 100%;
+
+    .mv__inner {
+      background-color: white;
+      background-image: linear-gradient(90deg, $color-secondary 80px, transparent 80px), linear-gradient($color-secondary 80px, transparent 80px);
+      background-position: 10px 10px;
+      background-repeat: repeat;
+      background-size: 160px 160px;
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      @include media('sm') {
+        background-image: linear-gradient(90deg, $color-secondary 40px, transparent 40px), linear-gradient($color-secondary 40px, transparent 40px);
+        background-size: 80px 80px;
+      }
+
+      // title
+      .mv__title {
+        margin: auto;
+        position: absolute;
+        inset: 0;
+        height: fit-content;
+        width: fit-content;
+
+        @include media ('sm') {
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          top: 0;
+        }
+
+        &-text {
+          margin: auto;
+          width: fit-content;
+
+          .firstRow {
+            margin-left: -8px;
+
+            @include media('sm') {
+              margin-left: -6px;
+            }
+          }
+
+          .secondRow {
+            font-size: 5.8rem;
+
+            @include media('xl') {
+              font-size: 6.275rem;
+            }
+
+            @include media('sm') {
+              font-size: 4.4rem;
+            }
+          }
+
+          .thirdRow {
+            margin-left: 4px;
+
+            .mark {
+              margin-left: 8px;
+
+              @include media('sm') {
+                margin-left: 4px;
+              }
+            }
+          }
+
+          .bounce {
+            animation: bounce .3s ease-in-out;
+          }
+        }
+
+        &-subText {
+          color: $color-primary;
+          font-size: 1.55rem;
+          letter-spacing: .175rem;
+          margin-top: 20px;
+          margin-left: -12px;
+          text-align: center;
+
+          @include media('xl') {
+            font-size: 1.75rem;
+          }
+
+          @include media('sm') {
+            font-size: 1.175rem;
+            letter-spacing: 0.1rem;
+            margin-top: 8px;
+            margin-left: -4px;
+          }
+        }
+      }
+    }
+  }
+
+  /* About */
+  #about {
+    .about__image .icon {
+      margin: auto;
+      height: 180px;
+      width: 180px;
+      border: 1px solid $color-thirdly;
+      border-radius: 50%;
+      padding: 1.5rem 1.5rem 2rem;
+
+      @include media('md') {
+        padding: 1.25rem 1.25rem 1.75rem;
+        height: 160px;
+        width: 160px;
+      }
+
+      @include media('sm') {
+        padding: 1.15rem 1.15rem 1.5rem;
+        height: 120px;
+        width: 120px;
+      }
+
+      img {
+        object-fit: contain;
+        height: 100%;
+      }
+    }
+
+    .about__textWrap {
+      margin: 40px auto 0;
+      width: 75%;
+
+      @include media('xl') {
+        width: 70%;
+      }
+
+      @include media('md') {
+        width: 80%;
+      }
+
+      @include media('sm') {
+        margin-top: 20px;
+        width: 100%;
+      }
+    }
+  }
+
+  /* Contact */
+  #contact {
+    .mainLink {
+      border-bottom: 1px solid color.adjust($text-color, $lightness: 20%);
+      margin: 0 2px;
+      line-height: 1.25;
+    }
+  }
+
+  /* Footer */
+  .footer__inner {
+    margin: auto;
+    padding: 40px 0 20px;
+    position: relative;
+    max-width: 960px;
+    width: 50%;
+
+    @include media('md') {
+      padding: 20px 0 8px;
+      width: 80%;
+    }
+
+    @include media('sm') {
+      padding: 20px 0 8px;
+      max-width: 80%;
+      width: calc(100% - 40px);
+    }
+
+    .copyright {
+      font-size: .75rem;
+      letter-spacing: .01rem;
+    }
+  }
+
+</style>
+
+<!-- オープニング -->
+<Opening bind:isShowPage />
+
+<div id="top" class="container { isShowPage ? 'show' : '' }" bind:this={ container }>
   <!-- カーソル -->
   <CustomCursor openNav={ openNav } />
 
@@ -145,7 +509,7 @@
     on:click={ switchShowMenu }
   >
     <div class="button__inner d-flex align-center justify-center">
-      <p class="button__text font-family-accent weight-b" bind:this={ navButtonText }>MENU</p>
+      <p class="button__text font-family-accent weight-b line-height-1" bind:this={ navButtonText }>MENU</p>
     </div>
   </button>
 
@@ -341,357 +705,3 @@
     </div>
   </footer>
 </div>
-
-<style lang="scss">
-  @use '../styles/includes/variables' as *;
-  @use 'sass:color';
-
-  /* Navigation */
-  .navButton {
-    background-color: $color-primary;
-    border-radius: 20px 0 0 8px;
-    display: flex;
-    position: fixed;
-    bottom: 5%;
-    right: 0;
-    transition: transform .3s, background-color .15s, width .15s;
-    height: 120px;
-    width: 48px;
-    z-index: 102;
-
-    .button__inner {
-      position: relative;
-      height: 100%;
-      width: 100%;
-
-      .button__text {
-        color: $color-white;
-        font-size: 1.2rem;
-        letter-spacing: 0.15rem;
-        line-height: 1;
-        margin: auto;
-        position: absolute;
-        inset: 0;
-        transform: rotate(180deg);
-        transition: color .15s, right .15s;
-        writing-mode: vertical-rl;
-        height: fit-content;
-        width: fit-content;
-
-        @include media('sm') {
-          font-size: 1.05rem;
-        }
-
-        @include media('xs') {
-          font-size: 1rem;
-        }
-      }
-    }
-
-    &.hide {
-      transform: translateX(100%);
-    }
-
-    &.open {
-      background-color: $color-white;
-
-      .button__text {
-        color: $color-primary;
-      }
-    }
-
-    @include media('lg') {
-      &:hover {
-        width: 80px;
-
-        .button__text {
-          right: 20px;
-        }
-      }
-    }
-
-    @include media('sm') {
-      height: 100px;
-      width: 40px;
-    }
-
-    @include media('xs') {
-      height: 80px;
-      width: 28px;
-    }
-  }
-
-  .nav {
-    background-color: $color-primary;
-    position: fixed;
-    top: 0;
-    right: 0;
-    transform: translateX(100%);
-    transition: transform .3s;
-    height: 100vh;
-    width: 100vw;
-    z-index: 101;
-
-    @include media('lg') {
-      width: 35vw;
-    }
-
-    @include media('xl') {
-      width: 30vw;
-    }
-
-    &.open {
-      transform: translateX(0);
-    }
-
-    &__inner {
-      padding: 80px;
-
-      @include media('sm') {
-        padding: 40px;
-      }
-
-      .nav__menu .item {
-        width: fit-content;
-
-        &:not(:last-child) {
-          margin-bottom: 2.75rem;
-
-          @include media('sm') {
-            margin-bottom: 3rem;
-          }
-        }
-
-        .item__link {
-          display: block;
-          font-size: 2rem;
-          letter-spacing: .15rem;
-          padding-bottom: .75rem;
-          position: relative;
-
-          @include media('sm') {
-            padding-bottom: 0;
-          }
-
-          @include media('lg') {
-            &::after {
-              content: '';
-              background-color: $color-white;
-              display: block;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              height: 3px;
-              transition: width .3s;
-              width: 0;
-            }
-
-            &:hover::after {
-              width: 100%;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .nav__bg {
-    background-color: rgb(0 0 0 / .5);
-    backdrop-filter: blur(2px);
-    margin: auto;
-    opacity: 0;
-    visibility: hidden;
-    position: fixed;
-    inset: 0;
-    transition: opacity .3s, visibility .3s;
-    height: 100vh;
-    width: 100vw;
-    z-index: 100;
-
-    &.open {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  /* MV */
-  #mv {
-    height: 100vh;
-    width: 100%;
-
-    .mv__inner {
-      background-color: $color-white;
-      background-image: linear-gradient(90deg, $color-secondary 80px, transparent 80px), linear-gradient($color-secondary 80px, transparent 80px);
-      background-position: 10px 10px;
-      background-repeat: repeat;
-      background-size: 160px 160px;
-      position: relative;
-      height: 100%;
-      width: 100%;
-
-      @include media('sm') {
-        background-image: linear-gradient(90deg, $color-secondary 40px, transparent 40px), linear-gradient($color-secondary 40px, transparent 40px);
-        background-size: 80px 80px;
-      }
-
-      // title
-      .mv__title {
-        margin: auto;
-        position: absolute;
-        inset: 0;
-        height: fit-content;
-        width: fit-content;
-
-        @include media ('sm') {
-          display: flex;
-          flex-direction: column;
-          padding: 0;
-          top: 0;
-        }
-
-        &-text {
-          margin: auto;
-          width: fit-content;
-
-          .firstRow {
-            margin-left: -8px;
-
-            @include media('sm') {
-              margin-left: -6px;
-            }
-          }
-
-          .secondRow {
-            font-size: 5.8rem;
-
-            @include media('xl') {
-              font-size: 6.275rem;
-            }
-
-            @include media('sm') {
-              font-size: 4.4rem;
-            }
-          }
-
-          .thirdRow {
-            margin-left: 4px;
-
-            .mark {
-              margin-left: 8px;
-
-              @include media('sm') {
-                margin-left: 4px;
-              }
-            }
-          }
-
-          .bounce {
-            animation: bounce .3s ease-in-out;
-          }
-        }
-
-        &-subText {
-          color: $color-primary;
-          font-size: 1.55rem;
-          letter-spacing: .175rem;
-          margin-top: 20px;
-          margin-left: -12px;
-          text-align: center;
-
-          @include media('xl') {
-            font-size: 1.75rem;
-          }
-
-          @include media('sm') {
-            font-size: 1.175rem;
-            letter-spacing: 0.1rem;
-            margin-top: 8px;
-            margin-left: -4px;
-          }
-        }
-      }
-    }
-  }
-
-  /* About */
-  #about {
-    .about__image .icon {
-      margin: auto;
-      height: 180px;
-      width: 180px;
-      border: 1px solid $color-gray;
-      border-radius: 50%;
-      padding: 1.5rem 1.5rem 2rem;
-
-      @include media('md') {
-        padding: 1.25rem 1.25rem 1.75rem;
-        height: 160px;
-        width: 160px;
-      }
-
-      @include media('sm') {
-        padding: 1.15rem 1.15rem 1.5rem;
-        height: 120px;
-        width: 120px;
-      }
-
-      img {
-        object-fit: contain;
-        height: 100%;
-      }
-    }
-
-    .about__textWrap {
-      margin: 40px auto 0;
-      width: 75%;
-
-      @include media('xl') {
-        width: 70%;
-      }
-
-      @include media('md') {
-        width: 80%;
-      }
-
-      @include media('sm') {
-        margin-top: 20px;
-        width: 100%;
-      }
-    }
-  }
-
-  /* Contact */
-  #contact {
-    .mainLink {
-      border-bottom: 1px solid color.adjust($text-color, $lightness: 20%);
-      margin: 0 2px;
-      line-height: 1.25;
-    }
-  }
-
-  /* Footer */
-  .footer__inner {
-    margin: auto;
-    padding: 40px 0 20px;
-    position: relative;
-    max-width: 960px;
-    width: 50%;
-
-    @include media('md') {
-      padding: 20px 0 8px;
-      width: 80%;
-    }
-
-    @include media('sm') {
-      padding: 20px 0 8px;
-      max-width: 80%;
-      width: calc(100% - 40px);
-    }
-
-    .copyright {
-      font-size: .75rem;
-      letter-spacing: .01rem;
-    }
-  }
-
-</style>
