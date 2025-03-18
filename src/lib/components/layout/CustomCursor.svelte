@@ -2,14 +2,10 @@
   import { onMount } from 'svelte'
   import { writable } from 'svelte/store'
 
-  // ナビの開閉状態を取得
-  export let openNav
+  export let isNavOpen
 
-  // カーソルの初期位置 (ロード直後に見えない位置にいるように調整)
-  const position = writable({ x: -20, y: -20 })
-
-  // ホバー状態管理
-  const isHovering = writable(false)
+  const position = writable({ x: -20, y: -20 }) // カーソルの初期位置 (ロード直後に見えない位置にいるように調整)
+  const isHovering = writable(false) // ホバー状態管理
 
   onMount(() => {
     // マウスカーソル追従
@@ -37,13 +33,6 @@
     }
   })
 </script>
-
-<div
-  class="cursor { $isHovering ? 'hover' : '' }"
-  class:onNav={ openNav }
-  style="top: { $position.y }px; left: { $position.x }px;"
->
-</div>
 
 <style lang="scss">
   @use '../../../styles/includes/variables' as *;
@@ -73,3 +62,10 @@
     }
   }
 </style>
+
+<div
+  class="cursor { $isHovering ? 'hover' : '' }"
+  class:onNav={ isNavOpen }
+  style="top: { $position.y }px; left: { $position.x }px;"
+>
+</div>

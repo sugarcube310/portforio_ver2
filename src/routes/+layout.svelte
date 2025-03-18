@@ -1,14 +1,19 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
 
-  /* Lenis (イージングスクロール) */
   import Lenis from '@studio-freight/lenis'
   import { lenisStore } from '$lib/stores/lenis'
 
-  /* グローバルCSS */
   import '../styles/app.scss'
+  import Footer from '$lib/components/layout/Footer.svelte'
+  import Navigation from '$lib/components/layout/Navigation.svelte'
+  import CustomCursor from '$lib/components/layout/CustomCursor.svelte'
+
+  /* ナビゲーションの開閉状態を取得 */
+  let isNavOpen = false
 
   onMount(() => {
+    /* Lenis初期化 */
     if (typeof Lenis !== 'undefined') {
       const lenis = new Lenis()
       lenisStore.set(lenis)
@@ -33,3 +38,6 @@
 </script>
 
 <slot />
+<Footer />
+<Navigation bind:isNavOpen />
+<CustomCursor isNavOpen={ isNavOpen } />
