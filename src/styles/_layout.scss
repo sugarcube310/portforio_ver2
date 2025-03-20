@@ -3,11 +3,6 @@
 /* ------------------------------
   Common
 --------------------------------- */
-// Lenis導入のため、デフォルトのスクロール挙動を無効化
-html {
-  overflow: hidden;
-}
-
 @include media('lg') {
   .lg { display: block !important; }
   .sm { display: none !important; }
