@@ -12,7 +12,7 @@
       margin: auto;
       height: 180px;
       width: 180px;
-      border: 1px solid $color-thirdly;
+      border: 1px solid $color-gray;
       border-radius: 50%;
       padding: 1.5rem 1.5rem 2rem;
 

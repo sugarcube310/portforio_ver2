@@ -1,98 +1,169 @@
+<script>
+  import { onMount } from 'svelte'
+
+  const ants = Array(2).fill(null)
+  let isShowHeroArea = false
+
+  function observeContents() {
+    const options = {
+      threshold: 0.5
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { // ヒーローエリアが画面内に入った場合
+          isShowHeroArea = true
+        } else {
+          isShowHeroArea = false
+        }
+      })
+    }, options)
+
+    observer.observe(document.querySelector('.hero'))
+  }
+
+  onMount(() => {
+    observeContents()
+  })
+</script>
+
 <style lang="scss">
   @use '../../../styles/includes/variables' as *;
+  @use 'sass:color';
 
-  #hero {
+  .hero {
+    overflow: hidden;
     height: 100vh;
     width: 100%;
 
-    .hero__inner {
-      background-color: white;
-      background-image: linear-gradient(90deg, $color-secondary 80px, transparent 80px), linear-gradient($color-secondary 80px, transparent 80px);
-      background-position: 10px 10px;
-      background-repeat: repeat;
-      background-size: 160px 160px;
+    &__inner {
       position: relative;
       height: 100%;
       width: 100%;
 
-      @include media('sm') {
-        background-image: linear-gradient(90deg, $color-secondary 40px, transparent 40px), linear-gradient($color-secondary 40px, transparent 40px);
-        background-size: 80px 80px;
+      // タイトル
+      .title {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+
+        &-decoration {
+          display: flex;
+          gap: 32px;
+          margin-left: 4px;
+
+          @include media('sm') {
+            gap: 20px;
+          }
+
+          .circle {
+            animation: bounce .3s ease-in-out;
+            background-color: $color-secondary;
+            border-radius: 50%;
+            display: block;
+            height: 12px;
+            width: 12px;
+
+            @include media('sm') {
+              height: 10px;
+              width: 10px;
+            }
+          }
+        }
       }
 
-      // title
-      .hero__title {
+      // アリ
+      .antWrapper {
+        animation: antMove 15s linear infinite;
+        display: flex;
         margin: auto;
+        pointer-events: none;
         position: absolute;
         inset: 0;
+        top: 8%;
         height: fit-content;
-        width: fit-content;
+        width: 200%;
 
-        @include media ('sm') {
-          display: flex;
-          flex-direction: column;
-          padding: 0;
+        @include media('md') {
+          animation: antMoveMd 15s linear infinite;
+          top: 5%;
+        }
+
+        @include media('sm') {
+          animation: antMoveSm 15s linear infinite;
           top: 0;
         }
 
-        &-text {
-          margin: auto;
-          width: fit-content;
+        .ant {
+          flex-shrink: 0;
+          width: 50%;
 
-          .firstRow {
-            margin-left: -8px;
-
-            @include media('sm') {
-              margin-left: -6px;
-            }
-          }
-
-          .secondRow {
-            font-size: 5.8rem;
-
-            @include media('xl') {
-              font-size: 6.275rem;
-            }
-
-            @include media('sm') {
-              font-size: 4.4rem;
-            }
-          }
-
-          .thirdRow {
-            margin-left: 4px;
-
-            .mark {
-              margin-left: 8px;
-
-              @include media('sm') {
-                margin-left: 4px;
-              }
-            }
-          }
-
-          .bounce {
-            animation: bounce .3s ease-in-out;
-          }
-        }
-
-        &-subText {
-          color: $color-primary;
-          font-size: 1.55rem;
-          letter-spacing: .175rem;
-          margin-top: 20px;
-          margin-left: -12px;
-          text-align: center;
-
-          @include media('xl') {
-            font-size: 1.75rem;
+          @include media('md') {
+            width: 75%;
           }
 
           @include media('sm') {
-            font-size: 1.175rem;
-            letter-spacing: 0.1rem;
-            margin-top: 8px;
-            margin-left: -4px;
+            width: 150%;
+          }
+        }
+      }
+
+      // スクロールアイコン
+      .scrollIcon {
+        margin: 0 auto;
+        opacity: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: translateY(30px);
+        transition: opacity .6s ease-out, transform .6s ease-out;
+        height: fit-content;
+        width: fit-content;
+
+
+        &.show {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        &__inner {
+          display: flex;
+          flex-direction: column;
+        }
+
+        &__text {
+          color: color.adjust($color-gray, $blackness: 90%);
+          font-size: 0.9rem;
+          letter-spacing: .075rem;
+          margin-left: 2px;
+          padding-bottom: 1rem;
+          writing-mode: vertical-lr;
+        }
+
+        &__line {
+          position: relative;
+          height: 80px;
+
+          &::before,
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            height: 100%;
+            width: 1px;
+          }
+
+          &::before {
+            background-color: $color-gray;
+          }
+
+          &::after {
+            animation: scrollLine 2.5s cubic-bezier(1, 0, 0, 1) infinite;
+            background-color: color.adjust($color-gray, $blackness: 50%);
           }
         }
       }
@@ -100,21 +171,28 @@
   }
 </style>
 
-<section id="hero">
+<div id="pageTop" class="hero">
   <div class="hero__inner">
-    <div class="hero__title">
-      <h1 class="hero__title-text">
-        <span class="d-block firstRow">
-          <span class="d-inBlock bounce">W</span><span class="d-inBlock bounce" style="animation-delay: .1s">R</span><span class="d-inBlock bounce" style="animation-delay: .2s">I</span><span class="d-inBlock bounce" style="animation-delay: .3s">T</span><span class="d-inBlock bounce" style="animation-delay: .4s">E</span>
-        </span>
-        <span class="d-block secondRow">
-          <span class="d-inBlock bounce" style="animation-delay: .5s">M</span><span class="d-inBlock bounce" style="animation-delay: .6s">O</span><span class="d-inBlock bounce" style="animation-delay: .7s">R</span><span class="d-inBlock bounce" style="animation-delay: .8s">E</span>
-        </span>
-        <span class="d-block thirdRow">
-          <span class="d-inBlock bounce" style="animation-delay: .9s">C</span><span class="d-inBlock bounce" style="animation-delay: 1s">O</span><span class="d-inBlock bounce" style="animation-delay: 1.1s">D</span><span class="d-inBlock bounce" style="animation-delay: 1.2s">E</span><span class="d-inBlock bounce mark" style="animation-delay: 1.3s">!</span>
-        </span>
-      </h1>
-      <p class="hero__title-subText weight-b">sato's portforio website</p>
+    <div class="title">
+      <h1>sato’s<br>portforio website</h1>
+      <div class="title-decoration">
+        {#each Array.from({ length: 10 }) as _, i}
+          <span class="circle bounce" style="animation-delay: .{i}s"></span>
+        {/each}
+      </div>
+    </div>
+    <div class="antWrapper">
+      {#each ants as _, i}
+        <div class="ant">
+          <img src="/images/ants.gif" alt="ants">
+        </div>
+      {/each}
+    </div>
+    <div class="scrollIcon { isShowHeroArea ? 'show' : '' }">
+      <div class="scrollIcon__inner">
+        <p class="scrollIcon__text">scroll</p>
+        <div class="scrollIcon__line"></div>
+      </div>
     </div>
   </div>
-</section>
+</div>

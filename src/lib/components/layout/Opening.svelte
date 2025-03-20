@@ -95,7 +95,7 @@
       }
 
       &.scale {
-        animation: scale .5s forwards;
+        animation: scaleOut .5s forwards;
       }
     }
 
@@ -120,7 +120,7 @@
 <div class="opening { isOpeningPlayed ? 'show' : '' }">
   <div class="sugarWrapper { isFalling ? 'fall' : '' } { isScaling ? 'scale' : '' }">
     <div class="sugar">
-      <img src="/images/sugar_02.png" alt="角砂糖" />
+      <img src="/images/sugar.png" alt="" />
     </div>
   </div>
   <div class="pageTransition { isRevealing ? 'reveal' : '' }"></div>
