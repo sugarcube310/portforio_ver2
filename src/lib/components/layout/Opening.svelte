@@ -110,8 +110,8 @@
       top: 0;
       left: 0;
       transition: clip-path 1s ease-in-out;
-      height: 50%;
-      width: 50%;
+      height: 100%;
+      width: 100%;
 
       &.reveal {
         clip-path: circle(150% at center);
