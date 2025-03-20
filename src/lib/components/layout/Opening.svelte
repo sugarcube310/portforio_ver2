@@ -26,26 +26,29 @@
       isOpeningPlayed = true
 
       /* 砂糖_落下 */
-      isFalling = true
-
-      /* 砂糖_スケールアウト */
       setTimeout(() => {
-        isScaling = true
+        isFalling = true
 
-        /* ページ表示アニメーション */
+        /* 砂糖_スケールアウト */
         setTimeout(() => {
-          isRevealing = true
+          isScaling = true
 
-          /* ページ表示切り替え */
+          /* ページ表示アニメーション */
           setTimeout(() => {
-            isShowPage = true // ページ表示
-            isOpeningPlayed = false // オープニング非表示
-            sessionStorage.setItem('openingPlayed', 'true') // オープニング再生済みフラグをセット
-          }, revealingTime)
+            isRevealing = true
 
-        }, scalingTime)
+            /* ページ表示切り替え */
+            setTimeout(() => {
+              isShowPage = true // ページ表示
+              isOpeningPlayed = false // オープニング非表示
+              sessionStorage.setItem('openingPlayed', 'true') // オープニング再生済みフラグをセット
+            }, revealingTime)
 
-      }, fallingTime)
+          }, scalingTime)
+
+        }, fallingTime)
+
+      }, 500);
     }
   })
 </script>
@@ -107,8 +110,8 @@
       top: 0;
       left: 0;
       transition: clip-path 1s ease-in-out;
-      height: 100%;
-      width: 100%;
+      height: 50%;
+      width: 50%;
 
       &.reveal {
         clip-path: circle(150% at center);

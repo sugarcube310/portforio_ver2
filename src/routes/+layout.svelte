@@ -14,7 +14,9 @@
   onMount(() => {
     /* Lenis初期化 */
     if (typeof Lenis !== 'undefined') {
-      const lenis = new Lenis()
+      const lenis = new Lenis({
+        lerp: 0.05
+      })
       lenisStore.set(lenis)
 
       function raf(time) {
