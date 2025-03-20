@@ -5,14 +5,15 @@
   let isOpeningPlayed = false
 
   // アニメーション開始制御
-  let isFalling = false, // 落下
-      isScaling = false, // スケール
-      isRevealing = false // ページ表示
+  let isFalling = false,
+      isScaling = false,
+      isRevealing = false
 
   // アニメーション時間
-  const fallingTime = 1000, // 落下
-        scalingTime = 1000, // スケール
-        revealingTime = 500 // ページ表示
+  const delay = 500,
+        fallingTime = 1000,
+        scalingTime = 1000,
+        revealingTime = 1000
 
   // ページの表示制御
   export let isShowPage = false
@@ -48,7 +49,7 @@
 
         }, fallingTime)
 
-      }, 500);
+      }, delay)
     }
   })
 </script>
@@ -97,8 +98,8 @@
         transform: translateY(0) rotate(0deg);
       }
 
-      &.scale {
-        animation: scaleOut .5s forwards;
+      &.hide {
+        animation: scaleOut 1s forwards;
       }
     }
 
@@ -121,7 +122,7 @@
 </style>
 
 <div class="opening { isOpeningPlayed ? 'show' : '' }">
-  <div class="sugarWrapper { isFalling ? 'fall' : '' } { isScaling ? 'scale' : '' }">
+  <div class="sugarWrapper { isFalling ? 'fall' : '' } { isScaling ? 'hide' : '' }">
     <div class="sugar">
       <img src="/images/sugar.png" alt="" />
     </div>
