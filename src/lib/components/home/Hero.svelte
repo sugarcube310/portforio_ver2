@@ -118,15 +118,12 @@
         bottom: 0;
         left: 0;
         right: 0;
-        transform: translateY(30px);
-        transition: opacity .6s ease-out, transform .6s ease-out;
+        transition: opacity .3s ease-out;
         height: fit-content;
         width: fit-content;
 
-
         &.show {
           opacity: 1;
-          transform: translateY(0);
         }
 
         &__inner {
