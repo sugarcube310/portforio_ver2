@@ -8,13 +8,6 @@ html {
   overflow: hidden;
 }
 
-// マウスポインタのカスタムのため、デフォルトのカーソルは非表示
-@include media ('lg') {
-  * {
-    cursor: none;
-  }
-}
-
 @include media('lg') {
   .lg { display: block !important; }
   .sm { display: none !important; }
@@ -308,6 +301,7 @@ html {
 
       &.--disabled {
         background-color: $color-gray;
+        cursor: default;
       }
 
       &:not(.--disabled) {

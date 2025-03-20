@@ -112,6 +112,7 @@
 
       // スクロールアイコン
       .scrollIcon {
+        cursor: default;
         margin: 0 auto;
         opacity: 0;
         position: absolute;

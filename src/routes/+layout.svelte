@@ -7,7 +7,6 @@
   import '../styles/app.scss'
   import Footer from '$lib/components/layout/Footer.svelte'
   import Navigation from '$lib/components/layout/Navigation.svelte'
-  import CustomCursor from '$lib/components/layout/CustomCursor.svelte'
 
   /* ナビゲーションの開閉状態を取得 */
   let isNavOpen = false
@@ -40,4 +39,3 @@
 <slot />
 <Footer />
 <Navigation bind:isNavOpen />
-<CustomCursor isNavOpen={ isNavOpen } />
