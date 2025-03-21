@@ -38,6 +38,9 @@
   })
 </script>
 
-<slot />
-<Footer />
+<main>
+  <slot />
+  <Footer />
+</main>
+
 <Navigation bind:isNavOpen />

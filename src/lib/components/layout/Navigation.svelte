@@ -96,7 +96,7 @@
     right: 0;
     transform: translateX(100%);
     transition: transform .3s;
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     z-index: 101;
 
@@ -172,7 +172,7 @@
     position: fixed;
     inset: 0;
     transition: opacity .3s, visibility .3s;
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     z-index: 100;
 
@@ -189,7 +189,7 @@
   on:click={ switchNav }
 >
   <div class="button__inner d-flex align-center justify-center">
-    <p class="button__text font-family-accent weight-b line-height-1">
+    <p class="button__text font-accent weight-b line-height-1">
       { isNavOpen ? 'CLOSE' : 'MENU' }
     </p>
   </div>
@@ -202,16 +202,16 @@
   <div class="nav__inner">
     <ul class="nav__menu">
       <li class="item">
-        <a href="#about" class="font-family-accent color-white item__link navLink">ABOUT ME</a>
+        <a href="#about" class="font-accent color-white item__link navLink">ABOUT ME</a>
       </li>
       <li class="item">
-        <a href="#skills" class="font-family-accent color-white item__link navLink">SKILLS</a>
+        <a href="#skills" class="font-accent color-white item__link navLink">SKILLS</a>
       </li>
       <li class="item">
-        <a href="#products" class="font-family-accent color-white item__link navLink">PRODUCTS</a>
+        <a href="#products" class="font-accent color-white item__link navLink">PRODUCTS</a>
       </li>
       <li class="item">
-        <a href="#contact" class="font-family-accent color-white item__link navLink">CONTACT</a>
+        <a href="#contact" class="font-accent color-white item__link navLink">CONTACT</a>
       </li>
     </ul>
   </div>

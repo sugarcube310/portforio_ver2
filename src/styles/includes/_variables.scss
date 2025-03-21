@@ -33,24 +33,8 @@ $text-color: #333;
 $text-color-gray: #707070;
 
 /* ------------------------------
-  Google Fonts
+  Fonts
 --------------------------------- */
-@font-face {
-  font-family: 'noto';
-  src: url('/fonts/NotoSansJP-Regular.woff') format('woff');
-  font-display: swap;
-  font-style: normal;
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: 'noto';
-  src: url('/fonts/NotoSansJP-Bold.woff') format('woff');
-  font-display: swap;
-  font-style: normal;
-  font-weight: bold;
-}
-
 @font-face {
   font-family: 'lexend';
   src: url('/fonts/LexendDeca-Regular.woff') format('woff');
@@ -67,5 +51,4 @@ $text-color-gray: #707070;
   font-weight: bold;
 }
 
-$font-noto: 'noto', sans-serif;
 $font-lexend: 'lexend', serif;

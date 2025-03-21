@@ -1,53 +1,73 @@
 <script>
   import { onMount } from 'svelte'
 
-  // オープニング再生制御
-  let isOpeningPlayed = false
+  // オープニング表示制御
+  let isOpeningDisplay = false
 
-  // アニメーション開始制御
-  let isFalling = false,
-      isScaling = false,
-      isRevealing = false
+  // コンテンツ表示制御
+  export let isContentsDisplay = false
 
-  // アニメーション時間
-  const delay = 500,
-        fallingTime = 1000,
-        scalingTime = 1000,
-        revealingTime = 1000
+  // 各アニメーションの再生制御
+  let isFall = false, // 角砂糖_落下アニメーション
+      isScaleOut = false, // 角砂糖_縮小アニメーション
+      isReveal = false // 円形アニメーション
 
-  // ページの表示制御
-  export let isShowPage = false
+  // 各アニメーションにかかる時間を設定
+  const delay = 500, // 最初のアニメーション開始までの遅延時間
+        fallTime = 2000, // 角砂糖_落下アニメーション + 「Hello!」表示完了時間
+        scaleOutTime = 1000, // 角砂糖_縮小アニメーション
+        revealTime = 1000 // 円形アニメーション
+
+  // スクロール禁止
+  function disableScroll(elm) {
+    elm.classList.add('no-scroll')
+  }
+
+  // スクロール解除
+  function enableScroll(elm) {
+    elm.classList.remove('no-scroll')
+  }
 
   onMount(() => {
     if (sessionStorage.getItem('openingPlayed')) { // すでにオープニングを再生済みならスキップ
-      isShowPage = true
+      isContentsDisplay = true
       return
 
-    } else { // オープニングを再生
-      isOpeningPlayed = true
+    } else {
+      isOpeningDisplay = true
 
-      /* 砂糖_落下 */
+      // コンテンツのスクロール禁止
+      const main = document.querySelector('main')
+      disableScroll(main)
+
       setTimeout(() => {
-        isFalling = true
+        // 角砂糖_落下アニメーション開始
+        isFall = true
 
-        /* 砂糖_スケールアウト */
         setTimeout(() => {
-          isScaling = true
+          // 角砂糖_縮小アニメーション開始
+          isScaleOut = true
 
-          /* ページ表示アニメーション */
           setTimeout(() => {
-            isRevealing = true
+            // 円形アニメーション開始
+            isReveal = true
 
-            /* ページ表示切り替え */
             setTimeout(() => {
-              isShowPage = true // ページ表示
-              isOpeningPlayed = false // オープニング非表示
-              sessionStorage.setItem('openingPlayed', 'true') // オープニング再生済みフラグをセット
-            }, revealingTime)
+              // ページの表示切り替え
+              isOpeningDisplay = false // オープニング非表示
+              isContentsDisplay = true // コンテンツ表示
 
-          }, scalingTime)
+              // オープニング再生済みフラグをsessionStorageに登録
+              sessionStorage.setItem('openingPlayed', 'true')
 
-        }, fallingTime)
+            }, revealTime)
+
+            // コンテンツのスクロール解除
+            enableScroll(main)
+
+          }, scaleOutTime)
+
+        }, fallTime)
 
       }, delay)
     }
@@ -65,7 +85,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     z-index: 1000;
 
@@ -73,8 +93,7 @@
       visibility: visible;
     }
 
-    // 砂糖
-    .sugarWrapper {
+    &__content {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -82,29 +101,59 @@
       height: 100%;
       width: 100%;
 
-      .sugar {
-        transform: translateY(-100vh) rotate(-60deg);
-        transition: transform 1s cubic-bezier(.2, 1, .3, 1);
-        height: 120px;
-        width: 120px;
+      // 砂糖
+      .sugarWrapper {
+        .sugar {
+          transform: translateY(-100svh) rotate(60deg);
+          transition: transform 1.5s cubic-bezier(.2, 1, .3, 1);
+          height: 120px;
+          width: 120px;
 
-        img {
-          object-fit: contain;
-          height: 100%;
+          img {
+            object-fit: contain;
+            height: 100%;
+          }
+        }
+
+        &.fall {
+          .sugar {
+            transform: translateY(0) rotate(0deg);
+          }
+        }
+
+        &.hide {
+          animation: opening_scaleOut 1s forwards;
         }
       }
 
-      &.fall .sugar {
-        transform: translateY(0) rotate(0deg);
-      }
+      // あいさつ
+      .greeting {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        opacity: 1;
+        transition: opacity 1s;
 
-      &.hide {
-        animation: scaleOut 1s forwards;
+        &.hide {
+          opacity: 0;
+        }
+
+        &__text {
+          animation: opening_slideIn .3s forwards;
+          animation-delay: 1.5s;
+          display: inline-block;
+          color: $color-primary;
+          opacity: 0;
+          transform: translateY(10px);
+
+          &:last-of-type {
+            padding-left: 0.1rem;
+          }
+        }
       }
     }
 
     // ページ遷移用の円形マスク
-    .pageTransition {
+    &__pageTransition {
       background-color: white;
       clip-path: circle(0% at center);
       position: absolute;
@@ -121,11 +170,21 @@
   }
 </style>
 
-<div class="opening { isOpeningPlayed ? 'show' : '' }">
-  <div class="sugarWrapper { isFalling ? 'fall' : '' } { isScaling ? 'hide' : '' }">
-    <div class="sugar">
-      <img src="/images/sugar.png" alt="" />
+<div class="opening { isOpeningDisplay ? 'show' : '' }">
+  <div class="opening__content">
+    <div class="sugarWrapper { isFall ? 'fall' : '' } { isScaleOut ? 'hide' : '' }">
+      <div class="sugar">
+        <img src="/images/sugar.png" alt="" />
+      </div>
+    </div>
+    <div class="greeting { isScaleOut ? 'hide' : '' }">
+      <span class="greeting__text font-accent">H</span>
+      <span class="greeting__text font-accent" style="animation-delay: 1.6s;">e</span>
+      <span class="greeting__text font-accent" style="animation-delay: 1.7s;">l</span>
+      <span class="greeting__text font-accent" style="animation-delay: 1.8s;">l</span>
+      <span class="greeting__text font-accent" style="animation-delay: 1.9s;">o</span>
+      <span class="greeting__text font-accent" style="animation-delay: 2s;">!</span>
     </div>
   </div>
-  <div class="pageTransition { isRevealing ? 'reveal' : '' }"></div>
+  <div class="opening__pageTransition { isReveal ? 'reveal' : '' }"></div>
 </div>

@@ -1,30 +1,11 @@
 <script>
-  import { onMount } from 'svelte'
+  import { anchorLink } from '$lib/actions/anchorLink'
 
+  // オープニングを表示したかどうかの値を取得
+  export let openingPlayed
+
+  // 表示するアリの画像数
   const ants = Array(2).fill(null)
-  let isShowHeroArea = false
-
-  function observeContents() {
-    const options = {
-      threshold: 0.5
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { // ヒーローエリアが画面内に入った場合
-          isShowHeroArea = true
-        } else {
-          isShowHeroArea = false
-        }
-      })
-    }, options)
-
-    observer.observe(document.querySelector('.hero'))
-  }
-
-  onMount(() => {
-    observeContents()
-  })
 </script>
 
 <style lang="scss">
@@ -32,137 +13,126 @@
   @use 'sass:color';
 
   .hero {
+    background-color: $color-primary;
     overflow: hidden;
-    height: 100vh;
+    height: 100svh;
     width: 100%;
 
     &__inner {
       position: relative;
       height: 100%;
       width: 100%;
+    }
 
-      // タイトル
-      .title {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 5%;
-        left: 5%;
+    // タイトル
+    &__title {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      max-width: 240px;
 
-        &-decoration {
-          display: flex;
-          gap: 32px;
-          margin-left: 4px;
-
-          @include media('sm') {
-            gap: 20px;
-          }
-
-          .circle {
-            animation: bounce .3s ease-in-out;
-            background-color: $color-secondary;
-            border-radius: 50%;
-            display: block;
-            height: 12px;
-            width: 12px;
-
-            @include media('sm') {
-              height: 10px;
-              width: 10px;
-            }
-          }
-        }
+      @include media('xl') {
+        max-width: 320px;
       }
 
-      // アリ
+      @include media('md') {
+        max-width: 240px;
+      }
+
+      @include media('sm') {
+        max-width: 180px;
+      }
+    }
+
+    // アリ
+    &__main {
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      margin: auto;
+      overflow: hidden;
+      position: absolute;
+      inset: 0;
+      max-height: 480px;
+      max-width: 480px;
+      height: 55svh;
+      width: 55svh;
+
+      @include media('md') {
+        top: 5%;
+        max-height: 320px;
+        max-width: 320px;
+      }
+
+      @include media('sm') {
+        top: 10%;
+        max-height: 280px;
+        max-width: 280px;
+      }
+
       .antWrapper {
-        animation: antMove 15s linear infinite;
+        animation: hero_antMove 20s linear infinite;
         display: flex;
         margin: auto;
         pointer-events: none;
         position: absolute;
         inset: 0;
-        top: 8%;
         height: fit-content;
         width: 200%;
 
-        @include media('md') {
-          animation: antMoveMd 15s linear infinite;
-          top: 5%;
-        }
-
-        @include media('sm') {
-          animation: antMoveSm 15s linear infinite;
-          top: 0;
-        }
-
         .ant {
           flex-shrink: 0;
-          width: 50%;
+          width: 100%;
+        }
+      }
+    }
 
-          @include media('md') {
-            width: 75%;
-          }
+    // スクロールアイコン
+    .scrollIcon {
+      cursor: default;
+      margin: 0 auto;
+      position: absolute;
+      bottom: 40px;
+      left: 75px;
+      right: 0;
+      height: fit-content;
+      width: fit-content;
 
-          @include media('sm') {
-            width: 150%;
+      &__inner {
+        display: flex;
+        align-items: center;
+      }
+
+      &__arrow {
+        overflow: hidden;
+        position: relative;
+
+        img {
+          animation: hero_scrollArrow .3s ease-out forwards;
+          animation-delay: 5s;
+          clip-path: inset(0 0 100% 0);
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+
+          &.fast {
+            animation-delay: 1s;
           }
         }
       }
 
-      // スクロールアイコン
-      .scrollIcon {
-        cursor: default;
-        margin: 0 auto;
+      &__text {
+        animation: fadeIn .3s ease-out forwards;
+        animation-delay: 5.5s;
+        margin-left: -1rem;
         opacity: 0;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        transition: opacity .3s ease-out;
-        height: fit-content;
-        width: fit-content;
+        padding-bottom: 1rem;
 
-        &.show {
-          opacity: 1;
-        }
-
-        &__inner {
-          display: flex;
-          flex-direction: column;
-        }
-
-        &__text {
-          color: color.adjust($color-gray, $blackness: 90%);
-          font-size: 0.9rem;
-          letter-spacing: .075rem;
-          margin-left: 2px;
-          padding-bottom: 1rem;
-          writing-mode: vertical-lr;
-        }
-
-        &__line {
-          position: relative;
-          height: 80px;
-
-          &::before,
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            height: 100%;
-            width: 1px;
-          }
-
-          &::before {
-            background-color: $color-gray;
-          }
-
-          &::after {
-            animation: scrollLine 2.5s cubic-bezier(1, 0, 0, 1) infinite;
-            background-color: color.adjust($color-gray, $blackness: 50%);
-          }
+        &.fast {
+          animation-delay: 1.5s;
         }
       }
     }
@@ -171,25 +141,26 @@
 
 <div id="pageTop" class="hero">
   <div class="hero__inner">
-    <div class="title">
-      <h1>sato’s<br>portforio website</h1>
-      <div class="title-decoration">
-        {#each Array.from({ length: 10 }) as _, i}
-          <span class="circle bounce" style="animation-delay: .{i}s"></span>
+    <h1 class="hero__title">
+      <img src="/images/title.png" alt="Sato’s Portforio Website">
+    </h1>
+    <div class="hero__main">
+      <div class="antWrapper">
+        {#each ants as _, i}
+          <div class="ant">
+            <img src="/images/ants.gif" alt="ants">
+          </div>
         {/each}
       </div>
     </div>
-    <div class="antWrapper">
-      {#each ants as _, i}
-        <div class="ant">
-          <img src="/images/ants.gif" alt="ants">
-        </div>
-      {/each}
-    </div>
-    <div class="scrollIcon { isShowHeroArea ? 'show' : '' }">
+    <div class="scrollIcon">
       <div class="scrollIcon__inner">
-        <p class="scrollIcon__text">scroll</p>
-        <div class="scrollIcon__line"></div>
+        <div class="scrollIcon__arrow">
+          <img src="/images/arrow.png" alt="" class="{ openingPlayed ? 'fast' : '' }">
+        </div>
+        <div class="scrollIcon__text { openingPlayed ? 'fast' : '' }">
+          <img src="/images/scroll.png" alt="Scroll">
+        </div>
       </div>
     </div>
   </div>

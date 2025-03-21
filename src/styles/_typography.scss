@@ -4,11 +4,11 @@
   Text style
 --------------------------------- */
 // font-family
-.font-family-base { font-family: $font-noto; }
-.font-family-accent { font-family: $font-lexend; }
+.font-accent { font-family: $font-lexend; }
 
 // text color
 .color-white { color: white; }
+.color-primary { color: $color-primary; }
 .color-gray { color: $text-color-gray; }
 
 // font-weight
@@ -26,7 +26,7 @@
 --------------------------------- */
 html {
   color: $text-color;
-  font-family: $font-noto;
+  font-family: 'Arial','Segoe UI','Helvetica Neue', Roboto, sans-serif;
   font-size: 1.05rem;
   line-height: 2rem;
   -webkit-font-smoothing: antialiased;
@@ -44,17 +44,20 @@ html {
   Title
 --------------------------------- */
 h1 {
-  color: $color-primary;
-  font-family: $font-lexend;
+  color: white;
   font-size: 3rem;
   font-weight: bold;
-  letter-spacing: .2rem;
-  line-height: 1.5;
-  margin-bottom: 1.75rem;
+  letter-spacing: .3rem;
+  line-height: 1.75;
+
+  @include media('md') {
+    font-size: 2.5rem;
+    letter-spacing: .25rem;
+  }
 
   @include media('sm') {
     font-size: 2rem;
-    letter-spacing: .15rem;
+    letter-spacing: .2rem;
   }
 }
 
@@ -83,7 +86,6 @@ h1 {
 }
 
 .section__subTitle {
-  font-family: $font-noto;
   color: $text-color;
   font-size: 1.25rem;
   font-weight: bold;
