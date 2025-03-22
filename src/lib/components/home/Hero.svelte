@@ -52,6 +52,16 @@
       position: relative;
       height: 100%;
       width: 100%;
+
+      &::before {
+        content: '';
+        background-color: $color-primary;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+      }
     }
 
     // タイトル
