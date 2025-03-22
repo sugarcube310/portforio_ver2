@@ -58,7 +58,7 @@
               isContentsDisplay = true // コンテンツ表示
 
               // オープニング再生済みフラグをsessionStorageに登録
-              // sessionStorage.setItem('openingPlayed', 'true')
+              sessionStorage.setItem('openingPlayed', 'true')
 
             }, revealTime)
 
