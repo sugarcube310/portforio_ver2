@@ -50,7 +50,7 @@
 
     &__inner {
       position: relative;
-      height: 100%;
+      height: 100svh;
       width: 100%;
     }
 
