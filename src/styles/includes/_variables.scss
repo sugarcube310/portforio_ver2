@@ -36,6 +36,14 @@ $text-color-gray: #707070;
   Fonts
 --------------------------------- */
 @font-face {
+  font-family: 'caveat';
+  src: url('/fonts/Caveat-Bold.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
   font-family: 'lexend';
   src: url('/fonts/LexendDeca-Regular.woff') format('woff');
   font-display: swap;
@@ -51,4 +59,5 @@ $text-color-gray: #707070;
   font-weight: bold;
 }
 
+$font-caveat: 'caveat', serif;
 $font-lexend: 'lexend', serif;

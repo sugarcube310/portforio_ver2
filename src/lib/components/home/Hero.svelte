@@ -1,8 +1,8 @@
 <script>
   import { anchorLink } from '$lib/actions/anchorLink'
 
-  // オープニングを表示したかどうかの値を取得
-  export let openingPlayed
+  // コンテンツ表示制御
+  export let isContentsDisplay
 
   // 表示するアリの画像数
   const ants = Array(2).fill(null)
@@ -15,8 +15,10 @@
   .hero {
     background-color: $color-primary;
     overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
     height: 100svh;
-    width: 100%;
+    width: 100vw;
 
     &__inner {
       position: relative;
@@ -26,11 +28,14 @@
 
     // タイトル
     &__title {
+      animation: fadeIn .5s ease-out forwards;
       display: flex;
       flex-direction: column;
       position: absolute;
       top: 5%;
       left: 5%;
+      opacity: 0;
+      visibility: hidden;
       max-width: 240px;
 
       @include media('xl') {
@@ -54,21 +59,21 @@
       align-items: center;
       margin: auto;
       overflow: hidden;
+      opacity: 0;
       position: absolute;
       inset: 0;
+      visibility: hidden;
       max-height: 480px;
       max-width: 480px;
       height: 55svh;
       width: 55svh;
 
       @include media('md') {
-        top: 5%;
         max-height: 320px;
         max-width: 320px;
       }
 
       @include media('sm') {
-        top: 10%;
         max-height: 280px;
         max-width: 280px;
       }
@@ -96,7 +101,7 @@
       margin: 0 auto;
       position: absolute;
       bottom: 40px;
-      left: 75px;
+      left: 60px;
       right: 0;
       height: fit-content;
       width: fit-content;
@@ -109,40 +114,61 @@
       &__arrow {
         overflow: hidden;
         position: relative;
+        width: 80px;
 
         img {
-          animation: hero_scrollArrow .3s ease-out forwards;
-          animation-delay: 5s;
           clip-path: inset(0 0 100% 0);
           object-fit: cover;
           height: 100%;
           width: 100%;
-
-          &.fast {
-            animation-delay: 1s;
-          }
         }
       }
 
       &__text {
-        animation: fadeIn .3s ease-out forwards;
-        animation-delay: 5.5s;
-        margin-left: -1rem;
-        opacity: 0;
+        color: white;
+        font-family: $font-caveat;
+        font-size: 1.75rem;
+        letter-spacing: .2rem;
+        margin-left: -1.5rem;
         padding-bottom: 1rem;
+        opacity: 0;
+        visibility: hidden;
+        width: 80px;
+      }
+    }
 
-        &.fast {
-          animation-delay: 1.5s;
+    &.show {
+      opacity: 1;
+      visibility: visible;
+
+      .hero__title {
+        animation: fadeIn .5s ease-out forwards;
+      }
+
+      .hero__main {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .scrollIcon {
+        .scrollIcon__arrow img {
+          animation: hero_scrollArrow .5s ease-out forwards;
+          animation-delay: .5s;
+        }
+
+        .scrollIcon__text {
+          animation: fadeIn .5s ease-out forwards;
+          animation-delay: 1s;
         }
       }
     }
   }
 </style>
 
-<div id="pageTop" class="hero">
+<div id="pageTop" class="hero { isContentsDisplay ? 'show' : '' }">
   <div class="hero__inner">
     <h1 class="hero__title">
-      <img src="/images/title.png" alt="Sato’s Portforio Website">
+      Sato’s<br>Portforio<br>Website
     </h1>
     <div class="hero__main">
       <div class="antWrapper">
@@ -156,11 +182,9 @@
     <div class="scrollIcon">
       <div class="scrollIcon__inner">
         <div class="scrollIcon__arrow">
-          <img src="/images/arrow.png" alt="" class="{ openingPlayed ? 'fast' : '' }">
+          <img src="/images/arrow.png" alt="">
         </div>
-        <div class="scrollIcon__text { openingPlayed ? 'fast' : '' }">
-          <img src="/images/scroll.png" alt="Scroll">
-        </div>
+        <p class="scrollIcon__text">Scroll</p>
       </div>
     </div>
   </div>

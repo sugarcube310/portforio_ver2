@@ -14,7 +14,7 @@
 
   // 各アニメーションにかかる時間を設定
   const delay = 500, // 最初のアニメーション開始までの遅延時間
-        fallTime = 2000, // 角砂糖_落下アニメーション + 「Hello!」表示完了時間
+        fallTime = 2200, // 角砂糖_落下アニメーション + 「Hello!」表示完了時間
         scaleOutTime = 1000, // 角砂糖_縮小アニメーション
         revealTime = 1000 // 円形アニメーション
 
@@ -58,7 +58,7 @@
               isContentsDisplay = true // コンテンツ表示
 
               // オープニング再生済みフラグをsessionStorageに登録
-              sessionStorage.setItem('openingPlayed', 'true')
+              // sessionStorage.setItem('openingPlayed', 'true')
 
             }, revealTime)
 
@@ -104,10 +104,20 @@
       // 砂糖
       .sugarWrapper {
         .sugar {
-          transform: translateY(-100svh) rotate(60deg);
+          transform: translateY(-100svh) rotate(90deg);
           transition: transform 1.5s cubic-bezier(.2, 1, .3, 1);
-          height: 120px;
-          width: 120px;
+          height: 100px;
+          width: 100px;
+
+          @include media('md') {
+            height: 90px;
+            width: 90px;
+          }
+
+          @include media('sm') {
+            height: 80px;
+            width: 80px;
+          }
 
           img {
             object-fit: contain;
@@ -128,7 +138,12 @@
 
       // あいさつ
       .greeting {
-        font-size: 1.2rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        font-family: $font-caveat;
+        font-size: 2rem;
+        letter-spacing: .35rem;
         margin-top: 1rem;
         opacity: 1;
         transition: opacity 1s;
@@ -140,8 +155,6 @@
         &__text {
           animation: opening_slideIn .3s forwards;
           animation-delay: 1.5s;
-          display: inline-block;
-          color: $color-primary;
           opacity: 0;
           transform: translateY(10px);
 
@@ -156,15 +169,23 @@
     &__pageTransition {
       background-color: white;
       clip-path: circle(0% at center);
+      margin: auto;
       position: absolute;
-      top: 0;
-      left: 0;
-      transition: clip-path 1s ease-in-out;
+      inset: 0;
+      transition: clip-path 1s;
       height: 100%;
       width: 100%;
 
       &.reveal {
-        clip-path: circle(150% at center);
+        clip-path: circle(calc(min(240px, 55svh, 55svh)) at center);
+
+        @include media('md') {
+          clip-path: circle(calc(min(160px, 55svh, 55svh)) at center);
+        }
+
+        @include media('sm') {
+          clip-path: circle(calc(min(140px, 55svh, 55svh)) at center);
+        }
       }
     }
   }
@@ -178,12 +199,14 @@
       </div>
     </div>
     <div class="greeting { isScaleOut ? 'hide' : '' }">
-      <span class="greeting__text font-accent">H</span>
-      <span class="greeting__text font-accent" style="animation-delay: 1.6s;">e</span>
-      <span class="greeting__text font-accent" style="animation-delay: 1.7s;">l</span>
-      <span class="greeting__text font-accent" style="animation-delay: 1.8s;">l</span>
-      <span class="greeting__text font-accent" style="animation-delay: 1.9s;">o</span>
-      <span class="greeting__text font-accent" style="animation-delay: 2s;">!</span>
+      <span class="greeting__text d-inBlock">W</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 1.6s;">e</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 1.7s;">l</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 1.8s;">c</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 1.9s;">o</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 2s;">m</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 2.1s;">e</span>
+      <span class="greeting__text d-inBlock" style="animation-delay: 2.2s;">!</span>
     </div>
   </div>
   <div class="opening__pageTransition { isReveal ? 'reveal' : '' }"></div>
