@@ -45,23 +45,13 @@
     transform-origin: center center;
     transition: transform 0.1s linear, filter 0.1s linear, opacity 0.1s linear;
     visibility: hidden;
-    height: 100svh;
+    height: 100vh;
     width: 100vw;
 
     &__inner {
       position: relative;
       height: 100%;
       width: 100%;
-
-      &::before {
-        content: '';
-        background-color: $color-primary;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-      }
     }
 
     // タイトル

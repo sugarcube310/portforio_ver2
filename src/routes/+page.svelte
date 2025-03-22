@@ -13,6 +13,7 @@
 <style lang="scss">
   .sectionWrapper {
     margin-top: 100svh;
+    z-index: 1;
   }
 </style>
 
