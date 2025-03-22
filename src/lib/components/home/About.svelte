@@ -9,12 +9,13 @@
 
   #about {
     .about__image .icon {
-      margin: auto;
-      height: 180px;
-      width: 180px;
+      background-color: rgb(255 255 255 /.5);
       border: 1px solid $color-gray;
       border-radius: 50%;
+      margin: auto;
       padding: 1.5rem 1.5rem 2rem;
+      height: 180px;
+      width: 180px;
 
       @include media('md') {
         padding: 1.25rem 1.25rem 1.75rem;
