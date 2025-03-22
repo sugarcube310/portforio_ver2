@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import { anchorLink } from '$lib/actions/anchorLink'
 
   // コンテンツ表示制御
@@ -6,6 +7,28 @@
 
   // 表示するアリの画像数
   const ants = Array(2).fill(null)
+
+  /* ヒーローエリアのフェードアウト */
+  let blur = 0,
+      scale = 1,
+      opacity = 1
+
+  function fadeOutHero() {
+    const scrollY = window.scrollY // 現在のスクロール量を取得
+    const maxScroll = 700 // エフェクトが完全に消えるスクロール位置
+
+    // エフェクト計算
+    const scrollFactor = Math.min(scrollY / maxScroll, 1)
+
+    blur = scrollFactor * 20 // blur: 0 → 20
+    scale = 1 + scrollFactor * 0.5 // scale: 1 → 1.5
+    opacity = 1 - scrollFactor // opacity: 1 → 0
+  }
+
+  onMount(() => {
+    window.addEventListener('scroll', fadeOutHero)
+    return () => window.removeEventListener('scroll', fadeOutHero)
+  })
 </script>
 
 <style lang="scss">
@@ -16,6 +39,11 @@
     background-color: $color-primary;
     overflow: hidden;
     opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform-origin: center center;
+    transition: transform 0.1s linear, filter 0.1s linear, opacity 0.1s linear;
     visibility: hidden;
     height: 100svh;
     width: 100vw;
@@ -165,7 +193,11 @@
   }
 </style>
 
-<div id="pageTop" class="hero { isContentsDisplay ? 'show' : '' }">
+<div
+  id="pageTop"
+  class="hero { isContentsDisplay ? 'show' : '' }"
+  style="filter: blur({ blur }px); transform: scale({ scale }); opacity: { opacity };"
+>
   <div class="hero__inner">
     <h1 class="hero__title">
       Sato’s<br>Portforio<br>Website

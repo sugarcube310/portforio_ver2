@@ -10,6 +10,12 @@
   let isContentsDisplay = false
 </script>
 
+<style lang="scss">
+  .sectionWrapper {
+    margin-top: 100svh;
+  }
+</style>
+
 <!-- オープニング -->
 <Opening bind:isContentsDisplay />
 
