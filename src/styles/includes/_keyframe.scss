@@ -36,12 +36,7 @@
 /* ------------------------------
   FV
 --------------------------------- */
-@keyframes hero_antMove {
+@keyframes antMove {
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
-}
-
-@keyframes hero_scrollArrow {
-  from { clip-path: inset(0 0 100% 0); }
-  to { clip-path: inset(0 0 0 0); }
 }

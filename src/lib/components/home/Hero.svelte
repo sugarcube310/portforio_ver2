@@ -90,7 +90,7 @@
 
       // アリ
       .antWrapper {
-        animation: hero_antMove 20s linear infinite;
+        animation: antMove 20s linear infinite;
         display: flex;
         margin-top: 2rem;
         pointer-events: none;
@@ -101,48 +101,6 @@
           flex-shrink: 0;
           width: 100%;
         }
-      }
-    }
-
-    // スクロールアイコン
-    .scrollIcon {
-      cursor: default;
-      margin: 0 auto;
-      position: absolute;
-      bottom: 40px;
-      left: 60px;
-      right: 0;
-      height: fit-content;
-      width: fit-content;
-
-      &__inner {
-        display: flex;
-        align-items: center;
-      }
-
-      &__arrow {
-        overflow: hidden;
-        position: relative;
-        width: 80px;
-
-        img {
-          clip-path: inset(0 0 100% 0);
-          object-fit: cover;
-          height: 100%;
-          width: 100%;
-        }
-      }
-
-      &__text {
-        color: white;
-        font-family: $font-caveat;
-        font-size: 1.75rem;
-        letter-spacing: .2rem;
-        margin-left: -1.5rem;
-        padding-bottom: 1rem;
-        opacity: 0;
-        visibility: hidden;
-        width: 80px;
       }
     }
 
@@ -157,18 +115,6 @@
       .hero__main {
         opacity: 1;
         visibility: visible;
-      }
-
-      .scrollIcon {
-        .scrollIcon__arrow img {
-          animation: hero_scrollArrow .5s ease-out forwards;
-          animation-delay: .5s;
-        }
-
-        .scrollIcon__text {
-          animation: fadeIn .5s ease-out forwards;
-          animation-delay: 1s;
-        }
       }
     }
   }
@@ -190,14 +136,6 @@
             <img src="/images/ants.gif" alt="ants">
           </div>
         {/each}
-      </div>
-    </div>
-    <div class="scrollIcon">
-      <div class="scrollIcon__inner">
-        <div class="scrollIcon__arrow">
-          <img src="/images/arrow.png" alt="">
-        </div>
-        <p class="scrollIcon__text">Scroll</p>
       </div>
     </div>
   </div>
