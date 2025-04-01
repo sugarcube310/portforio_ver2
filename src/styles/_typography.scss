@@ -44,23 +44,18 @@ html {
   Title
 --------------------------------- */
 h1 {
-  color: white;
-  font-family: $font-caveat;
-  font-size: 3.5rem;
-  font-weight: bold;
-  letter-spacing: .35rem;
+  color: $color-primary;
+  font-family: $font-lexend;
+  font-size: 1.5rem;
+  font-weight: normal;
+  letter-spacing: .175rem;
   line-height: 1.75;
 
-  @include media('md') {
-    font-size: 3rem;
-    letter-spacing: .3rem;
-    line-height: 1.5;
-  }
-
   @include media('sm') {
-    font-size: 2.5rem;
-    letter-spacing: .3rem;
+    font-size: 1.25rem;
+    letter-spacing: .1rem;
     line-height: 1.5;
+    text-align: center;
   }
 }
 

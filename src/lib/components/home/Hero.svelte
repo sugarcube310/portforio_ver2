@@ -21,7 +21,7 @@
     const scrollFactor = Math.min(scrollY / maxScroll, 1)
 
     blur = scrollFactor * 20 // blur: 0 → 20
-    scale = 1 + scrollFactor * 0.5 // scale: 1 → 1.5
+    scale = 1 + scrollFactor * 0.75 // scale: 1 → 1.5
     opacity = 1 - scrollFactor // opacity: 1 → 0
   }
 
@@ -49,72 +49,53 @@
     width: 100vw;
 
     &__inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       height: 100svh;
       width: 100%;
     }
 
-    // タイトル
-    &__title {
-      animation: fadeIn .5s ease-out forwards;
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 5%;
-      left: 5%;
-      opacity: 0;
-      visibility: hidden;
-      max-width: 240px;
-
-      @include media('xl') {
-        max-width: 320px;
-      }
-
-      @include media('md') {
-        max-width: 240px;
-      }
-
-      @include media('sm') {
-        max-width: 180px;
-      }
-    }
-
-    // アリ
     &__main {
       background-color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
+      flex-direction: column;
+      justify-content: center;
       margin: auto;
       overflow: hidden;
       opacity: 0;
-      position: absolute;
-      inset: 0;
+      position: relative;
       visibility: hidden;
-      max-height: 480px;
-      max-width: 480px;
-      height: 55svh;
-      width: 55svh;
+      max-height: 500px;
+      max-width: 500px;
+      height: 70svh;
+      width: 70svh;
 
-      @include media('md') {
+      @include media('sm') {
         max-height: 320px;
         max-width: 320px;
       }
 
-      @include media('sm') {
-        max-height: 280px;
-        max-width: 280px;
+      // タイトル
+      .title {
+        animation: fadeIn 1s ease-out forwards;
+        position: absolute;
+        top: 30%;
+        opacity: 0;
+        visibility: hidden;
       }
 
+      // アリ
       .antWrapper {
         animation: hero_antMove 20s linear infinite;
         display: flex;
-        margin: auto;
+        margin-top: 2rem;
         pointer-events: none;
-        position: absolute;
-        inset: 0;
         height: fit-content;
-        width: 200%;
+        width: 150%;
 
         .ant {
           flex-shrink: 0;
@@ -199,10 +180,10 @@
   style="filter: blur({ blur }px); transform: scale({ scale }); opacity: { opacity };"
 >
   <div class="hero__inner">
-    <h1 class="hero__title">
-      Sato’s<br>Portforio<br>Website
-    </h1>
     <div class="hero__main">
+      <h1 class="title">
+        Sato’s Portforio Website
+      </h1>
       <div class="antWrapper">
         {#each ants as _, i}
           <div class="ant">
