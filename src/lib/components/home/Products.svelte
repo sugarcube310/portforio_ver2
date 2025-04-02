@@ -19,10 +19,10 @@
         </div>
         <div class="cardList__item-textWrap">
           <h3 class="cardList__item-title">
-            ありがとカード
+            バースデーカード
           </h3>
           <p class="cardList__item-text">
-            サクッと感謝のメッセージを贈ることができる、サンキューカード作成サイトです。
+            サクッとお誕生日メッセージを贈ることができる、バースデーカード作成サイトです。
           </p>
           <div class="cardList__item-link">
             <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="cardList__item-linkText">
