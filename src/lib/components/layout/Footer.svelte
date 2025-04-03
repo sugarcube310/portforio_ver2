@@ -3,7 +3,7 @@
 
   .footer__inner {
     margin: auto;
-    padding: 40px 0 20px;
+    padding: 40px 0 88px;
     position: relative;
     max-width: 960px;
     width: 50%;
@@ -14,7 +14,7 @@
     }
 
     @include media('sm') {
-      padding: 20px 0 8px;
+      padding: 20px 0 72px;
       max-width: 80%;
       width: calc(100% - 40px);
     }

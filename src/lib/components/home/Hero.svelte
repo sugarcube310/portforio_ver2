@@ -58,7 +58,7 @@
     }
 
     &__main {
-      background-color: white;
+      background-color: $color-white;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -109,7 +109,7 @@
       visibility: visible;
 
       .hero__title {
-        animation: fadeIn .5s ease-out forwards;
+        animation: fadeIn .3s ease-out forwards;
       }
 
       .hero__main {

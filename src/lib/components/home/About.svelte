@@ -9,7 +9,7 @@
 
   #about {
     .about__image .icon {
-      background-color: rgb(255 255 255 /.5);
+      background-color: rgb(255 252 244 /.5);
       border: 1px solid $color-gray;
       border-radius: 50%;
       margin: auto;

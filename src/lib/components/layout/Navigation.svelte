@@ -4,10 +4,6 @@
 
   export let isNavOpen = false
 
-  function closeNav() {
-    isNavOpen = false
-  }
-
   function switchNav() {
     isNavOpen = !isNavOpen
   }
@@ -19,207 +15,157 @@
 
 <style lang="scss">
   @use '../../../styles/includes/variables' as *;
+  @use 'sass:color';
 
-  .navButton {
-    background-color: $color-primary;
-    border-radius: 20px 0 0 8px;
-    display: flex;
+  .navContainer {
+    background-color: rgb(57 106 169 /.95);
+    border-radius: 20px;
+    margin: auto;
     position: fixed;
-    bottom: 5%;
+    bottom: 32px;
+    left: 0;
     right: 0;
-    transition: transform .3s, background-color .15s, width .15s;
-    height: 120px;
-    width: 48px;
+    transition: height .3s, width .3s;
+    height: 40px;
+    width: 120px;
     z-index: 102;
 
-    .button__inner {
-      position: relative;
-      height: 100%;
-      width: 100%;
-
-      .button__text {
-        color: white;
-        font-size: 1.2rem;
-        letter-spacing: 0.15rem;
-        margin: auto;
-        position: absolute;
-        inset: 0;
-        transform: rotate(180deg);
-        transition: color .15s, right .15s;
-        writing-mode: vertical-rl;
-        height: fit-content;
-        width: fit-content;
-
-        @include media('sm') {
-          font-size: 1.05rem;
-        }
-
-        @include media('xs') {
-          font-size: 1rem;
-        }
-      }
-    }
-
-    &.open {
-      background-color: white;
-
-      .button__text {
-        color: $color-primary;
-      }
-    }
-
-    @include media('lg') {
-      &:hover {
-        width: 80px;
-
-        .button__text {
-          right: 20px;
-        }
-      }
-    }
-
     @include media('sm') {
-      height: 100px;
-      width: 40px;
+      bottom: 20px;
     }
 
-    @include media('xs') {
-      height: 80px;
-      width: 28px;
-    }
-  }
+    .nav {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+      height: 100%;
 
-  .nav {
-    background-color: $color-primary;
-    position: fixed;
-    top: 0;
-    right: 0;
-    transform: translateX(100%);
-    transition: transform .3s;
-    height: 100svh;
-    width: 100vw;
-    z-index: 101;
+      &__inner {
+        padding: 1rem;
 
-    @include media('lg') {
-      width: 35vw;
-    }
+        .nav__menu .item {
+          font-size: 1.15rem;
+          letter-spacing: 0.1rem;
+          opacity: 0;
+          transform: translateY(10px);
 
-    @include media('xl') {
-      width: 30vw;
-    }
-
-    &.open {
-      transform: translateX(0);
-    }
-
-    &__inner {
-      padding: 80px;
-
-      @include media('sm') {
-        padding: 40px;
-      }
-
-      .nav__menu .item {
-        width: fit-content;
-
-        &:not(:last-child) {
-          margin-bottom: 2.75rem;
-
-          @include media('sm') {
-            margin-bottom: 3rem;
+          &:not(:last-child) {
+            margin-bottom: .5rem;
           }
         }
+      }
+    }
 
-        .item__link {
+    .button {
+      border: none;
+      cursor: pointer;
+      margin: auto;
+      padding: .5rem .8em .5rem 1rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      width: 100%;
+      z-index: 103;
+
+      &__inner {
+        gap: .5rem;
+      }
+
+      &__text {
+        color: $color-white;
+        font-size: 1rem;
+        letter-spacing: .1rem;
+        text-align: center;
+        transition: color .3s;
+      }
+
+      &__iconWrap {
+        background-color: rgb(255 252 244 / .4);
+        border-radius: 50%;
+        height: 22px;
+        width: 22px;
+
+        .icon {
           display: block;
-          font-size: 2rem;
-          letter-spacing: .15rem;
-          padding-bottom: .75rem;
           position: relative;
+          transition: transform .3s;
+          height: 12px;
+          width: 12px;
 
-          @include media('sm') {
-            padding-bottom: 0;
+          &::before,
+          &::after {
+            content: '';
+            background-color: $color-white;
+            margin: auto;
+            position: absolute;
+            inset: 0;
+            height: 2px;
+            width: 12px;
+            transition: transform .3s;
           }
 
-          @include media('lg') {
-            &::after {
-              content: '';
-              background-color: white;
-              display: block;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              height: 3px;
-              transition: width .3s;
-              width: 0;
-            }
-
-            &:hover::after {
-              width: 100%;
-            }
+          &::after {
+            transform: rotate(90deg);
           }
         }
       }
     }
-  }
-
-  .nav__bg {
-    background-color: rgb(0 0 0 / .5);
-    backdrop-filter: blur(2px);
-    margin: auto;
-    opacity: 0;
-    visibility: hidden;
-    position: fixed;
-    inset: 0;
-    transition: opacity .3s, visibility .3s;
-    height: 100svh;
-    width: 100vw;
-    z-index: 100;
 
     &.open {
-      opacity: 1;
-      visibility: visible;
+      height: 240px;
+      width: 200px;
+
+      .nav {
+        opacity: 1;
+        visibility: visible;
+
+        .item {
+          animation: fadeInUp .3s forwards;
+        }
+      }
+
+      .button {
+        &__text {
+          color: color.adjust($color-white, $blackness: 20%);
+        }
+
+        .icon {
+          transform: rotate(45deg);
+        }
+      }
     }
   }
 </style>
 
-<button
-  class="navButton"
-  class:open={ isNavOpen }
-  on:click={ switchNav }
->
-  <div class="button__inner d-flex align-center justify-center">
-    <p class="button__text font-accent weight-b line-height-1">
-      { isNavOpen ? 'CLOSE' : 'MENU' }
-    </p>
-  </div>
-</button>
-
-<nav
-  class="nav"
-  class:open={ isNavOpen }
->
-  <div class="nav__inner">
-    <ul class="nav__menu">
-      <li class="item">
-        <a href="#about" class="font-accent color-white item__link navLink">ABOUT ME</a>
-      </li>
-      <li class="item">
-        <a href="#skills" class="font-accent color-white item__link navLink">SKILLS</a>
-      </li>
-      <li class="item">
-        <a href="#products" class="font-accent color-white item__link navLink">PRODUCTS</a>
-      </li>
-      <li class="item">
-        <a href="#contact" class="font-accent color-white item__link navLink">CONTACT</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div
-  class="nav__bg"
-  aria-hidden="true"
-  class:open={ isNavOpen }
-  on:click={ switchNav }
-></div>
+<div class="navContainer" class:open={ isNavOpen }>
+  <nav class="nav">
+    <div class="nav__inner">
+      <ul class="nav__menu">
+        <li class="item" style="animation-delay: .1s;">
+          <a href="#about" class="font-accent color-white item__link navLink">ABOUT ME</a>
+        </li>
+        <li class="item" style="animation-delay: .2s;">
+          <a href="#skills" class="font-accent color-white item__link navLink">SKILLS</a>
+        </li>
+        <li class="item" style="animation-delay: .3s;">
+          <a href="#products" class="font-accent color-white item__link navLink">PRODUCTS</a>
+        </li>
+        <li class="item" style="animation-delay: .4s;">
+          <a href="#contact" class="font-accent color-white item__link navLink">CONTACT</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <button class="button" on:click={ switchNav }>
+    <div class="button__inner d-flex align-center justify-between">
+      <p class="button__text font-accent line-height-1">
+        { isNavOpen ? 'CLOSE' : 'MENU' }
+      </p>
+      <div class="button__iconWrap d-flex align-center justify-center hover-opacity">
+        <span class="icon"></span>
+      </div>
+    </div>
+  </button>
+</div>

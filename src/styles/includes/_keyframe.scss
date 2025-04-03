@@ -1,6 +1,3 @@
-/* ------------------------------
-  Common
---------------------------------- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -12,10 +9,14 @@
   }
 }
 
-/* ------------------------------
-  Opening
---------------------------------- */
-@keyframes opening_scaleOut {
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleOut {
   from {
     opacity: 1;
     transform: scale(1) rotate(0deg);
@@ -26,16 +27,6 @@
   }
 }
 
-@keyframes opening_slideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ------------------------------
-  FV
---------------------------------- */
 @keyframes antMove {
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }

@@ -132,13 +132,13 @@
         }
 
         &.hide {
-          animation: opening_scaleOut 1s forwards;
+          animation: scaleOut 1s forwards;
         }
       }
 
       // あいさつ
       .greeting {
-        color: white;
+        color: $color-white;
         display: flex;
         align-items: center;
         font-family: $font-lexend;
@@ -153,9 +153,9 @@
         }
 
         &__text {
-          animation: opening_slideIn .3s forwards;
+          animation: fadeInUp .3s forwards;
           animation-delay: 1.5s;
-          color: white;
+          color: $color-white;
           opacity: 0;
           transform: translateY(10px);
 
@@ -168,7 +168,7 @@
 
     // ページ遷移用の円形マスク
     &__pageTransition {
-      background-color: white;
+      background-color: $color-white;
       clip-path: circle(0% at center);
       margin: auto;
       position: absolute;
