@@ -144,7 +144,7 @@
         font-family: $font-lexend;
         font-size: 1.2rem;
         letter-spacing: .225rem;
-        margin-top: 0.65rem;
+        margin-top: .65rem;
         opacity: 1;
         transition: opacity 1s;
 
@@ -160,7 +160,7 @@
           transform: translateY(10px);
 
           &:last-of-type {
-            padding-left: 0.1rem;
+            padding-left: .1rem;
           }
         }
       }

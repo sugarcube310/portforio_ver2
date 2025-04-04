@@ -43,7 +43,7 @@
     top: 0;
     left: 0;
     transform-origin: center center;
-    transition: transform 0.1s linear, filter 0.1s linear, opacity 0.1s linear;
+    transition: transform .1s, filter .1s, opacity .1s;
     visibility: hidden;
     height: 100vh;
     width: 100vw;
@@ -107,10 +107,6 @@
     &.show {
       opacity: 1;
       visibility: visible;
-
-      .hero__title {
-        animation: fadeIn .3s ease-out forwards;
-      }
 
       .hero__main {
         opacity: 1;
