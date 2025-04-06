@@ -51,7 +51,7 @@
     margin: auto;
     opacity: 0;
     position: fixed;
-    bottom: 32px;
+    bottom: 20px;
     left: 0;
     right: 0;
     transform: translateY(60px);
@@ -60,8 +60,12 @@
     width: 120px;
     z-index: 102;
 
+    @include media('lg') {
+      bottom: 30px;
+    }
+
     @include media('sm') {
-      bottom: 20px;
+      bottom: 30px;
     }
 
     &.button-show {
