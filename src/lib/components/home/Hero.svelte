@@ -53,7 +53,6 @@
     top: 0;
     left: 0;
     transform-origin: center center;
-    transition: all .1s;
     visibility: hidden;
     height: 100vh;
     width: 100vw;
