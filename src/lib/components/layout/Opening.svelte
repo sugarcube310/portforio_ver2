@@ -14,7 +14,7 @@
 
   // 各アニメーションにかかる時間を設定
   const delay = 500, // 最初のアニメーション開始までの遅延時間
-        fallTime = 2200, // 角砂糖_落下アニメーション + テキスト表示完了時間
+        fallTime = 2500, // 角砂糖_落下アニメーション + テキスト表示完了時間
         scaleOutTime = 1000, // 角砂糖_縮小アニメーション
         revealTime = 1000 // 円形アニメーション
 
@@ -104,6 +104,7 @@
       // 砂糖
       .sugarWrapper {
         .sugar {
+          opacity: 0;
           transform: translateY(-100svh) rotate(90deg);
           transition: transform 1.5s cubic-bezier(.2, 1, .3, 1);
           height: 100px;
@@ -127,6 +128,7 @@
 
         &.fall {
           .sugar {
+            opacity: 1;
             transform: translateY(0) rotate(0deg);
           }
         }
@@ -143,8 +145,8 @@
         align-items: center;
         font-family: $font-lexend;
         font-size: 1.2rem;
-        letter-spacing: .225rem;
-        margin-top: .65rem;
+        letter-spacing: .2rem;
+        margin-top: .5rem;
         opacity: 1;
         transition: opacity 1s;
 
