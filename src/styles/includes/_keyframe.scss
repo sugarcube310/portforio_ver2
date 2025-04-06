@@ -31,3 +31,18 @@
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
 }
+
+@keyframes arrowMove {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

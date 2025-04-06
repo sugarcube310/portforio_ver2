@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte'
-  import { anchorLink } from '$lib/actions/anchorLink'
 
   // コンテンツ表示制御
   export let isContentsDisplay
@@ -23,6 +22,18 @@
     blur = scrollFactor * 20 // blur: 0 → 20
     scale = 1 + scrollFactor * 0.75 // scale: 1 → 1.5
     opacity = 1 - scrollFactor // opacity: 1 → 0
+  }
+
+  /* スクロールアイコンをクリックしたら最初のコンテンツまで遷移 */
+  function scrollToContents() {
+    const firstContent = document.getElementById('about')
+    const margin = 40
+    const targetOffsetTop = window.pageYOffset + firstContent.getBoundingClientRect().top - margin
+
+    window.scrollTo({
+      top: targetOffsetTop,
+      behavior: 'smooth'
+    })
   }
 
   onMount(() => {
@@ -81,7 +92,6 @@
 
       // タイトル
       .title {
-        animation: fadeIn 1s ease-out forwards;
         position: absolute;
         top: 30%;
         opacity: 0;
@@ -104,6 +114,66 @@
       }
     }
 
+    // スクロールアイコン
+    .scrollIcon {
+      cursor: pointer;
+      margin: auto;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      visibility: hidden;
+      height: 50px;
+      width: 50px;
+
+      @include media('lg') {
+        bottom: 30px;
+      }
+
+      @include media('sm') {
+        bottom: 30px;
+      }
+
+      &__inner {
+        border: 1px solid $color-white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+      }
+
+      &__icon {
+        opacity: 0;
+        position: relative;
+        height: 20px;
+        width: 20px;
+
+        &::before,
+        &::after {
+          content: '';
+          background-color: $color-white;
+          margin: auto;
+          position: absolute;
+          inset: 0;
+          height: 2px;
+          width: 12px;
+        }
+
+        &::before {
+          left: -8px;
+          transform: rotate(45deg);
+        }
+
+        &::after {
+          right: -8px;
+          transform: rotate(-45deg);
+        }
+      }
+    }
+
     &.show {
       opacity: 1;
       visibility: visible;
@@ -111,6 +181,19 @@
       .hero__main {
         opacity: 1;
         visibility: visible;
+
+        .title {
+          animation: fadeIn .5s ease-out forwards;
+        }
+      }
+
+      .scrollIcon {
+        animation: fadeIn 1.5s ease-out forwards;
+        animation-delay: .5s;
+
+        &__icon {
+          animation: arrowMove 2s ease-out infinite;
+        }
       }
     }
   }
@@ -133,5 +216,14 @@
         {/each}
       </div>
     </div>
+    <button
+      class="scrollIcon"
+      on:click={ scrollToContents }
+      aria-label="scroll-down"
+    >
+      <div class="scrollIcon__inner">
+        <span class="scrollIcon__icon"></span>
+      </div>
+    </button>
   </div>
 </div>

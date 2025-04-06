@@ -174,7 +174,10 @@
   }
 </style>
 
-<div class="nav__container { isNavButtonShow ? 'button-show' : '' } { isNavOpen ? 'open' : '' }" bind:this={ navContainer }>
+<div
+  bind:this={ navContainer }
+  class="nav__container { isNavButtonShow ? 'button-show' : '' } { isNavOpen ? 'open' : '' }"
+>
   <nav class="nav">
     <div class="nav__inner">
       <ul class="nav__menu">
@@ -193,7 +196,11 @@
       </ul>
     </div>
   </nav>
-  <button class="button" on:click={ switchNav }>
+  <button
+    class="button"
+    on:click={ switchNav }
+    aria-label="{ isNavOpen ? 'menu-close' : 'menu-open' }"
+  >
     <div class="button__inner d-flex align-center justify-between">
       <p class="button__text font-accent line-height-1">
         { isNavOpen ? 'CLOSE' : 'MENU' }
