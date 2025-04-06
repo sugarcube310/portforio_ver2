@@ -250,7 +250,7 @@ html {
   }
 
   &__item {
-    border: 1px solid $color-gray;
+    border: 1px solid color.adjust($color-gray, $blackness: 5%);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
