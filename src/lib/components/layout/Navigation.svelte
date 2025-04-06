@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
   import { anchorLink } from '$lib/actions/anchorLink'
 
   export let isNavOpen = false
@@ -33,11 +33,11 @@
 
     document.addEventListener('click', onClickOutsideNav)
     anchorLink(switchNav)
-  })
 
-  onDestroy(() => {
-    window.removeEventListener('scroll', showNav)
-    document.removeEventListener('click', onClickOutsideNav)
+    return () => {
+      window.removeEventListener('scroll', showNav)
+      document.removeEventListener('click', onClickOutsideNav)
+    }
   })
 </script>
 

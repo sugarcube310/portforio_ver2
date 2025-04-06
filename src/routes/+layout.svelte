@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
 
   import Lenis from '@studio-freight/lenis'
   import { lenisStore } from '$lib/stores/lenis'
@@ -31,10 +31,6 @@
       lenis.destroy()
       lenisStore.set(null)
     }
-  })
-
-  onDestroy(() => {
-    lenisStore.set(null)
   })
 </script>
 
