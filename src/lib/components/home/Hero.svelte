@@ -43,7 +43,7 @@
     top: 0;
     left: 0;
     transform-origin: center center;
-    transition: transform .1s, filter .1s, opacity .1s;
+    transition: all .1s;
     visibility: hidden;
     height: 100vh;
     width: 100vw;
@@ -117,7 +117,6 @@
 </style>
 
 <div
-  id="pageTop"
   class="hero { isContentsDisplay ? 'show' : '' }"
   style="filter: blur({ blur }px); transform: scale({ scale }); opacity: { opacity };"
 >

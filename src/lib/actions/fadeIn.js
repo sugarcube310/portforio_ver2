@@ -40,6 +40,7 @@ export function fadeIn(node, { threshold = 0.3, delay = 0, duration = 300 } = {}
 
   return {
     destroy() {
+      // 監視解除
       observer.disconnect()
     }
   }

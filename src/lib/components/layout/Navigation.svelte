@@ -1,15 +1,43 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { anchorLink } from '$lib/actions/anchorLink'
 
   export let isNavOpen = false
+  let isNavButtonShow = false
+
+  let navContainer
 
   function switchNav() {
     isNavOpen = !isNavOpen
   }
 
+  function onClickOutsideNav(event) {
+    if (navContainer && !navContainer.contains(event.target)) {
+      isNavOpen = false
+    }
+  }
+
+  function showNav() {
+    const scrollY = window.scrollY
+    const maxScroll = 700 // ヒーローエリアが完全に消えるスクロール量
+
+    if (scrollY <= maxScroll) {
+      isNavButtonShow = false
+    } else { // ヒーローエリアが完全に消えたらナビを表示
+      isNavButtonShow = true
+    }
+  }
+
   onMount(() => {
+    window.addEventListener('scroll', showNav)
+
+    document.addEventListener('click', onClickOutsideNav)
     anchorLink(switchNav)
+  })
+
+  onDestroy(() => {
+    window.removeEventListener('scroll', showNav)
+    document.removeEventListener('click', onClickOutsideNav)
   })
 </script>
 
@@ -17,21 +45,28 @@
   @use '../../../styles/includes/variables' as *;
   @use 'sass:color';
 
-  .navContainer {
+  .nav__container {
     background-color: rgb(57 106 169 /.95);
     border-radius: 20px;
     margin: auto;
+    opacity: 0;
     position: fixed;
     bottom: 32px;
     left: 0;
     right: 0;
-    transition: height .3s, width .3s;
+    transform: translateY(60px);
+    transition: all .3s;
     height: 40px;
     width: 120px;
     z-index: 102;
 
     @include media('sm') {
       bottom: 20px;
+    }
+
+    &.button-show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .nav {
@@ -45,7 +80,7 @@
 
         .nav__menu .item {
           font-size: 1.15rem;
-          letter-spacing: 0.1rem;
+          letter-spacing: .1rem;
           opacity: 0;
           transform: translateY(10px);
 
@@ -60,7 +95,7 @@
       border: none;
       cursor: pointer;
       margin: auto;
-      padding: .5rem .8em .5rem 1rem;
+      padding: .5rem .7em .5rem 1rem;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -139,21 +174,21 @@
   }
 </style>
 
-<div class="navContainer" class:open={ isNavOpen }>
+<div class="nav__container { isNavButtonShow ? 'button-show' : '' } { isNavOpen ? 'open' : '' }" bind:this={ navContainer }>
   <nav class="nav">
     <div class="nav__inner">
       <ul class="nav__menu">
         <li class="item" style="animation-delay: .1s;">
-          <a href="#about" class="font-accent color-white item__link navLink">ABOUT ME</a>
+          <a href="#about" class="font-accent color-white item__link navLink hover-opacity">ABOUT ME</a>
         </li>
         <li class="item" style="animation-delay: .2s;">
-          <a href="#skills" class="font-accent color-white item__link navLink">SKILLS</a>
+          <a href="#skills" class="font-accent color-white item__link navLink hover-opacity">SKILLS</a>
         </li>
         <li class="item" style="animation-delay: .3s;">
-          <a href="#products" class="font-accent color-white item__link navLink">PRODUCTS</a>
+          <a href="#products" class="font-accent color-white item__link navLink hover-opacity">PRODUCTS</a>
         </li>
         <li class="item" style="animation-delay: .4s;">
-          <a href="#contact" class="font-accent color-white item__link navLink">CONTACT</a>
+          <a href="#contact" class="font-accent color-white item__link navLink hover-opacity">CONTACT</a>
         </li>
       </ul>
     </div>
