@@ -135,7 +135,7 @@
       }
 
       &__inner {
-        border: 1px solid $color-white;
+        border: 1px solid rgb(255 253 247 / .8);
         border-radius: 50%;
         display: flex;
         align-items: center;
