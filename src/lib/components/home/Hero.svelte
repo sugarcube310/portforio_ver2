@@ -27,8 +27,7 @@
   /* スクロールアイコンをクリックしたら最初のコンテンツまで遷移 */
   function scrollToContents() {
     const firstContent = document.getElementById('about')
-    const margin = 40
-    const targetOffsetTop = window.pageYOffset + firstContent.getBoundingClientRect().top - margin
+    const targetOffsetTop = window.pageYOffset + firstContent.getBoundingClientRect().top
 
     window.scrollTo({
       top: targetOffsetTop,
