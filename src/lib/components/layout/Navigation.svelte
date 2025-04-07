@@ -62,6 +62,10 @@
 
     @include media('lg') {
       bottom: 30px;
+
+      &:hover .button .icon {
+        transform: rotate(90deg);
+      }
     }
 
     @include media('sm') {
@@ -85,8 +89,9 @@
         .nav__menu .item {
           font-size: 1.15rem;
           letter-spacing: .1rem;
+          line-height: 1.75;
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(15px);
 
           &:not(:last-child) {
             margin-bottom: .5rem;
@@ -123,8 +128,10 @@
       &__iconWrap {
         background-color: rgb(255 252 244 / .4);
         border-radius: 50%;
+        transition: opacity .3s;
         height: 22px;
-        width: 22px;
+        min-width: 22px;
+        max-width: 22px;
 
         .icon {
           display: block;
@@ -153,7 +160,7 @@
     }
 
     &.open {
-      height: 240px;
+      height: 260px;
       width: 200px;
 
       .nav {
@@ -168,10 +175,27 @@
       .button {
         &__text {
           color: color.adjust($color-white, $blackness: 20%);
+          transition: opacity .3s;
         }
 
         .icon {
           transform: rotate(45deg);
+        }
+
+        @include media('lg') {
+          &:hover {
+            .button__text {
+              opacity: .8;
+            }
+
+            .button__iconWrap {
+              opacity: .8;
+
+              .icon {
+                transform: rotate(135deg);
+              }
+            }
+          }
         }
       }
     }
@@ -209,7 +233,7 @@
       <p class="button__text font-accent line-height-1">
         { isNavOpen ? 'CLOSE' : 'MENU' }
       </p>
-      <div class="button__iconWrap d-flex align-center justify-center hover-opacity">
+      <div class="button__iconWrap d-flex align-center justify-center">
         <span class="icon"></span>
       </div>
     </div>

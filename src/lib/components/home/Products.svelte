@@ -22,7 +22,7 @@
             バースデーカード
           </h3>
           <p class="cardList__item-text">
-            サクッとお誕生日メッセージを贈ることができる、バースデーカード作成サイトです。
+            気軽にお誕生日メッセージを贈れる、バースデーカード作成サイトです。
           </p>
           <div class="cardList__item-link">
             <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="cardList__item-linkText">

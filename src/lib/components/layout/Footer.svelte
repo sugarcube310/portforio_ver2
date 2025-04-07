@@ -4,13 +4,17 @@
   .footer__inner {
     padding: 40px 0 80px;
 
+    @include media('md') {
+      padding-bottom: 64px;
+    }
+
     @include media('sm') {
-      padding: 20px 0 70px;
+      padding: 20px 0 80px;
     }
 
     .copyright {
       font-size: .75rem;
-      letter-spacing: .01rem;
+      letter-spacing: .0025rem;
     }
   }
 </style>

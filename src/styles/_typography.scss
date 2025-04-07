@@ -27,16 +27,17 @@
 html {
   color: $text-color;
   font-family: 'Arial','Segoe UI','Helvetica Neue', Roboto, sans-serif;
-  font-size: 1.05rem;
-  line-height: 2rem;
+  font-size: 1.125rem;
+  line-height: 2.25rem;
   -webkit-font-smoothing: antialiased;
+
+  @include media('md') {
+    font-size: 1.05rem;
+    line-height: 2.05rem;
+  }
 
   @include media('sm') {
     font-size: 1rem;
-  }
-
-  @include media('xs') {
-    font-size: .9rem;
   }
 }
 
@@ -62,7 +63,7 @@ h1 {
 .section__title {
   font-family: $font-lexend;
   color: $color-primary;
-  font-size: 4rem;
+  font-size: 3.75rem;
   font-weight: bold;
   letter-spacing: .15rem;
   line-height: 1.75;
@@ -70,16 +71,15 @@ h1 {
   margin-bottom: 3.5rem;
 
   @include media('md') {
-    margin-bottom: 3rem;
+    font-size: 3.5rem;
+    line-height: 1.45;
+    margin-bottom: 2.75rem;
   }
 
   @include media('sm') {
     font-size: 3rem;
-    margin-bottom: 1.5rem;
-  }
-
-  @include media('xs') {
-    font-size: 2.5rem;
+    line-height: 1.45;
+    margin-bottom: 1.75rem;
   }
 }
 
@@ -87,13 +87,18 @@ h1 {
   color: $text-color;
   font-size: 1.25rem;
   font-weight: bold;
+  letter-spacing: .04rem;
   line-height: 1.75;
   margin-bottom: .5rem;
   padding-left: 1.25rem;
   position: relative;
 
+  @include media('md') {
+    font-size: 1.2rem;
+  }
+
   @include media('sm') {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     padding-left: 1.15rem;
   }
 
@@ -104,7 +109,7 @@ h1 {
     display: block;
     margin: auto 0;
     position: absolute;
-    top: 0;
+    top: -1px;
     bottom: 0;
     left: 0;
     height: .8rem;

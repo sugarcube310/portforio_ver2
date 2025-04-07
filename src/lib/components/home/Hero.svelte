@@ -127,6 +127,13 @@
 
       @include media('lg') {
         bottom: 30px;
+
+        &:hover {
+          .scrollIcon__inner {
+            background-color: color.adjust($color-primary, $lightness: 2%);
+            border-color: rgb(255 254 250 / .6);
+          }
+        }
       }
 
       @include media('sm') {
@@ -134,11 +141,13 @@
       }
 
       &__inner {
-        border: 1px solid rgb(255 254 250 / .8);
+        background-color: $color-primary;
+        border: 1px solid $color-white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: background-color .3s, border-color .3s;
         height: 100%;
         width: 100%;
       }
@@ -156,6 +165,7 @@
           margin: auto;
           position: absolute;
           inset: 0;
+          transition: background-color .3s;
           height: 2px;
           width: 12px;
         }

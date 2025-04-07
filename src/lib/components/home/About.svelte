@@ -37,14 +37,10 @@
 
     .about__textWrap {
       margin: 40px auto 0;
-      width: 75%;
-
-      @include media('xl') {
-        width: 70%;
-      }
+      width: 80%;
 
       @include media('md') {
-        width: 80%;
+        width: 70%;
       }
 
       @include media('sm') {
