@@ -24,11 +24,9 @@
           <p class="cardList__item-text">
             気軽にお誕生日メッセージを贈れる、バースデーカード作成サイトです。
           </p>
-          <div class="cardList__item-link">
-            <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="cardList__item-linkText">
-              サイトへ
-            </a>
-          </div>
+          <a href="https://birthday-card-for-you.web.app/" target="_blank" rel="noopener noreferrer" class="cardList__item-link">
+            <span class="cardList__item-linkText">サイトへ</span>
+          </a>
         </div>
       </li>
       <li class="cardList__item" use:fadeIn={{ delay: 400 }}>
@@ -45,9 +43,7 @@
             コルクボード感覚で画像をまとめられる、Webギャラリーアプリです。
           </p>
           <div class="cardList__item-link --disabled">
-            <p class="cardList__item-linkText">
-              開発中...
-            </p>
+            <span class="cardList__item-linkText">開発中...</span>
           </div>
         </div>
       </li>
