@@ -291,17 +291,21 @@ html {
     }
 
     &-link {
-      width: fit-content;
-      margin: auto;
       background-color: $color-primary;
       border-radius: 20px;
-      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem auto auto;
       position: relative;
+      height: 38px;
+      width: 142px;
 
       &Text {
         color: $color-white;
         display: inline-block;
-        padding: .1rem 1.5rem;
+        line-height: 1;
+        padding: 0 1rem;
       }
 
       &.--disabled {
